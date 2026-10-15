@@ -1,0 +1,16 @@
+{
+  "config_version": "0.1.0",
+  "target_id": "lab-resmgr-01",
+  "allowed_target_ids": [
+    "lab-resmgr-01"
+  ],
+  "backend": "simulation",
+  "max_cases": 100,
+  "seed": 20261015,
+  "max_payload": 64,
+  "max_requests_per_window": 10,
+  "window_ms": 1000,
+  "logical_case_step_ms": 1000,
+  "qnx_authorization_status": "pending",
+  "native_enabled": false
+}

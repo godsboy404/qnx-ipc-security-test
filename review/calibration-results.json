@@ -1,0 +1,74 @@
+[
+  {
+    "criterion_id": "CAL-01",
+    "status": "PASS",
+    "reason": "evidence supports this limited criterion",
+    "scope": "calibration fixture only",
+    "evidence_level": "fixture_demo",
+    "score_suggestion": null,
+    "human_signoff": "pending",
+    "llm_review": "not_implemented",
+    "fixture_id": "K1",
+    "expected": "PASS"
+  },
+  {
+    "criterion_id": "CAL-01",
+    "status": "FAIL",
+    "reason": "observable counterexample",
+    "scope": "calibration fixture only",
+    "evidence_level": "fixture_demo",
+    "score_suggestion": null,
+    "human_signoff": "pending",
+    "llm_review": "not_implemented",
+    "fixture_id": "K2",
+    "expected": "FAIL"
+  },
+  {
+    "criterion_id": "CAL-01",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "reason": "missing or mismatched evidence",
+    "scope": "calibration fixture only",
+    "evidence_level": "fixture_demo",
+    "score_suggestion": null,
+    "human_signoff": "pending",
+    "llm_review": "not_implemented",
+    "fixture_id": "K3",
+    "expected": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "criterion_id": "CAL-01",
+    "status": "FAIL",
+    "reason": "observable counterexample",
+    "scope": "calibration fixture only",
+    "evidence_level": "fixture_demo",
+    "score_suggestion": null,
+    "human_signoff": "pending",
+    "llm_review": "not_implemented",
+    "fixture_id": "K4",
+    "expected": "FAIL"
+  },
+  {
+    "criterion_id": "CAL-01",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "reason": "missing or mismatched evidence",
+    "scope": "calibration fixture only",
+    "evidence_level": "fixture_demo",
+    "score_suggestion": null,
+    "human_signoff": "pending",
+    "llm_review": "not_implemented",
+    "fixture_id": "K5",
+    "expected": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "criterion_id": "CAL-01",
+    "status": "NOT_APPLICABLE",
+    "reason": "preapproved scope",
+    "scope": "calibration fixture only",
+    "evidence_level": "fixture_demo",
+    "score_suggestion": null,
+    "human_signoff": "pending",
+    "llm_review": "not_implemented",
+    "fixture_id": "K6",
+    "expected": "NOT_APPLICABLE"
+  }
+]

@@ -1,0 +1,1 @@
+{"case_id": "CASE-0001", "operation": "ECHO", "declared_length": 1, "offset": 0, "flags": 0, "payload_hex": "70696e67", "mutation": "boundary", "session_id": "session-01"}

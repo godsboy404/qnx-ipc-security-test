@@ -1,0 +1,10 @@
+{
+  "host_platform": "Windows",
+  "python": "3.12.14",
+  "qcc_on_path": null,
+  "QNX_HOST_present": false,
+  "QNX_TARGET_present": false,
+  "qnx_roundtrip_verified": false,
+  "authorization_verified": false,
+  "gate": "PENDING_NATIVE_VALIDATION"
+}

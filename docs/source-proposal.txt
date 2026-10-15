@@ -1,0 +1,858 @@
+针对《专业综合能力提升》这门课，我建议把范围控制在“**能完整实现、能现场演示、能产生实验数据、能体现攻防对抗**”这四点，不要一开始就按毕业论文的规模建设。
+
+最终课程项目可以定为：
+
+> **《面向 QNX 8.0 资源管理器的 IPC 接口对抗性安全测试与主动防御系统设计与实现》**
+
+课程版的核心成果是一个可运行的原型系统：
+
+```text id="2r5q6f"
+                 QNX 8.0
+                    │
+                    ↓
+          ┌──────────────────┐
+          │  Target Resource │
+          │     Manager      │
+          └────────┬─────────┘
+                   ↑
+                   │
+        ┌──────────┴──────────┐
+        │                     │
+    Attack Side          Defense Side
+        │                     │
+  IPC Fuzzer            Message Validator
+        │               Policy Engine
+        │               Monitor
+        │                     │
+        └──────────┬──────────┘
+                   ↓
+             Test Result
+                   ↓
+        Crash / Timeout / Block
+        Detection / Isolation
+```
+
+不过需要特别强调：**课程阶段先不要追求“透明拦截所有 MsgSend()”**。最稳妥的是选择一个你能控制通信路径的资源管理器测试对象，通过“测试客户端 → 防御层 → 目标资源管理器”的方式实现攻防闭环。
+
+---
+
+# 一、课程项目的最终目标
+
+建议把项目目标定成四件事：
+
+### 目标 1：建立 QNX IPC 安全测试对象
+
+选择一个适合实验的资源管理器，分析其：
+
+- IPC 通信关系
+- 消息类型
+- 消息长度
+- 关键字段
+- 正常输入格式
+- 错误输入处理
+
+形成一个简单的接口模型。
+
+---
+
+### 目标 2：实现 IPC Fuzzer
+
+Fuzzer 能够自动：
+
+```text id="cqn8du"
+Seed
+ ↓
+Mutation
+ ↓
+Test Case
+ ↓
+IPC Send
+ ↓
+Response
+```
+
+第一版只做三类 mutation：
+
+```text id="nq9v3m"
+1. 边界值
+2. 单字段变异
+3. 多字段组合变异
+```
+
+例如：
+
+```text
+正常长度
+0
+1
+最大值
+最大值+1
+异常大值
+```
+
+以及：
+
+```text
+正常 msg type
+非法 msg type
+边界 msg type
+```
+
+这样就已经能够证明你的 Fuzzer 不是简单随机数生成器。
+
+---
+
+### 目标 3：实现主动防御模块
+
+课程项目不用复杂 AI。
+
+采用：
+
+> **规则 + 状态 + 频率**
+
+即可。
+
+例如：
+
+```text id="0k9bbh"
+Message Validator
+├── Type Check
+├── Length Check
+├── Offset Check
+├── Flag Check
+└── State Check
+```
+
+然后：
+
+```text id="cbs4ij"
+Policy Engine
+├── ALLOW
+├── BLOCK
+├── ALERT
+└── RATE_LIMIT
+```
+
+---
+
+### 目标 4：实现故障隔离验证
+
+即使攻击绕过防御：
+
+```text id="o0e6gw"
+Fuzzer
+ ↓
+Defense Bypass
+ ↓
+Resource Manager
+ ↓
+Crash
+```
+
+你的系统仍然记录：
+
+```text id="nvdm7c"
+Target Process
+Client Process
+Peer Process
+System Service
+System Status
+```
+
+最终回答：
+
+> 目标组件发生异常以后，影响有没有扩散。
+
+这就是你的第二道防线。
+
+---
+
+# 二、整个实施方案建议分成 7 个阶段
+
+## Phase 0：环境和对象确认
+
+这是正式开发之前最重要的一步。
+
+你现在已经有 QNX 8.0 和开发工具链，所以先不要写 Fuzzer。
+
+先完成：
+
+```text id="2e8h4u"
+QNX 8.0
+ ↓
+编写 Hello QNX
+ ↓
+编译
+ ↓
+运行
+ ↓
+确认 MsgSend/相关 IPC API
+ ↓
+确认目标资源管理器
+ ↓
+确认测试客户端可以正常访问
+```
+
+这一阶段的验收标准：
+
+> **能够稳定地让一个测试客户端向目标资源管理器发送一个合法请求，并拿到可预测的响应。**
+
+只有这一步成功，后面的 Fuzzing 才有意义。
+
+---
+
+# 三、Phase 1：选定实际测试对象
+
+建议不要同时研究很多 Resource Manager。
+
+课程项目：
+
+> **只选择 1 个主要测试目标。**
+
+然后建立：
+
+```text id="xxs2zj"
+Target Resource Manager
+        │
+        ├── CONNECT
+        ├── READ
+        ├── WRITE
+        └── Other Supported Operations
+```
+
+你需要回答：
+
+> 哪些请求是合法的？
+
+> 每个请求有哪些字段？
+
+> 哪些字段具有明显边界？
+
+形成一张“消息字段表”。
+
+例如：
+
+| 字段 | 类型 | 正常范围 | 边界测试 |
+|---|---|---|---|
+| type | enum/int | 合法类型 | 非法/边界 |
+| length | integer | 0~N | N±1/极值 |
+| offset | integer | 合法范围 | 负值/极值 |
+| flags | bit field | 合法组合 | 冲突组合 |
+| payload | bytes | 合法长度 | 空/超长 |
+
+这张表后面既能用于开发，也能直接放入课程报告。
+
+---
+
+# 四、Phase 2：先做最小可用 Harness
+
+你的第一个真正的软件成果不是 Fuzzer，而是：
+
+> **IPC Test Harness**
+
+它只做：
+
+```text id="2i9f6z"
+生成一个 testcase
+       ↓
+构造 IPC message
+       ↓
+MsgSend()
+       ↓
+等待响应
+       ↓
+记录返回值
+```
+
+建议结果统一记录：
+
+```text id="thoei4"
+Test ID
+Timestamp
+Message Type
+Message Length
+Mutation Type
+Return Code
+Response Length
+Timeout
+Process Status
+```
+
+例如：
+
+```text id="hy7d9r"
+000001
+WRITE
+len=128
+mutation=boundary
+return=EOK
+timeout=0
+crash=0
+```
+
+先跑 100 次正常输入。
+
+必须确保：
+
+> 在没有 Fuzzing 的情况下，测试系统本身足够稳定。
+
+---
+
+# 五、Phase 3：实现 Fuzzer
+
+这时候再加 Fuzzing Engine。
+
+推荐结构：
+
+```text id="sgqj8h"
+              Fuzzer
+                 │
+       ┌─────────┴──────────┐
+       ↓                    ↓
+  Seed Corpus        Mutation Engine
+                            │
+                ┌───────────┼───────────┐
+                ↓           ↓           ↓
+             Boundary     Field       Combination
+                            │
+                            ↓
+                       Test Case
+                            ↓
+                         Harness
+```
+
+第一阶段不要做 Coverage-guided Fuzzing。
+
+实现三个 Mutation：
+
+### ① Boundary Mutation
+
+```text id="qjyxvw"
+0
+1
+MAX
+MAX-1
+MAX+1
+```
+
+### ② Field Mutation
+
+一次改一个字段：
+
+```text
+Type
+Length
+Offset
+Flags
+Payload
+```
+
+### ③ Combination Mutation
+
+例如：
+
+```text
+Invalid Type
++
+Oversized Length
++
+Invalid Flags
+```
+
+这样能够产生更有研究意义的实验。
+
+---
+
+# 六、Phase 4：实现蓝队防御
+
+防御模块最好不要和 Fuzzer 写死在一起。
+
+建议：
+
+```text id="j4v03v"
+security/
+├── validator
+├── policy
+├── anomaly
+├── rate_limit
+└── logger
+```
+
+### 第一层：静态消息验证
+
+例如：
+
+```text id="wzr6gh"
+if type invalid
+    → BLOCK
+
+if length > allowed
+    → BLOCK
+
+if offset invalid
+    → BLOCK
+
+if flags invalid
+    → BLOCK
+```
+
+### 第二层：行为规则
+
+例如：
+
+```text id="4fjmb8"
+Normal:
+READ → READ → READ
+
+Abnormal:
+CONNECT → WRITE → WRITE → CONNECT → WRITE
+```
+
+或者：
+
+```text id="8bkg3r"
+request_rate > threshold
+        ↓
+RATE_LIMIT
+```
+
+### 第三层：异常告警
+
+出现：
+
+- 大量非法请求
+- 高频请求
+- 连续异常
+- Timeout
+
+则触发：
+
+```text id="3w9d3v"
+ALERT
+```
+
+---
+
+# 七、Phase 5：实现红蓝对抗
+
+这里才是课程项目的“亮点”。
+
+设计反馈：
+
+```text id="l1f4j1"
+Fuzzer
+ ↓
+Defense
+ ↓
+ALLOW / BLOCK / ALERT / TIMEOUT
+ ↓
+Feedback
+ ↓
+Mutation Strategy
+```
+
+例如：
+
+```text id="7j2g8q"
+攻击样本 A
+→ BLOCK
+
+攻击样本 B
+→ BLOCK
+
+攻击样本 C
+→ ALLOW
+
+攻击样本 C'
+→ ALLOW
+
+攻击样本 C''
+→ CRASH
+```
+
+Fuzzer 把这些结果记录下来。
+
+这就可以称为：
+
+> **基于防御反馈的对抗性测试**
+
+课程阶段不需要做机器学习。
+
+只需要：
+
+> 根据 BLOCK/ALLOW/CRASH 结果调整下一轮 testcase。
+
+已经有明显的对抗色彩。
+
+---
+
+# 八、Phase 6：故障隔离验证
+
+这个模块不要和 Fuzzer 混成一个功能。
+
+单独做：
+
+> **Fault Isolation Monitor**
+
+测试拓扑：
+
+```text id="8qz97m"
+         Target Resource Manager
+                 │
+       ┌─────────┼──────────┐
+       ↓         ↓          ↓
+     Client     Peer      System
+```
+
+每次异常后记录：
+
+```text id="eb7u0l"
+Target Crash?
+Client Crash?
+Peer Process Crash?
+System Service Abnormal?
+System Availability?
+Recovery?
+```
+
+例如：
+
+| Test | Target | Client | Peer | System | Isolation |
+|---|---|---|---|---|---|
+| 001 | 正常 | 正常 | 正常 | 正常 | 成功 |
+| 002 | Crash | 正常 | 正常 | 正常 | 成功 |
+| 003 | Crash | Crash | 正常 | 正常 | 部分 |
+| 004 | Crash | Crash | Crash | 异常 | 失败 |
+
+这样你最后可以计算：
+
+\[
+Isolation\ Success\ Rate
+=
+\frac{成功隔离的故障次数}{总故障次数}
+\]
+
+---
+
+# 九、Phase 7：最终实验
+
+课程项目至少做四组实验。
+
+## 实验一：正常基准
+
+```text
+合法 IPC
+```
+
+目的：
+
+> 证明系统正常运行。
+
+---
+
+## 实验二：无防御 Fuzzing
+
+```text
+Fuzzer
+ ↓
+Target
+```
+
+得到 Baseline。
+
+记录：
+
+- 测试数量
+- Crash
+- Timeout
+- 异常响应
+- 资源使用
+
+---
+
+## 实验三：开启防御
+
+```text
+Fuzzer
+ ↓
+Defense
+ ↓
+Target
+```
+
+比较：
+
+\[
+Detection\ Rate
+\]
+
+\[
+Block\ Rate
+\]
+
+\[
+False\ Positive\ Rate
+\]
+
+\[
+Performance\ Overhead
+\]
+
+---
+
+## 实验四：自适应对抗
+
+```text id="lp7tq7"
+Fuzzer
+ ↓
+Defense
+ ↓
+Feedback
+ ↓
+Mutation Adjustment
+ ↓
+Fuzzer
+```
+
+重点看：
+
+\[
+Bypass\ Rate
+\]
+
+\[
+Time\ to\ Bypass
+\]
+
+\[
+Crash\ Rate
+\]
+
+然后继续做：
+
+```text
+Bypass
+ ↓
+Fault
+ ↓
+Isolation
+```
+
+这样四个实验串起来就是完整闭环。
+
+---
+
+# 十、课程项目建议的最终软件架构
+
+```text id="mk5s7o"
+qnx-ipc-security-test/
+│
+├── fuzzer/
+│   ├── generator/
+│   ├── mutation/
+│   ├── corpus/
+│   └── scheduler/
+│
+├── harness/
+│   └── ipc/
+│
+├── defense/
+│   ├── validator/
+│   ├── policy/
+│   ├── anomaly/
+│   └── ratelimit/
+│
+├── monitor/
+│   ├── process/
+│   ├── system/
+│   └── log/
+│
+├── triage/
+│   ├── crash/
+│   └── replay/
+│
+├── experiments/
+│
+├── results/
+│
+└── docs/
+```
+
+---
+
+# 十一、课程项目的开发顺序非常重要
+
+不要按照：
+
+> Fuzzer → 防御 → 实验
+
+这么简单地做。
+
+我建议严格按照：
+
+```text id="1l3qjv"
+QNX 环境
+ ↓
+目标 Resource Manager
+ ↓
+合法 IPC Client
+ ↓
+IPC Harness
+ ↓
+Mutation
+ ↓
+Fuzzer
+ ↓
+Runtime Monitor
+ ↓
+Crash Detection
+ ↓
+Defense
+ ↓
+Feedback
+ ↓
+Isolation
+ ↓
+Experiments
+```
+
+原因是每一步都依赖上一层。
+
+例如：
+
+> IPC Harness 没跑通，Fuzzer 没意义。
+
+> Runtime Monitor 没稳定，Crash 结果不可信。
+
+> 没有 Baseline，防御效果无法证明。
+
+---
+
+# 十二、一个学期的实际安排
+
+如果按照大约 14～16 周考虑，我会这样安排：
+
+| 周次 | 工作 |
+|---|---|
+| 1 | QNX 环境确认、资料整理 |
+| 2 | QNX IPC 与 Resource Manager 分析 |
+| 3 | 选择目标、确定消息模型 |
+| 4 | 完成合法 IPC Client |
+| 5 | 完成 Harness 和日志 |
+| 6 | Boundary Mutation |
+| 7 | Field / Combination Mutation |
+| 8 | Fuzzer 初版完成 |
+| 9 | Runtime Monitor |
+| 10 | Crash Detection / Replay |
+| 11 | Message Validator |
+| 12 | Policy / Rate Limit |
+| 13 | 攻防反馈机制 |
+| 14 | Fault Isolation |
+| 15 | 全部实验 |
+| 16 | 数据整理、报告、答辩 |
+
+如果前期 QNX 环境遇到问题，应该优先砍掉：
+
+> 自适应攻击、复杂 anomaly detection
+
+而不要砍：
+
+> Harness、Fuzzer、Monitor、Isolation
+
+这四项才是核心成果。
+
+---
+
+# 十三、课程项目的最低成功标准
+
+我建议你把它提前定义成：
+
+### 必须完成
+
+```text id="5zj2aa"
+✓ QNX 8.0 Target
+✓ 1 个 Resource Manager
+✓ IPC Harness
+✓ Fuzzing Engine
+✓ 3 类 Mutation
+✓ Runtime Monitor
+✓ Crash/Timeout Detection
+✓ 基础 Defense
+✓ 4 组实验
+✓ Fault Isolation Analysis
+✓ 自动化结果记录
+```
+
+### 加分项
+
+```text id="5asq2c"
+＋ Crash Replay
+＋ Crash Deduplication
+＋ Test Case Minimization
+＋ Stateful Fuzzing
+＋ Adaptive Mutation
+＋ 自动生成报告
+```
+
+---
+
+# 十四、最后的课程答辩应该展示什么
+
+我不建议答辩时花大量时间讲 C 代码。
+
+最好的 Demo 是：
+
+```text id="pnx1tu"
+① 启动目标 Resource Manager
+
+② 启动 Security Test Framework
+
+③ 选择测试接口
+
+④ Fuzzer 开始产生测试用例
+
+⑤ Defense 显示：
+   ALLOW / BLOCK / ALERT
+
+⑥ Fuzzer 根据反馈继续测试
+
+⑦ 出现异常
+
+⑧ 自动保存 testcase
+
+⑨ Replay
+
+⑩ 显示故障影响范围
+
+⑪ 输出 Isolation Result
+```
+
+最后用一张图展示：
+
+```text id="9y5h41"
+                    10,000 Test Cases
+                           │
+              ┌────────────┼────────────┐
+              ↓            ↓            ↓
+           BLOCK         ALLOW       TIMEOUT
+                                          │
+                                          ↓
+                                        CRASH
+                                          │
+                               ┌──────────┴──────────┐
+                               ↓                     ↓
+                         Target Only             Propagated
+                               │
+                               ↓
+                     Isolation Success
+```
+
+这会非常直观地证明：
+
+> 你做的不是一个单纯的程序，而是一套可以执行完整安全测试流程的系统。
+
+---
+
+最关键的一点是：**第一阶段不要急着开发 Fuzzer，而是先在你现在的 QNX 8.0 环境里选定一个真实可访问、可重复测试的 Resource Manager，并把“合法 IPC Client → MsgSend → 正常响应”跑通。**
+
+你此前已经把 `QNX_HOST`、`QNX_TARGET` 和 `qcc` 工具链配置到了 QNX 8.0 环境，因此接下来真正的第一个工程里程碑就是 **建立 Target Resource Manager + IPC Harness**。这一关跑通之后，后面的 Fuzzer、蓝队、防御、故障隔离才有可靠基础。

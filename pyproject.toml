@@ -1,0 +1,9 @@
+[project]
+name = "qnx-ipc-security-test"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "Bounded course IPC security test simulation and QNX integration scaffold"
+
+[tool.course]
+backend = "simulation"
+qnx_verified = false
