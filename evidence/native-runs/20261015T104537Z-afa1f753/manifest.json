@@ -1,0 +1,50 @@
+{
+  "run_id": "20261015T104537Z-afa1f753",
+  "backend": "qnx-native",
+  "target_id": "lab-resmgr-01",
+  "criterion_ids": [
+    "IPC-01",
+    "REL-01"
+  ],
+  "evidence_source": "local_host_ssh_runner",
+  "peer_reproduced": false,
+  "human_signoff": "pending",
+  "isolation_verdict": "INCONCLUSIVE",
+  "scope": "legal ECHO, empty payload, owned server stop/start only",
+  "hashes": {
+    "empty.jsonl": "c50b20c8e0d09502a97e455ea865cb91e0df44bf34085800e6945b5e14ae520b",
+    "hello.txt": "354c2ee92619cbf23071e18862b0ec7596eed8696ea19f88a2c8dbbdd1fde12c",
+    "normal.jsonl": "b6f8ecd16e50fe9e2f024649f5819e0dab282db789ba353feefd923e9bcdd36c",
+    "resmgr-restart.log": "67e13065a991799bd74427572a12eb32be92b444e2145fd2a48b3521eddd07f2",
+    "resmgr.log": "67e13065a991799bd74427572a12eb32be92b444e2145fd2a48b3521eddd07f2",
+    "restarted.jsonl": "4d155b9ae02c553f619e177674519be1874c4294646037a66bdee2d328a7f999",
+    "smoke-output.txt": "7f1d2b92c01f5c6dfd0601292ccbc1094962e622613086ef0cfbdcf44ac2ab8b",
+    "smoke-output.txt.stderr": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+    "target-info.txt": "cf8711558b02c4d091b4398e28871d47c33803b43c522d5d60e9f281ba7bd20f"
+  },
+  "source_hashes": {
+    "native/qnx/README.md": "67e223b0520f3ee78104b461df2b62e0dfa560a9b6bc90db8f7db1f02ddb5573",
+    "native/qnx/run-smoke.sh": "187f374f4caf038944c0edbf3aa59b9319fe7e1258bd29042546ba7b3d41bdb5",
+    "native/qnx/client/hello_qnx.c": "b40090ea2924262244dcfbad57e8f29ceb4adf93b8f6952411beaf022c057f2e",
+    "native/qnx/client/lab_client.c": "dead68c94d05d818d949141cc7eb5e03edc73b58a266f0160e2273fc8c50eeaf",
+    "native/qnx/client/README.md": "48c2e7493f045d86788bf333ac2df22d9971f0e17e36919afd7f942861985449",
+    "native/qnx/include/lab_protocol.h": "2c3e752b1f47e3bc43a31afb59e6ace6bf7655eba091cee252d2d96ad9c51e11",
+    "native/qnx/probes/README.md": "eb28080eccd85537d8ddb1e50893c818b2578757c82cd6724c2ac2c7280f643a",
+    "native/qnx/target/lab_resmgr.c": "143cb9e9957411a7de310f9d7a01a822429f6de0d815d94bd11b02c867ebe249",
+    "native/qnx/target/README.md": "ba138539fdd7e8fee314d0c381b437d54f547b169267ec1c66a1fe52a90f23ba",
+    "native/qnx/transport/README.md": "bd5db6e19c7a98906915ab1fe9ccb3cc67c90c3fa3f1431c2a23d104aeb76700",
+    "scripts/Build-QnxNative.ps1": "d6e14babbd783acb9dc1b483d05282d84badc9683d0f374c38bf92fc829b5f0e",
+    "scripts/Deploy-QnxSmoke.ps1": "b6baf7cbf766b31649688f0cc21cd02d93f70b6f5fb6bb45c77ff868059e2548",
+    "scripts/Initialize-QnxEnvironment.ps1": "4dd288759274d27e41d84706d275e146a6045a0053e8c1e6081640087eb654dd"
+  },
+  "host_deadline_seconds": 45,
+  "build": {
+    "variant": "gcc_ntox86_64",
+    "flags": "-std=c11 -D_QNX_SOURCE -Wall -Wextra -Werror",
+    "binary_hashes": {
+      "hello-qnx": "42a071342f9641f1a02170152413dab11ddc67a9ef581c7ee6ae50a49d82290e",
+      "lab-resmgr": "974858f4f52a89654eb764c8bfd76051b62ae4f269719fdb30757dd9d716a1bc",
+      "lab-client": "01946940bd3977fd2f6264f0d0a118159ef0bff4c4321f86dfff9c867d9f0758"
+    }
+  }
+}

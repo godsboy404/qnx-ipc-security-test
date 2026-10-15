@@ -1,0 +1,36 @@
+{
+  "run_id": "20261015T104103Z-441179b4",
+  "backend": "qnx-native",
+  "target_id": "lab-resmgr-01",
+  "criterion_ids": [
+    "IPC-01",
+    "REL-01"
+  ],
+  "evidence_source": "local_host_ssh_runner",
+  "peer_reproduced": false,
+  "human_signoff": "pending",
+  "isolation_verdict": "INCONCLUSIVE",
+  "scope": "legal ECHO, empty payload, owned server stop/start only",
+  "hashes": {
+    "empty.jsonl": "fe1f4b96f162983dbe251a2dd99fb9402572b9147517d89636888e695bd770f8",
+    "hello.txt": "354c2ee92619cbf23071e18862b0ec7596eed8696ea19f88a2c8dbbdd1fde12c",
+    "normal.jsonl": "a191310bffc80f88e3d5f335066b167223654a9606b7e26edc2b94645b57d8fe",
+    "resmgr-restart.log": "67e13065a991799bd74427572a12eb32be92b444e2145fd2a48b3521eddd07f2",
+    "resmgr.log": "67e13065a991799bd74427572a12eb32be92b444e2145fd2a48b3521eddd07f2",
+    "restarted.jsonl": "ddfa2f6a7fde6a63cec6234bcfdf3511470d2ff1b1a5e8346c9b936db7e83d1f",
+    "smoke-output.txt": "7d2b73e2d2af32386e7836ac9d1d9c299518a9b648c439623d22a6fc51cbf2d7",
+    "target-info.txt": "2b62662dd26cc75ad9775f4f43fbdfa2440a90444afb77c453c67159627bcd38"
+  },
+  "source_hashes": {
+    "native/qnx/README.md": "88e33ba6bf225d2f240667542be6533fde030e2c426ef921a0d577eeeac09dfb",
+    "native/qnx/run-smoke.sh": "187f374f4caf038944c0edbf3aa59b9319fe7e1258bd29042546ba7b3d41bdb5",
+    "native/qnx/client/hello_qnx.c": "b40090ea2924262244dcfbad57e8f29ceb4adf93b8f6952411beaf022c057f2e",
+    "native/qnx/client/lab_client.c": "dead68c94d05d818d949141cc7eb5e03edc73b58a266f0160e2273fc8c50eeaf",
+    "native/qnx/client/README.md": "6da6f052d5d2d110766787b81180bf739f043827a9ba1c0b74214f36d709c790",
+    "native/qnx/include/lab_protocol.h": "2c3e752b1f47e3bc43a31afb59e6ace6bf7655eba091cee252d2d96ad9c51e11",
+    "native/qnx/probes/README.md": "eb28080eccd85537d8ddb1e50893c818b2578757c82cd6724c2ac2c7280f643a",
+    "native/qnx/target/lab_resmgr.c": "143cb9e9957411a7de310f9d7a01a822429f6de0d815d94bd11b02c867ebe249",
+    "native/qnx/target/README.md": "10564df92cd32ce638818bc25cc3e887ee4021c01a8fc4b38370c0bc6a3047d0",
+    "native/qnx/transport/README.md": "bd5db6e19c7a98906915ab1fe9ccb3cc67c90c3fa3f1431c2a23d104aeb76700"
+  }
+}

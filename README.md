@@ -2,8 +2,9 @@
 
 课程版：单个自建教学资源管理器的 IPC 对抗性测试与防御验证。
 
-当前完成的是项目工程资产、可运行的主机模拟最小链路与QNX接入接口。
-**尚未完成QNX交叉编译、真实资源管理器、真实IPC、进程监控或隔离验证。**
+当前完成项目工程资产、主机模拟链路，以及QNX 8.0 x86_64虚拟机上的真实devctl ECHO链路。
+Hello、100次合法请求、空载荷及服务重启后100次请求已实测通过。
+**完整Fuzzer原生接入、独立进程监控、防御对照和故障隔离验证尚未完成。**
 本项目的课程适配评估为“方向符合，条件性建设”；教师审批及QNX环境门仍为待完成。
 
 ## 从这里开始
@@ -31,4 +32,17 @@ eval/ 存验收及评价器校准样例；evidence/ 存运行事实；review/ �
 release/ 存启动恢复交接；tests/ 存回归；scripts/ 存环境及索引检查。
 
 实际结构及每个目录职责见 [项目结构](docs/项目结构.md)。
-下一步任务为TASK-01：在合法授权的QNX 8.0实验机上验证工具链与合法请求往返。
+## QNX原生最小链路
+
+详见 [原生运行说明](native/qnx/README.md) 与 [本次验证记录](review/native-milestone.md)。
+
+```powershell
+./scripts/Build-QnxNative.ps1
+./scripts/Deploy-QnxSmoke.ps1 -TargetAddress <本机新建QNX虚拟机IP>
+python scripts/verify_native_evidence.py
+```
+
+首次建机使用Build-QnxVm.ps1；启动使用Start-QnxVm.ps1，网络模式须按本机已有虚拟网卡选择。
+真实结果位于evidence/native-runs/，与主机模拟的evidence/runs/分开。
+VM磁盘、实验SSH密钥与编译产物都在build/内，不提交Git。
+下一步为原生监控与测试Harness完善，随后将有界变异接入自建目标。

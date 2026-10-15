@@ -5,3 +5,11 @@ build/
 *.o
 *.exe
 .qa/
+*.stackdump
+*.vmdk
+*.vmem
+*.vmsn
+*.vmss
+*.nvram
+.env
+*.pem

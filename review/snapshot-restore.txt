@@ -1,0 +1,3 @@
+QNX VM already running
+Hello QNX: course toolchain smoke test
+SNAPSHOT_RESTORE_OK

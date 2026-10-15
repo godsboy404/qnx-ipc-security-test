@@ -3,6 +3,8 @@
 状态：待教师批准。模型载荷为ECHO、declared_length、offset、flags、payload。
 模拟协议：payload上限64字节，declared_length等于实际字节，offset在0至实际长度之间，flags为0。
 QNX系统消息封装尚未定稿，当前应用载荷不允许直接发送到任意resource manager。
+实施更新：首个原生切片已采用自定义devctl ECHO，16字节应用头加实际payload；仅适用于自建/dev/ipcsec-lab。
+该选择是当前工程实现，不代替教师对课程规格的批准；原生合法路径已实测，变异及隔离尚未验收。
 
 | ID | 强度 | 要求 |
 | --- | --- | --- |

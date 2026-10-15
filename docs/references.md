@@ -14,3 +14,7 @@ QNX SDP 8.0官方资料，2026-10-15查阅。仅支持接口选择与接入设�
 - [Handling devctl messages](https://qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.resmgr/topic/messages_HANDLING_devctl.html)
 - [MsgSend](https://qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.lib_ref/topic/m/msgsend.html)
 - [TimerTimeout](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.lib_ref/topic/t/timertimeout.html)
+- [mkqnximage](https://qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkqnximage.html)
+- [resmgr_attach](https://qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.lib_ref/topic/r/resmgr_attach.html)
+- [Device control I O handler](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.getting_started/topic/s1_resmgr_io_devctl.html)
+- [Message checking](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.security.system/topic/manual/message_checking.html)

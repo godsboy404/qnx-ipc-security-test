@@ -4,7 +4,10 @@
   "qcc_on_path": null,
   "QNX_HOST_present": false,
   "QNX_TARGET_present": false,
+  "default_install_qcc": "C:\\Users\\zrz51\\qnx800\\host\\win64\\x86_64\\usr\\bin\\qcc.exe",
+  "default_install_env_script": "C:\\Users\\zrz51\\qnx800\\qnxsdp-env.bat",
   "qnx_roundtrip_verified": false,
   "authorization_verified": false,
-  "gate": "PENDING_NATIVE_VALIDATION"
+  "gate": "PENDING_NATIVE_VALIDATION",
+  "note": "Not on PATH does not mean not installed. See toolchain-check.md for compilation evidence."
 }

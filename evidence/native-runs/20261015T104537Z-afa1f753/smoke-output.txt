@@ -1,0 +1,2 @@
+SMOKE_OK normal=100 empty=1 restarted=100
+
