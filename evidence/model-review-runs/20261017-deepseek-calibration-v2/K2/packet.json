@@ -1,0 +1,15 @@
+{
+  "criterion_id": "SEC-03",
+  "scope": "Only this fixture: a declared length of 65 with actual payload 4 must be BLOCK and NOT_SENT; no server receipt may exist. No broader claim.",
+  "source_version": "fixture-v1",
+  "approved_na": false,
+  "complete_system_probes": false,
+  "evidence": [
+    {
+      "id": "excerpt-1",
+      "source_version": "fixture-v1",
+      "level": "fixture_demo",
+      "excerpt": "Fixture client: declared_length=65, actual_length=4, decision=ALLOW, target_outcome=REPLY. Independent fixture receiver audit contains this exact request."
+    }
+  ]
+}

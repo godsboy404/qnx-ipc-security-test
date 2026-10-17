@@ -1,0 +1,10 @@
+{
+  "device_clean_confirmed": true,
+  "original_run_modified": false,
+  "hashes": {
+    "stall-cleanup.json": "048b361403a9bd5f080d2d50085f2371d6ffa04cf32712ee7b4db5e2c5fd3028",
+    "stall-events.jsonl": "edd565695a7926e3ffe954e85ebc05c25acb3e155c5d1291f9aaf61454580113"
+  },
+  "manual_recovery": "SIGCONT sent only to owned PID 12980251 after private run logs confirmed it",
+  "run_id": "20261017T124634Z-34573af9"
+}

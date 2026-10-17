@@ -1,0 +1,21 @@
+{
+  "criterion_id": "ISO-01",
+  "scope": "Assess full QNX system isolation from the supplied archived native run. Process liveness and peer heartbeats alone cannot establish full system-service health or crash isolation.",
+  "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+  "approved_na": false,
+  "complete_system_probes": false,
+  "evidence": [
+    {
+      "id": "archived-native-summary",
+      "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+      "level": "qnx_native",
+      "excerpt": "{\"backend\":\"qnx-native\",\"blocked_count\":94,\"cases\":128,\"error_reply_count\":0,\"errors\":[],\"forwarded_count\":20,\"invalid_cases\":94,\"isolation_success_rate\":null,\"isolation_verdict\":\"INCONCLUSIVE\",\"mode\":\"defense\",\"monitor_samples\":75,\"observer_calibrated\":true,\"peer_heartbeats\":35,\"rate_limited_count\":14,\"reply_count\":20,\"scope\":\"bounded inputs to owned devctl service; process/peer liveness, not global health or crash isolation\",\"scope_denied_count\":0,\"status\":\"PASS\",\"suite\":\"mixed\",\"system_service_probe\":null,\"target_received_count\":20,\"target_state_before_cleanup\":\"running\",\"timeout_count\":0,\"valid_cases\":34}"
+    },
+    {
+      "id": "local-native-reverification",
+      "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+      "level": "qnx_native",
+      "excerpt": "{\"evidence_hashes\":{\"authorization.txt\":\"a488e5383ec551ccffb9963bbacb480550ae3506b4da645bc7fedc67d53d3512\",\"cases.jsonl\":\"b4a290aad1024b6de774f0a0fdf2d2ae3e5cab72bc26e17796e69310069bb38b\",\"cleanup.json\":\"8411e9e2133bc06194857c3a0c55cb2a9d0b335a5780e9b1cec7de73df5a4884\",\"corpus-meta.json\":\"ceb6595c970a06cac3a15f1532f6db24f3742b374b18b2ee232a85cf5b9b5f02\",\"corpus.tsv\":\"3f93d9002d09cdb5807cc3200eef9abdb6250e7ecc637a47dfec443c05ebbf30\",\"defense-mode.txt\":\"105f2fe93348ae9e2c2483dff26b5a4cecb39dd0390fddda334f9c8f58ba8db9\",\"fuzz-results.jsonl\":\"5637202cd182159dc6a41e8bc3dccc6d4f5aed50ca64da02fdc214059aea77cb\",\"fuzzer-meta.json\":\"a8016ae45ead6b693b51962cf9b8b9eb3b2353888129fae9f80f418524252734\",\"heartbeat.jsonl\":\"937ba28437938da940d1f5dae019a64cbd805a83b39a43e98f1c84dc90939ef9\",\"host-execution.json\":\"3670c3c82076a0962def15005cd34a1fd4fd9511c038bd2ac9d5f43fbbf9cdd2\",\"host-stderr.txt\":\"7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6\",\"host-stdout.txt\":\"7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6\",\"monitor-selftest.json\":\"bac5ecc190cdf8d38678e985da2d9a5594d4ab09c6be704a02d091b49707abb6\",\"monitor-summary.json\":\"9faf480775d945a8c13bdd5d58c561fad7db1ac05daac06c985c1ff06456656f\",\"monitor.jsonl\":\"40390dc29a395d6f8090b9ded85ba19b6b1f7fea723a96c0af637f1c5d9ed351\",\"native-stderr.txt\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"native-stdout.txt\":\"ec1e069988b806a214888ac82cba5f7e7d352ccc6bd1f4665694b4b8dd440e8d\",\"policy-selftest.json\":\"da8db0504212a3ceb32df95675df80b6da908932cc033105248db5f2f4a34959\",\"summary.json\":\"4a222badbf58705fb24a5ca61083e4ec0b5d8e863cb1f99b1728d966d7e97768\",\"target-audit.jsonl\":\"6695b1cd0f1de99cb7ac3e5b9b66ca7b6fab45c10b695f79028eab820b2a0f20\",\"target-info.txt\":\"7081bd11ee81ea75b080d563e6b5219874e0097b4191ac3b0258f19f59988ae1\"},\"local_reanalysis_matches_archived_summary\":true,\"local_verifier\":\"ipcsec.native.verify_archived\",\"local_verifier_sha256\":\"8fbb176122b07f1867fde997f73928e68a0fdea30a8e2de6f2f97b202641c426\",\"manifest_sha256\":\"9b3c14e8c90c3d614e7e0eb5c90398be4a9c9b334b36a0d81d184b58aa73f84b\",\"note\":\"Local hash and causal checks only; not independent peer reproduction or cryptographic authenticity.\",\"run_id\":\"20261017T122327Z-0b2f7718\"}"
+    }
+  ]
+}

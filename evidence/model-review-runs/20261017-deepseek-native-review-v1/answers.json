@@ -1,0 +1,14 @@
+{
+  "REAL-SEC-03": {
+    "expected": "PASS",
+    "oracle_author": "AI-authored bounded interpretation of locally reverified native evidence; human review pending"
+  },
+  "REAL-OBS-01": {
+    "expected": "PASS",
+    "oracle_author": "AI-authored bounded interpretation of locally reverified native evidence; human review pending"
+  },
+  "REAL-ISO-01": {
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "oracle_author": "AI-authored bounded interpretation of locally reverified native evidence; human review pending"
+  }
+}

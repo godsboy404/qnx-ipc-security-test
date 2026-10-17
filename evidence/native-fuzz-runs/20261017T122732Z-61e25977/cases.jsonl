@@ -1,0 +1,1 @@
+{"case_id": "NF-0004", "operation": "ECHO", "declared_length": 65, "offset": 0, "flags": 0, "payload_hex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161", "mutation": "boundary", "session_id": "session-01", "oracle_label": "invalid"}

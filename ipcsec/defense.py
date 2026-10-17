@@ -13,10 +13,11 @@ class Defense:
         if c.declared_length != len(payload): return 'BLOCK', 'length_mismatch'
         if c.offset < 0 or c.offset > len(payload): return 'BLOCK', 'offset_range'
         if c.flags != 0: return 'BLOCK', 'unsupported_flags'
-        # Window is (now-window_ms, now]; count only structurally valid arrivals.
+        # SEC-04 / user decision 2026-10-17: count forwarded valid requests only.
+        # Rejected arrivals do not consume a slot or prolong the window.
         q = self.windows[c.session_id]
         while q and q[0] <= now_ms - self.cfg['window_ms']: q.popleft()
-        q.append(now_ms)
-        if len(q) > self.cfg['max_requests_per_window']:
+        if len(q) >= self.cfg['max_requests_per_window']:
             return 'RATE_LIMIT', 'session_window'
+        q.append(now_ms)
         return 'ALLOW', 'valid'

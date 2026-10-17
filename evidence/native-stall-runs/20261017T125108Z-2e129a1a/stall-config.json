@@ -1,0 +1,12 @@
+{
+  "backend": "qnx-native",
+  "target_id": "lab-resmgr-01",
+  "device": "/dev/ipcsec-lab",
+  "fault_kind": "controlled_SIGSTOP",
+  "before_count": 10,
+  "after_count": 10,
+  "blocked_count": 1,
+  "ipc_timeout_ns": 2000000000,
+  "monitor_deadline_seconds": 15,
+  "host_deadline_seconds": 45
+}

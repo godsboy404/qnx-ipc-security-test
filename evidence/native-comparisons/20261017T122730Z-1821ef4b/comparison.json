@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "baseline_run": "20261017T122624Z-166ba568",
+  "defense_run": "20261017T122645Z-89c9b79f",
+  "baseline_manifest_sha256": "499c737be0a6836fd515ee01817c0694a98c56208b0a93c5f5590f4078e24271",
+  "defense_manifest_sha256": "0000780cf0663fefd6dd5fc52559f83db8c3936fb6e1c1e88caedc91910b4f1c",
+  "corpus_sha256": "e79b6e86d83c8f1941f071e638f9f82ec1063c1db133084c568167ea7d101c04",
+  "suite": "rate",
+  "cases": 24,
+  "baseline_forwarded": 24,
+  "defense_forwarded": 22,
+  "invalid_blocked": 0,
+  "valid_rate_limited": 2,
+  "isolation_verdict": "INCONCLUSIVE",
+  "peer_reproduced": false
+}

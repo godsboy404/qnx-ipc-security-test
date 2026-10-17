@@ -1,0 +1,11 @@
+{"monitor_pid":8556569,"mono_ns":8279731092652,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279752833750,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279773922049,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279796145647,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279817865645,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279839932044,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279861764842,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279882992640,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279905237139,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279926772237,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"running","peer_pid":8568859,"peer_state":"running"}
+{"monitor_pid":8556569,"mono_ns":8279948193035,"target_pid":8568858,"target_state":"running","worker_pid":8568860,"worker_state":"exited","peer_pid":8568859,"peer_state":"running"}

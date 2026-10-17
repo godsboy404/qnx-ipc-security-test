@@ -1,0 +1,16 @@
+{
+  "source_hashes": {
+    "ipcsec/defense.py": "2068ae5ac144e15b0d6446aa9dab39811daa9b2b6e500817133468196cac5630",
+    "ipcsec/native.py": "8fbb176122b07f1867fde997f73928e68a0fdea30a8e2de6f2f97b202641c426",
+    "native/qnx/include/lab_policy.h": "b31ff3d307ab379280c119956a0399c1cbad783948c576040b08138cd1369bdd",
+    "configs/lab.json": "65f75e99ef7af63b246d53f2d858d167e6611edebc2f9d380e95972d041efb1e",
+    "scripts/Reproduce-RateAccounting.py": "d17bd0cd55bf6d5a7a3c198a143a46472dcf995dd9c17a364e974b62d85e7809"
+  },
+  "evidence_hashes": {
+    "summary.json": "b1b53b1a26d5a850af3a8fd195c0b1a0f3243db9e4b8a0fd363c790f14134d7a",
+    "witness.json": "de3412e4a74ae16dedc3fea8d0f92a901ce35c4d5df41c669219d0b834178009"
+  },
+  "evidence_source": "local_internal_review",
+  "formal_E3": false,
+  "human_signoff": "pending"
+}

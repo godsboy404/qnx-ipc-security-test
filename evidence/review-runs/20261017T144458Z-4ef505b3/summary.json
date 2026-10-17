@@ -1,0 +1,12 @@
+{
+  "status": "REPRODUCED_INTERNAL_FINDING",
+  "finding_id": "INT-F-01",
+  "backend": "host-simulation-and-native-oracle",
+  "qnx_live_execution": false,
+  "formal_E3": false,
+  "mismatch_case_ids": [
+    "RATE-WITNESS-20"
+  ],
+  "total_cases": 21,
+  "human_signoff": "pending"
+}

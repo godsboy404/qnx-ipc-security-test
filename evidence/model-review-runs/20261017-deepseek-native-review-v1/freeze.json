@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-10-17T14:38:37.374212+00:00",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "max_calls": 10,
+  "case_ids": [
+    "REAL-SEC-03",
+    "REAL-OBS-01",
+    "REAL-ISO-01"
+  ],
+  "oracle_author": "AI-authored; not independently validated",
+  "human_signoff": "pending",
+  "hashes": {
+    "answers.json": "e16324d999a870f82b147d975d09cc33b3350358c99115cfaf4614da223d052e",
+    "model_calibration.py": "0a16e2ec42f971cf47ee1681a0badd047129c67ed122a6e984258178c087c485",
+    "REAL-ISO-01.packet.json": "342ab545db055c0409a7a800ca9d5635bb618c89b34387c4c3ca3f0ccae820c6",
+    "REAL-ISO-01.request.json": "8997ed7fa6ecc1541deb52471c28e2ef41693017c67548302f7b86502da86120",
+    "REAL-OBS-01.packet.json": "a2d3bb0fd0f79bb506ddbfdd8ef900e93940a76fca12adcdbb6320d28441f1cf",
+    "REAL-OBS-01.request.json": "3571bec5c12dbf09db779cb250dbc0aef7d0feda8e01afb936d5146f570719e5",
+    "REAL-SEC-03.packet.json": "9ab510bf5b78f8a6834d527dfd99554ebe451da0f6bbd79e6376ca8f27fdc49c",
+    "REAL-SEC-03.request.json": "71280a3fbde723b32a734d26ed1d39c87c44d79b08dfbdca81b47e27edec1f60",
+    "semantic_review.py": "5f2ae922ef529c89828390b0618d45f2c0ae42369164463ff55d213d289b7962"
+  }
+}

@@ -1,0 +1,2 @@
+{"monitor_pid":9248793,"mono_ns":8302914961482,"target_pid":9261082,"target_state":"running","worker_pid":9261084,"worker_state":"running","peer_pid":9261083,"peer_state":"running"}
+{"monitor_pid":9248793,"mono_ns":8302936857680,"target_pid":9261082,"target_state":"running","worker_pid":9261084,"worker_state":"exited","peer_pid":9261083,"peer_state":"running"}

@@ -1,0 +1,15 @@
+{
+  "criterion_id": "OBS-01",
+  "scope": "Verify evidence for source fixture-v1; excerpts from another source version cannot establish it.",
+  "source_version": "fixture-v1",
+  "approved_na": false,
+  "complete_system_probes": false,
+  "evidence": [
+    {
+      "id": "excerpt-1",
+      "source_version": "fixture-v0",
+      "level": "fixture_demo",
+      "excerpt": "Audit reports verified hashes and PASS, but belongs to source fixture-v0."
+    }
+  ]
+}

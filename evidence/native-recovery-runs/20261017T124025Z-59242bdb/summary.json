@@ -1,0 +1,22 @@
+{
+  "backend": "qnx-native",
+  "fault_kind": "controlled_SIGTERM",
+  "before_replies": 10,
+  "after_replies": 10,
+  "down_open_errno": 2,
+  "probe_samples": 44,
+  "probe_coverage": {
+    "before": 11,
+    "down": 11,
+    "after": 15
+  },
+  "stop_to_first_reply_ns": 297207077,
+  "restart_to_first_reply_ns": 36910197,
+  "observed_down_hold_ns": 237566082,
+  "recovery_verdict": "PASS",
+  "isolation_verdict": "INCONCLUSIVE",
+  "system_service_probe": null,
+  "probe_scope": "independent uname and read-only /proc stat, not global system health",
+  "errors": [],
+  "status": "PASS"
+}

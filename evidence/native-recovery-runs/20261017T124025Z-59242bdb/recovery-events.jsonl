@@ -1,0 +1,8 @@
+{"event":"ready","mono_ns":9073308024471,"monitor_pid":12242969,"target_pid":12247067,"client_pid":0,"target_state":"running","target_signal":0,"device_present":true}
+{"event":"before_complete","mono_ns":9073554874352,"monitor_pid":12242969,"target_pid":12247067,"client_pid":12247068,"target_state":"running","target_signal":0,"device_present":true}
+{"event":"stop_requested","mono_ns":9073555463352,"monitor_pid":12242969,"target_pid":12247067,"client_pid":0,"target_state":"running","target_signal":0,"device_present":true}
+{"event":"stopped","mono_ns":9073578194150,"monitor_pid":12242969,"target_pid":12247067,"client_pid":0,"target_state":"signaled","target_signal":15,"device_present":false}
+{"event":"unavailable_observed","mono_ns":9073604423748,"monitor_pid":12242969,"target_pid":12247067,"client_pid":12255259,"target_state":"signaled","target_signal":15,"device_present":false}
+{"event":"restart_requested","mono_ns":9073815760232,"monitor_pid":12242969,"target_pid":0,"client_pid":0,"target_state":"unknown","target_signal":0,"device_present":false}
+{"event":"restarted","mono_ns":9073842839730,"monitor_pid":12242969,"target_pid":12259355,"client_pid":0,"target_state":"running","target_signal":0,"device_present":true}
+{"event":"after_complete","mono_ns":9074089614011,"monitor_pid":12242969,"target_pid":12259355,"client_pid":12259356,"target_state":"running","target_signal":0,"device_present":true}

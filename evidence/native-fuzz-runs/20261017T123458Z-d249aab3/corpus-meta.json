@@ -1,0 +1,25 @@
+{
+  "schema_version": 2,
+  "mode": "defense",
+  "suite": "authorization",
+  "authorization": "allow",
+  "seed": 20261015,
+  "count": 1,
+  "delays_ms": [
+    0
+  ],
+  "corpus_sha256": "a7b66faa2f1501c2769f24a15e65ef06860ec5f849f68826986a352863d8065f",
+  "target_id": "lab-resmgr-01",
+  "device": "/dev/ipcsec-lab",
+  "max_actual_payload": 65,
+  "max_ipc_ms": 2000,
+  "monitor_deadline_s": 15,
+  "backend": "qnx-native",
+  "authorization_control": true,
+  "authorization_states": [
+    "missing"
+  ],
+  "replay_source": "20261017T123421Z-e4e1c71d",
+  "replay_source_corpus_sha256": "b1566cc05a9b97df8c6864a2a7fd0455c110080c086f427c13dc73d63c7c19db",
+  "replay_case_id": "NA-0008"
+}

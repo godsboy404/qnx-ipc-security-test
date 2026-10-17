@@ -19,6 +19,7 @@ static uint64_t now_ns(void) {
     return (uint64_t)t.tv_sec*1000000000ULL+(uint64_t)t.tv_nsec;
 }
 static void nap(void) { struct timespec t={0,20000000}; nanosleep(&t,NULL); }
+#include "lab_auth_control.h"
 typedef struct {
     pid_t pid;
     int reaped,status;
@@ -81,6 +82,8 @@ int main(int argc,char **argv) {
     if(argc!=1)return 2;
     if(access(LAB_DEVICE_PATH,F_OK)==0) { fputs("Existing lab device; refusing takeover\n",stderr);return 2; }
     if(selftest())return 2;
+    auth_control_t authorization={0};
+    if(auth_control_init(&authorization))return 2;
     child_t target={0},worker={0},heartbeat={0};
     FILE *log=fopen("monitor.jsonl","w");
     if(!log)return 2;
@@ -97,8 +100,12 @@ int main(int argc,char **argv) {
         if(access(LAB_DEVICE_PATH,F_OK)==0) { ready=1;break; }
         nap();
     }
-    if(!ready || launch(&worker,workerargs[0],workerargs))goto done;
+    if(!ready)goto done;
+    /* Establish an independent heartbeat before even a single-case replay. */
+    for(unsigned i=0;i<5 && !interrupted;i++)nap();
+    if(interrupted || launch(&worker,workerargs[0],workerargs))goto done;
     do {
+        if(auth_control_tick(&authorization)) { fputs("Authorization controller failed\n",stderr);break; }
         ts=poll_child(&target);ws=poll_child(&worker);ps=poll_child(&heartbeat);
         fprintf(log,"{\"monitor_pid\":%d,\"mono_ns\":%" PRIu64 ",\"target_pid\":%d,\"target_state\":\"%s\","
                 "\"worker_pid\":%d,\"worker_state\":\"%s\",\"peer_pid\":%d,\"peer_state\":\"%s\"}\n",
@@ -109,6 +116,7 @@ int main(int argc,char **argv) {
         nap();
     } while(!interrupted);
     rc=!interrupted && !watchdog && !strcmp(ts,"running") && !strcmp(ps,"running") &&
+       (!authorization.events || authorization.done==authorization.count) &&
        worker.reaped && WIFEXITED(worker.status) && WEXITSTATUS(worker.status)==0 ? 0:2;
 done:
     {
@@ -128,6 +136,14 @@ done:
         } else rc=2;
     }
     stop_owned(&worker);stop_owned(&target);stop_owned(&heartbeat);
+    FILE *cleanup=fopen("cleanup.json","w");
+    if(cleanup) {
+        fprintf(cleanup,"{\"target_reaped\":%s,\"worker_reaped\":%s,\"peer_reaped\":%s,\"device_present\":%s,\"reason\":\"expected_owned_process_cleanup\"}\n",
+            target.reaped ? "true":"false",worker.reaped ? "true":"false",heartbeat.reaped ? "true":"false",
+            access(LAB_DEVICE_PATH,F_OK)==0 ? "true":"false");
+        fclose(cleanup);
+    } else rc=2;
     fclose(log);
+    if(authorization.events)fclose(authorization.events);
     return rc;
 }

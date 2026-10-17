@@ -1,0 +1,25 @@
+READY path=/dev/ipcsec-lab protocol=devctl-echo-v1
+case=NA-0000 outcome=REPLY
+case=NA-0001 outcome=REPLY
+case=NA-0002 outcome=REPLY
+case=NA-0003 outcome=REPLY
+case=NA-0004 outcome=NOT_SENT
+case=NA-0005 outcome=NOT_SENT
+case=NA-0006 outcome=NOT_SENT
+case=NA-0007 outcome=NOT_SENT
+case=NA-0008 outcome=NOT_SENT
+case=NA-0009 outcome=NOT_SENT
+case=NA-0010 outcome=NOT_SENT
+case=NA-0011 outcome=NOT_SENT
+case=NA-0012 outcome=NOT_SENT
+case=NA-0013 outcome=NOT_SENT
+case=NA-0014 outcome=NOT_SENT
+case=NA-0015 outcome=NOT_SENT
+case=NA-0016 outcome=NOT_SENT
+case=NA-0017 outcome=NOT_SENT
+case=NA-0018 outcome=NOT_SENT
+case=NA-0019 outcome=NOT_SENT
+case=NA-0020 outcome=REPLY
+case=NA-0021 outcome=REPLY
+case=NA-0022 outcome=REPLY
+case=NA-0023 outcome=REPLY

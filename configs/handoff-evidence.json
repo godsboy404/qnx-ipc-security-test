@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "selected": [
+    {"id": "legal-ipc-201", "kind": "smoke", "path": "evidence/native-runs/20261015T104537Z-afa1f753"},
+    {"id": "native-fuzz", "kind": "fuzz", "path": "evidence/native-fuzz-runs/20261017T121606Z-e29291df"},
+    {"id": "defense", "kind": "fuzz", "path": "evidence/native-fuzz-runs/20261017T122327Z-0b2f7718"},
+    {"id": "rate", "kind": "fuzz", "path": "evidence/native-fuzz-runs/20261017T122645Z-89c9b79f"},
+    {"id": "authorization", "kind": "fuzz", "path": "evidence/native-fuzz-runs/20261017T123421Z-e4e1c71d"},
+    {"id": "stop-restart", "kind": "recovery", "path": "evidence/native-recovery-runs/20261017T130304Z-d6c6072a"},
+    {"id": "pause-timeout", "kind": "stall", "path": "evidence/native-stall-runs/20261017T130224Z-8ed73897"}
+  ],
+  "comparison_paths": [
+    "evidence/native-comparisons/20261017T122509Z-c14d8b25/comparison.json",
+    "evidence/native-comparisons/20261017T122730Z-1821ef4b/comparison.json",
+    "evidence/native-comparisons/20261017T123456Z-0d49c086/comparison.json"
+  ],
+  "pending": [
+    "teacher_intent_gate",
+    "partner_clean_environment_reproduction",
+    "approved_change_CH_01_and_E2",
+    "formal_independent_E3_review",
+    "evaluator_independent_human_oracle_and_partner_calibration",
+    "named_personal_contribution_and_signoff"
+  ]
+}

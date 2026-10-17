@@ -1,0 +1,34 @@
+{
+  "cases": [
+    {
+      "id": "REAL-SEC-03",
+      "expected": "PASS",
+      "result": "MATCH",
+      "status": "PASS"
+    },
+    {
+      "id": "REAL-OBS-01",
+      "expected": "PASS",
+      "result": "MATCH",
+      "status": "PASS"
+    },
+    {
+      "id": "REAL-ISO-01",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE"
+    }
+  ],
+  "matches": 3,
+  "count": 3,
+  "usage": {
+    "input_tokens": 3521,
+    "output_tokens": 3739,
+    "total_tokens": 7260,
+    "cached_tokens": 1920
+  },
+  "technical_calibration": "PASS",
+  "independent_calibration": false,
+  "human_signoff": "pending",
+  "course_gate": "PENDING"
+}

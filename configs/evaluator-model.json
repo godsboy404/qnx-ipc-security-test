@@ -1,0 +1,6 @@
+{
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "status": "integration-check-only",
+  "max_calls_per_snapshot": 10
+}

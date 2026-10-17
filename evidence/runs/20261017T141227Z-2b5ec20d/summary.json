@@ -1,0 +1,18 @@
+{
+  "total": 100,
+  "valid_total": 25,
+  "invalid_total": 75,
+  "false_positive_rate": 0.0,
+  "invalid_prevention_rate": 0.0,
+  "invalid_allow_rate": 1.0,
+  "simulated_fault_count": 30,
+  "qnx_crash_count": null,
+  "isolation_success_rate": null,
+  "limitations": [
+    "simulation only",
+    "no real process probes",
+    "no QNX performance or isolation claim"
+  ],
+  "metric_unit": "one logical test case",
+  "undefined_ratio": "null when denominator is zero"
+}

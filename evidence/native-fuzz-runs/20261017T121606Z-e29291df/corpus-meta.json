@@ -1,0 +1,11 @@
+{
+  "seed": 20261015,
+  "count": 128,
+  "corpus_sha256": "02e8ce1640604a93a7ac4835bb60da02429c0dfb44e4495b527a29b0d3bdf457",
+  "target_id": "lab-resmgr-01",
+  "device": "/dev/ipcsec-lab",
+  "max_actual_payload": 65,
+  "max_ipc_ms": 2000,
+  "monitor_deadline_s": 15,
+  "backend": "qnx-native"
+}

@@ -1,0 +1,17 @@
+READY path=/dev/ipcsec-lab protocol=devctl-echo-v1
+case=NF-0000 outcome=NOT_SENT
+case=NF-0001 outcome=NOT_SENT
+case=NF-0002 outcome=NOT_SENT
+case=NF-0003 outcome=NOT_SENT
+case=NF-0004 outcome=NOT_SENT
+case=NF-0005 outcome=NOT_SENT
+case=NF-0006 outcome=NOT_SENT
+case=NF-0007 outcome=NOT_SENT
+case=NF-0008 outcome=NOT_SENT
+case=NF-0009 outcome=NOT_SENT
+case=NF-0010 outcome=NOT_SENT
+case=NF-0011 outcome=NOT_SENT
+case=NF-0012 outcome=NOT_SENT
+case=NF-0013 outcome=NOT_SENT
+case=NF-0014 outcome=NOT_SENT
+case=NF-0015 outcome=NOT_SENT

@@ -1,0 +1,13 @@
+{
+  "backend": "qnx-native",
+  "target_id": "lab-resmgr-01",
+  "device": "/dev/ipcsec-lab",
+  "fault_kind": "controlled_SIGTERM",
+  "before_count": 10,
+  "after_count": 10,
+  "down_open_count": 1,
+  "ipc_deadline_seconds": 2,
+  "monitor_deadline_seconds": 15,
+  "host_deadline_seconds": 45,
+  "probe_scope": "independent uname and read-only /proc stat, not global system health"
+}

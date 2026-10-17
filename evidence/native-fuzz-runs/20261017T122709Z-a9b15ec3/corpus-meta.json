@@ -1,0 +1,33 @@
+{
+  "schema_version": 2,
+  "mode": "baseline",
+  "suite": "mixed",
+  "authorization": "deny",
+  "seed": 20261015,
+  "count": 16,
+  "delays_ms": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "corpus_sha256": "6dd28210eec6e0e424c27f75446e89b8ee95c48808e8daee6cea6004ad8bf705",
+  "target_id": "lab-resmgr-01",
+  "device": "/dev/ipcsec-lab",
+  "max_actual_payload": 65,
+  "max_ipc_ms": 2000,
+  "monitor_deadline_s": 15,
+  "backend": "qnx-native"
+}

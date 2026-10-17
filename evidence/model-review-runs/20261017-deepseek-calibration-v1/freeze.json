@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-10-17T14:36:49.264272+00:00",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "max_calls": 10,
+  "case_ids": [
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "K5",
+    "K6",
+    "V1-stale",
+    "V2-isolation"
+  ],
+  "oracle_author": "AI-authored; not independently validated",
+  "human_signoff": "pending",
+  "hashes": {
+    "answers.json": "8b3590f6195dd7d69f48acc57cda47f0b74d3ee059fc32a3e902f0bca5e2d6ad",
+    "K1.packet.json": "ed56e79aa77174f1d0656d6a5241d5faf797c9ecfd36cdd1d35dae379238543d",
+    "K1.request.json": "a59ad50843008c860e3f89bf783a3b0df68af8b0e9ecd1e12750ed8fde558fe7",
+    "K2.packet.json": "05b1ced99beec08edc4104e677be2183ca8d202ba673411ba9dd5f8856c8c1cf",
+    "K2.request.json": "a4435bf8d58afaf4c448ab6139e0a5607242335e02bb238a12370960e176f3cd",
+    "K3.packet.json": "0aeb0f2df271297a2ff3bbf46fee4a655fc28d0d3d9fac5d9434b6423190b31f",
+    "K3.request.json": "bc29075369fe31aa2a82c5e61e5077bfbc0690a605c7fc4e1ac35ab71c3129c9",
+    "K4.packet.json": "da6f7d6673f222e6e7642ef8b1747afba398cb249f7328769028139079a05dac",
+    "K4.request.json": "4d309891281335acc176a835c87f602d66df387ecd1dbad1561081ca2700dbb9",
+    "K5.packet.json": "b30705edcc043dceb77854ec9720113dc740a188812b809aa8f468c4a34788ac",
+    "K5.request.json": "5886d5b4347ffd124f403e3d3cfbb5f682f21d1e39cc1643852b95bbc85f6b3a",
+    "K6.packet.json": "34396a3bd86d106ead0ecb471136645e8850bc9ccd19d5c51e81fadcc8b24662",
+    "K6.request.json": "85e6624c65e00ed627ced8068cebe50481a9d1c81826924d531c6f25f0a770bb",
+    "model_calibration.py": "8f1b286a1092dc82639ac945ff12af2203d2c47fecad704ef1963952350244b0",
+    "semantic_review.py": "d64883a8a61a73411f82878a1291a18dd196b0852a639006b1c54e6ca465ce6b",
+    "V1-stale.packet.json": "2cca42d0b52ba6f77678b37b205da13b4778d2909f8451bc7f78400716367728",
+    "V1-stale.request.json": "6d01ab7690c893dc06bf57397a977899948e65e47f8095bdea3b52edb17d8e27",
+    "V2-isolation.packet.json": "f03b201e1abbbb7acae3cb4c5e490742642ac5f4c87bf798468c549ee57641eb",
+    "V2-isolation.request.json": "f7e088dfe700ba6ac30d6616179e685c895fc50d5920f6b7fe62ca3824192a46"
+  }
+}

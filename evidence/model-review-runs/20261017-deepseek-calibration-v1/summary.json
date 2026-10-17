@@ -1,0 +1,64 @@
+{
+  "cases": [
+    {
+      "id": "K1",
+      "expected": "PASS",
+      "result": "MATCH",
+      "status": "PASS"
+    },
+    {
+      "id": "K2",
+      "expected": "FAIL",
+      "result": "MATCH",
+      "status": "FAIL"
+    },
+    {
+      "id": "K3",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "id": "K4",
+      "expected": "FAIL",
+      "result": "MATCH",
+      "status": "FAIL"
+    },
+    {
+      "id": "K5",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "id": "K6",
+      "expected": "NOT_APPLICABLE",
+      "result": "MATCH",
+      "status": "NOT_APPLICABLE"
+    },
+    {
+      "id": "V1-stale",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "ERROR",
+      "status": null
+    },
+    {
+      "id": "V2-isolation",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE"
+    }
+  ],
+  "matches": 7,
+  "count": 8,
+  "usage": {
+    "input_tokens": 3826,
+    "output_tokens": 2431,
+    "total_tokens": 6257,
+    "cached_tokens": 2048
+  },
+  "technical_calibration": "FAIL",
+  "independent_calibration": false,
+  "human_signoff": "pending",
+  "course_gate": "PENDING"
+}

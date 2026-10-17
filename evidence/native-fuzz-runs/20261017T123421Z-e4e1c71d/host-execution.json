@@ -1,0 +1,5 @@
+{
+  "deadline_seconds": 45,
+  "host_watchdog_timeout": false,
+  "remote_exit_code": 0
+}

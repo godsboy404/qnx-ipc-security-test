@@ -1,0 +1,14 @@
+{
+  "seed": 20261015,
+  "count": 1,
+  "corpus_sha256": "77ea014ff17ce4d77686d4f93928667bfccf754dc1fefb6bda90d064188da650",
+  "target_id": "lab-resmgr-01",
+  "device": "/dev/ipcsec-lab",
+  "max_actual_payload": 65,
+  "max_ipc_ms": 2000,
+  "monitor_deadline_s": 15,
+  "backend": "qnx-native",
+  "replay_source": "20261017T121606Z-e29291df",
+  "replay_source_corpus_sha256": "02e8ce1640604a93a7ac4835bb60da02429c0dfb44e4495b527a29b0d3bdf457",
+  "replay_case_id": "NF-0004"
+}

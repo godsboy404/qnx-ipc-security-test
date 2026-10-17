@@ -1,0 +1,4 @@
+{"stage":"connected","client_pid":15732764,"mono_ns":10393415582794}
+{"stage":"checkpoint_request","client_pid":15732764,"begin_ns":10393446817192,"end_ns":10393447328992,"return_code":0,"reply_matches":true}
+{"stage":"before_devctl","mono_ns":10393462836790}
+{"stage":"devctl_returned","return_code":260,"mono_ns":10395469796937}

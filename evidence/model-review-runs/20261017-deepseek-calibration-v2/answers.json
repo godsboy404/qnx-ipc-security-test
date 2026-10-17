@@ -1,0 +1,42 @@
+{
+  "K1": {
+    "expected": "PASS",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "K2": {
+    "expected": "FAIL",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "K3": {
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "K4": {
+    "expected": "FAIL",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "K5": {
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "K6": {
+    "expected": "NOT_APPLICABLE",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "V1-stale": {
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "V2-isolation": {
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "V3-injection-missing": {
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "oracle_author": "AI-authored; human review pending"
+  },
+  "V4-offset": {
+    "expected": "PASS",
+    "oracle_author": "AI-authored; human review pending"
+  }
+}

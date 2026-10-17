@@ -1,0 +1,5 @@
+{
+  "change_id": "CH-01",
+  "status": "candidate-rehearsal-only",
+  "overrides": {"max_requests_per_window": 5}
+}

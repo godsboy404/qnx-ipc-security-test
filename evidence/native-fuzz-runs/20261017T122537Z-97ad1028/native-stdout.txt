@@ -1,0 +1,25 @@
+READY path=/dev/ipcsec-lab protocol=devctl-echo-v1
+case=NR-0000 outcome=REPLY
+case=NR-0001 outcome=REPLY
+case=NR-0002 outcome=REPLY
+case=NR-0003 outcome=REPLY
+case=NR-0004 outcome=REPLY
+case=NR-0005 outcome=REPLY
+case=NR-0006 outcome=REPLY
+case=NR-0007 outcome=REPLY
+case=NR-0008 outcome=REPLY
+case=NR-0009 outcome=REPLY
+case=NR-0010 outcome=NOT_SENT
+case=NR-0011 outcome=REPLY
+case=NR-0012 outcome=REPLY
+case=NR-0013 outcome=REPLY
+case=NR-0014 outcome=REPLY
+case=NR-0015 outcome=REPLY
+case=NR-0016 outcome=REPLY
+case=NR-0017 outcome=REPLY
+case=NR-0018 outcome=REPLY
+case=NR-0019 outcome=REPLY
+case=NR-0020 outcome=REPLY
+case=NR-0021 outcome=REPLY
+case=NR-0022 outcome=NOT_SENT
+case=NR-0023 outcome=NOT_SENT

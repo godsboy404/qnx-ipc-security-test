@@ -1,0 +1,17 @@
+{"phase":"startup","mono_ns":9443214776932,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"startup","mono_ns":9443237735530,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443242737230,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443264597028,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443285605127,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443306902625,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443328584023,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443350473922,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443371946520,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443394291618,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443415690917,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443437671615,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443459801613,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"before","mono_ns":9443481781512,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"connecting","mono_ns":9443486956511,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"connecting","mono_ns":9443508935109,"monitor_pid":12976153,"target_pid":12980251,"target_state":"running","probe_pid":12980250,"probe_state":"running"}
+{"phase":"pausing","mono_ns":9443511015509,"monitor_pid":12976153,"target_pid":12980251,"target_state":"stopped","probe_pid":12980250,"probe_state":"running"}

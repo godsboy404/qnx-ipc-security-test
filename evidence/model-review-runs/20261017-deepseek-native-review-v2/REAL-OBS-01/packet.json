@@ -1,0 +1,21 @@
+{
+  "criterion_id": "OBS-01",
+  "scope": "Only local archived evidence consistency: source identity is the SHA256 of the archived source_hashes mapping; original evidence hashes were rechecked and raw-log reanalysis matched summary. Assess this limited consistency claim, not authenticity, independent reproduction or current-source equivalence.",
+  "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+  "approved_na": false,
+  "complete_system_probes": false,
+  "evidence": [
+    {
+      "id": "archived-native-summary",
+      "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+      "level": "qnx_native",
+      "excerpt": "{\"backend\":\"qnx-native\",\"blocked_count\":94,\"cases\":128,\"error_reply_count\":0,\"errors\":[],\"forwarded_count\":20,\"invalid_cases\":94,\"isolation_success_rate\":null,\"isolation_verdict\":\"INCONCLUSIVE\",\"mode\":\"defense\",\"monitor_samples\":75,\"observer_calibrated\":true,\"peer_heartbeats\":35,\"rate_limited_count\":14,\"reply_count\":20,\"scope\":\"bounded inputs to owned devctl service; process/peer liveness, not global health or crash isolation\",\"scope_denied_count\":0,\"status\":\"PASS\",\"suite\":\"mixed\",\"system_service_probe\":null,\"target_received_count\":20,\"target_state_before_cleanup\":\"running\",\"timeout_count\":0,\"valid_cases\":34}"
+    },
+    {
+      "id": "local-native-reverification",
+      "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+      "level": "qnx_native",
+      "excerpt": "{\"evidence_hash_mapping_sha256\":\"fce17e7089d5f577055815ad345b783ed2dd8d385d6c12b30241f05f60904939\",\"evidence_member_count\":21,\"local_reanalysis_matches_archived_summary\":true,\"local_verifier\":\"ipcsec.native.verify_archived\",\"local_verifier_sha256\":\"8fbb176122b07f1867fde997f73928e68a0fdea30a8e2de6f2f97b202641c426\",\"manifest_sha256\":\"9b3c14e8c90c3d614e7e0eb5c90398be4a9c9b334b36a0d81d184b58aa73f84b\",\"note\":\"Local hash and causal checks only; not independent peer reproduction or cryptographic authenticity.\",\"run_id\":\"20261017T122327Z-0b2f7718\"}"
+    }
+  ]
+}

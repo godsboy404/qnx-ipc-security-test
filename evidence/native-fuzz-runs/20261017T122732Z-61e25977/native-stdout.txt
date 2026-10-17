@@ -1,0 +1,2 @@
+READY path=/dev/ipcsec-lab protocol=devctl-echo-v1
+case=NF-0004 outcome=NOT_SENT

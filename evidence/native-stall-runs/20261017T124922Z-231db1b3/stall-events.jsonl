@@ -1,0 +1,5 @@
+{"event":"ready","mono_ns":9611131174413,"monitor_pid":13754393,"target_pid":13758491,"client_pid":0,"target_state":"running","target_signal":0,"device_present":true,"target_stop_signal":0}
+{"event":"before_complete","mono_ns":9611377675595,"monitor_pid":13754393,"target_pid":13758491,"client_pid":13758492,"target_state":"running","target_signal":0,"device_present":true,"target_stop_signal":0}
+{"event":"client_connected","mono_ns":9611405331193,"monitor_pid":13754393,"target_pid":13758491,"client_pid":13762588,"target_state":"running","target_signal":0,"device_present":true,"target_stop_signal":0}
+{"event":"pause_requested","mono_ns":9611405756292,"monitor_pid":13754393,"target_pid":13758491,"client_pid":0,"target_state":"running","target_signal":0,"device_present":true,"target_stop_signal":0}
+{"event":"paused","mono_ns":9611406596693,"monitor_pid":13754393,"target_pid":13758491,"client_pid":0,"target_state":"stopped","target_signal":0,"device_present":null,"target_stop_signal":23}

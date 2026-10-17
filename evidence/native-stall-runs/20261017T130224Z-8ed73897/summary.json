@@ -1,0 +1,24 @@
+{
+  "backend": "qnx-native",
+  "fault_kind": "controlled_SIGSTOP",
+  "before_replies": 10,
+  "after_replies": 10,
+  "checkpoint_replies": 1,
+  "timeout_count": 1,
+  "timeout_return_code": 260,
+  "timeout_duration_ns": 2001796947,
+  "target_same_pid": true,
+  "target_received_count": 21,
+  "probe_samples": 126,
+  "probe_coverage": {
+    "before": 12,
+    "paused": 93,
+    "after": 16
+  },
+  "resume_to_first_reply_ns": 33124498,
+  "target_fault": "CONTROLLED_PAUSE",
+  "isolation_verdict": "INCONCLUSIVE",
+  "system_service_probe": null,
+  "errors": [],
+  "status": "PASS"
+}

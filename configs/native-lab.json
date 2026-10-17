@@ -1,0 +1,20 @@
+{
+  "target_id": "lab-resmgr-01",
+  "device": "/dev/ipcsec-lab",
+  "backend": "qnx-native",
+  "scope": "self-authored resource manager in the project-created QNX VM only",
+  "default_cases": 128,
+  "max_cases": 200,
+  "max_actual_payload_bytes": 65,
+  "max_ipc_ms": 2000,
+  "monitor_deadline_seconds": 15,
+  "host_deadline_seconds": 45,
+  "user_authorization": "native monitor, bounded fuzzer, application gateway and rate comparison requested in this chat",
+  "gateway_scope": "single-threaded client library; not a mandatory system-wide interceptor",
+  "rate_window_ms": 1000,
+  "rate_max_valid_attempts": 10,
+  "rate_max_sessions": 8,
+  "teacher_approval": "pending",
+  "system_service_testing": false,
+  "resource_manager_crash_injection": false
+}

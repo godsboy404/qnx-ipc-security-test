@@ -1,0 +1,8 @@
+{
+  "criterion_id": "SEC-03",
+  "scope": "This fixture criterion was explicitly excluded in the supplied preapproved scope; use the approved_na field for applicability.",
+  "source_version": "fixture-v1",
+  "approved_na": true,
+  "complete_system_probes": false,
+  "evidence": []
+}

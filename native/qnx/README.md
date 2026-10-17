@@ -1,6 +1,7 @@
 # QNX 原生接入状态
 
-状态：最小真实链路已实现并在新建QNX 8.0 x86_64虚拟机验证。尚未实现原生模糊测试和独立监控。
+状态：合法IPC、有界原生模糊测试及独立进程监控均已在新建QNX 8.0 x86_64虚拟机验证。最新变异证据见review/native-fuzz-milestone.md，操作见release/native-fuzz-runbook.md。
+原生客户端网关与会话限流对照也已实测，最新见review/native-defense-milestone.md。
 早期工具链检查为历史记录；最新运行证据见review/native-milestone.md及evidence/native-runs/。
 include/lab_protocol.h定义devctl应用载荷，不能直接当作资源管理器系统消息头。
 
@@ -27,7 +28,13 @@ include/lab_protocol.h定义devctl应用载荷，不能直接当作资源管理�
 
 ## 待完成
 
-原生Fuzzer适配、负向畸形消息、网关防御与限流、独立进程和系统探针、故障影响及恢复时间、
-对照实验、教师选题批准、伙伴复现和个人签署。当前TimerTimeout和主机截止已配置，但故意阻塞场景尚未验收。
+独立系统服务IPC探针、阻塞超时和完整故障影响范围、
+故障对照实验、教师选题批准、伙伴复现和个人签署。当前TimerTimeout和主机截止已配置，但故意阻塞场景尚未验收。
+
+动态撤权、文件缺失、坏格式和目标记录不匹配已在逐请求同步边界实测，见review/native-authorization-milestone.md；不覆盖在途IPC取消。
+受控SIGTERM退出与新PID恢复、独立uname及只读/proc探针已实测，见review/native-recovery-milestone.md；不等于全系统故障隔离。
+暂停超时切片未验收且已按连续失败规则停止注入，最新gate检查点仅编译与主机回归通过，见review/native-stall-issue.md。--controlled-pause是明确启用的实验模式，默认资源管理器不触发该检查点。
+
+最新更新：用户重新要求继续后，专用gate检查点下2秒发送侧超时与同PID恢复已实测通过，共享停止/重启回归也通过，见review/native-stall-milestone.md。前段为历史状态，不将旧失败改为通过。
 
 参考链接见docs/references.md。没有可用工具链时不生成伪编译成功记录。

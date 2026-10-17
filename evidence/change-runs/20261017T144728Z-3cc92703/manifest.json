@@ -1,0 +1,15 @@
+{
+  "change_id": "CH-01",
+  "source_version": "cace998b7dc775ff43a19a380b2bcefd642f7405de9067e39a267360ec403b11",
+  "source_identity_scope": "current local files; historical source is not reconstructed",
+  "evidence_source": "local_simulation_rehearsal",
+  "formal_E2": false,
+  "human_signoff": "pending",
+  "evidence_hashes": {
+    "configs.json": "1cae0eee24129d0dfe37227317e11277c0cf49af864454633f438353048f5581",
+    "events.json": "7d9376145a53d8dc57ac8f78347e9da670ec37241bb3061c8ad5e2bf7bf5d68a",
+    "profiles.json": "8b37798b279a69bf445e3f358a7074cfe871c47593a14e789744bb83eacaca40",
+    "source-files.json": "5e3eb5507c388674ed2b574d626e30a004d371d992ca1f3d73016a9b3ef70d7d",
+    "summary.json": "77d316787da1c8ec555bd5cbb6691c33a46a8dfe7029e6bdeffae9d97650764b"
+  }
+}
