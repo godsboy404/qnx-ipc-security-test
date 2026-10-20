@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-10-19T12:39:11.581934+00:00",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "max_calls": 10,
+  "case_ids": [
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "K5",
+    "K6",
+    "V1-stale",
+    "V2-isolation",
+    "V3-injection-missing",
+    "V4-offset"
+  ],
+  "adapter_files": [
+    "semantic_review.py",
+    "model_calibration.py",
+    "review_contract_v2.py",
+    "registered_review.py"
+  ],
+  "oracle_author": "AI-authored; not independently validated",
+  "human_signoff": "pending",
+  "hashes": {
+    "answers.json": "b15d509ef0c92735b97e1515444c26690e650591bf0b142ec0f5a5d1517ac9c3",
+    "K1.packet.json": "ff91b380157f39d226e4aceb3e71c63a767a9d19ba68052019814091d342e31b",
+    "K1.request.json": "17e9d655644a36c765282663af3253c5bf13866ebb3f25ae2f30b78c67b2b300",
+    "K2.packet.json": "8d8aaadcea21151cc03827d3ac4442ef9b30208dc12b821478a51c819b2b312a",
+    "K2.request.json": "20e21af997c3a559a6ba99243e1ddd0923cd2df4dc5deaebc4d6a3b8abfed4ea",
+    "K3.packet.json": "1ff8763fbeb345d201b74be47003ceda919682716c94792cc73f82810df8210c",
+    "K3.request.json": "fb6b50ce864445da79ce2dfd7ac9fc404358904ae5691604dde6647f4ab1dd3e",
+    "K4.packet.json": "4184a6e5ecf1e2a30f41e0b354cfdbe710e2d5a46e9f7906c27bbc14ba3f98a8",
+    "K4.request.json": "db3880104c5746375738ca854fdfd503c47ba15f2735df42165f7ad2842cbadc",
+    "K5.packet.json": "b5dbd8a21e41344318b1854dab902f87dff1b791b8bda308db1523b3045b93d7",
+    "K5.request.json": "d1da9f2dc39dc4d601d62ea54655cf74bd36b05e22656c622774503d39f27fa3",
+    "K6.packet.json": "4607c648b9463a7baae110a64c4a06afb6c47accb353dd230f45ee90290f84f4",
+    "K6.request.json": "4a93944121a7ad043ccfa7172d123208ad377f9c78c24ae0d893a31aa40064a3",
+    "model_calibration.py": "316c6da4ffcfc989ae49aeef79462fe7a60bd29e12dbc1a0289e8c0ca688bb68",
+    "registered_review.py": "4bb9d15f4b3fff3fb6503a7949bfffc01e2fa2b19d9ff62176edfc9f3f778498",
+    "review_contract_v2.py": "9d8b416cf8518e3796c158ce2ab71fc10a9435e2acf373e8bdb747ec6d375329",
+    "semantic_review.py": "bd48c7c5e5d7555af439ccb1122e7f6246bd5325dfa8c4da04cc847f150319ee",
+    "V1-stale.packet.json": "91a3f7fe1a3e19ac74f3d57e67cabb59340322c4b2477ba9941599745f8d161a",
+    "V1-stale.request.json": "3d3684295aa1b4751d939417d02ee3ae99623e28c28586bfde820e1078028028",
+    "V2-isolation.packet.json": "a984666b2e22d3867611aeb51c6ae1b7a7e3b791c4e06e810206849759695d13",
+    "V2-isolation.request.json": "4495f158b5dd4bdc83c56462db9cade5882a9724e7f07d8058dbac28fd8de6a1",
+    "V3-injection-missing.packet.json": "43582e86c9bf8c84f22ba183f4485c4f725429b74d1e2fbfb3f0dfbc6ebe7f12",
+    "V3-injection-missing.request.json": "0e9fa14cf8125ca2a104c2f063da645aae442eb11d9e84b4b90ab17bd6a79d0f",
+    "V4-offset.packet.json": "11a721aad294ae6b28526deb7e2bdb72e5363569ab40b4172d4a9d352a2b60d8",
+    "V4-offset.request.json": "ea080cb2ca88672794f883ff6a0e1293cb5232779e7c60121a7696851ddd4a69"
+  }
+}

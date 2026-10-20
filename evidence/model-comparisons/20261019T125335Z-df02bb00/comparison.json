@@ -1,0 +1,163 @@
+{
+  "status": "RECORDED_PROFILE_COMPARISON",
+  "formal_E1": false,
+  "independent_oracle": false,
+  "primary_variable": "reasoning configuration: default / none / fixed routing by criterion",
+  "controls": "Identical packets, model alias, prompt, schema, output ceiling 1500, timeout 45s; request difference only reasoning",
+  "uncontrolled": [
+    "API load/network timing",
+    "model alias may update",
+    "one trial per criterion/profile",
+    "AI-authored expected labels"
+  ],
+  "decision": "NEEDS_MORE_EVIDENCE",
+  "profiles": {
+    "default_reasoning": {
+      "snapshot": "20261019-deepseek-schema2-native-v1",
+      "integrity_sha256": "e938d42c2078a07ff8a2f5d3209afe1f25c28d80210d868add484d87be9ad605",
+      "outcomes": [
+        {
+          "id": "REAL-SEC-03",
+          "expected": "PASS",
+          "result": "ERROR",
+          "status": null,
+          "validation_error": "ValueError"
+        },
+        {
+          "id": "REAL-OBS-01",
+          "expected": "PASS",
+          "result": "MATCH",
+          "status": "PASS",
+          "validation_error": null
+        },
+        {
+          "id": "REAL-ISO-01",
+          "expected": "INSUFFICIENT_EVIDENCE",
+          "result": "MATCH",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "validation_error": null
+        }
+      ],
+      "oracle_matches": 2,
+      "case_count": 3,
+      "usage": {
+        "input_tokens": 4709,
+        "output_tokens": 2603,
+        "total_tokens": 7312,
+        "cached_tokens": 1792
+      },
+      "transport_and_validation_ms": 17144.463,
+      "human_minutes": null,
+      "reasoning": {
+        "REAL-SEC-03": {
+          "effort": "provider_default"
+        },
+        "REAL-OBS-01": {
+          "effort": "provider_default"
+        },
+        "REAL-ISO-01": {
+          "effort": "provider_default"
+        }
+      }
+    },
+    "no_reasoning": {
+      "snapshot": "20261019-deepseek-schema2-nothinking-native-v1",
+      "integrity_sha256": "1340aa49e1fd7be90a96d81c362f8767161e30ff6de3a36b3b713b79dbd07613",
+      "outcomes": [
+        {
+          "id": "REAL-SEC-03",
+          "expected": "PASS",
+          "result": "MATCH",
+          "status": "PASS",
+          "validation_error": null
+        },
+        {
+          "id": "REAL-OBS-01",
+          "expected": "PASS",
+          "result": "MISMATCH",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "validation_error": null
+        },
+        {
+          "id": "REAL-ISO-01",
+          "expected": "INSUFFICIENT_EVIDENCE",
+          "result": "MATCH",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "validation_error": null
+        }
+      ],
+      "oracle_matches": 2,
+      "case_count": 3,
+      "usage": {
+        "input_tokens": 4634,
+        "output_tokens": 651,
+        "total_tokens": 5285,
+        "cached_tokens": 1792
+      },
+      "transport_and_validation_ms": 5072.738,
+      "human_minutes": null,
+      "reasoning": {
+        "REAL-SEC-03": {
+          "effort": "none"
+        },
+        "REAL-OBS-01": {
+          "effort": "none"
+        },
+        "REAL-ISO-01": {
+          "effort": "none"
+        }
+      }
+    },
+    "criterion_routing": {
+      "snapshot": "20261019-deepseek-schema2-routed-native-v1",
+      "integrity_sha256": "7cbd8d26477c6c53ae228fe7fa663ceac9dedf318b22fbaf31c9c9c2d8358d72",
+      "outcomes": [
+        {
+          "id": "REAL-SEC-03",
+          "expected": "PASS",
+          "result": "MISMATCH",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "validation_error": null
+        },
+        {
+          "id": "REAL-OBS-01",
+          "expected": "PASS",
+          "result": "ERROR",
+          "status": null,
+          "validation_error": "ValueError"
+        },
+        {
+          "id": "REAL-ISO-01",
+          "expected": "INSUFFICIENT_EVIDENCE",
+          "result": "MATCH",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "validation_error": null
+        }
+      ],
+      "oracle_matches": 1,
+      "case_count": 3,
+      "usage": {
+        "input_tokens": 4659,
+        "output_tokens": 1967,
+        "total_tokens": 6626,
+        "cached_tokens": 4096
+      },
+      "transport_and_validation_ms": 10805.992,
+      "human_minutes": null,
+      "reasoning": {
+        "REAL-SEC-03": {
+          "effort": "none"
+        },
+        "REAL-OBS-01": {
+          "effort": "high"
+        },
+        "REAL-ISO-01": {
+          "effort": "none"
+        }
+      }
+    }
+  },
+  "human_signoff": "pending",
+  "course_gate": "PENDING",
+  "note": "Local engineering pilot, not approved E1 or evidence of universal superiority. No missing human time was backfilled."
+}

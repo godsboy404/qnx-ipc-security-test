@@ -57,3 +57,11 @@ class HandoffTests(unittest.TestCase):
         files={'evidence/model-review-runs/example/integrity.json':
             json.dumps(dict(hashes={'K1/attempt-01/response.json':'0'*64})).encode()}
         with self.assertRaises(ValueError):write_bundle(self.root,dict(selected_evidence_status='PASS'),files)
+
+    def test_only_registered_simulation_runs_are_collected(self):
+        self.put('configs/handoff-evidence.json',json.dumps(dict(simulation_paths=['evidence/runs/selected'])))
+        self.put('evidence/runs/selected/results.jsonl')
+        self.put('evidence/runs/unselected/results.jsonl')
+        files=collect_files(self.root)
+        self.assertIn('evidence/runs/selected/results.jsonl',files)
+        self.assertNotIn('evidence/runs/unselected/results.jsonl',files)

@@ -1,0 +1,12 @@
+{
+  "evidence_hashes": {
+    "comparison.json": "ae3b3da28d7066c7f9ca0e330d383de1510957081edd371bdc6278e30c0a7b9a",
+    "summary.json": "8f698d9a100f6097c65949e1d849b18f3206e4430307e43f762ff37e75020eb8"
+  },
+  "source_hashes": {
+    "scripts/Compare-ReviewProfiles.py": "a9d6b62fd3d6f9f011245b3cf2aeb3125d42e14390566a94d7cb19e2c1e637af",
+    "ipcsec/review_contract_v2.py": "9d8b416cf8518e3796c158ce2ab71fc10a9435e2acf373e8bdb747ec6d375329"
+  },
+  "human_signoff": "pending",
+  "formal_E1": false
+}

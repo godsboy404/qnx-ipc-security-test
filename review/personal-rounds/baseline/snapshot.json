@@ -1,0 +1,28 @@
+{
+  "status": "AI_PREPARED_STARTING_SNAPSHOT",
+  "human_acceptance": "pending",
+  "human_implementation": "NOT_RUN",
+  "files": {
+    "ipcsec/local_check.py": {
+      "sha256": "45e154cea46e91ce70634a26a72b877132f4aef8bcc974c5864e380a7d6ccaa4",
+      "copy": "ipcsec__local_check.py.before.txt"
+    },
+    "tests/test_local_check.py": {
+      "sha256": "95255a9f27d86b7503cc0355f56d12d0636e293ecfc62c81496245d9f697d380",
+      "copy": "tests__test_local_check.py.before.txt"
+    },
+    "review/personal-rounds/R1-summary.md": {
+      "sha256": "61b07e935b72f637652dba5da919ead53e8e37477358ab95f1b5f1a593ee9a93",
+      "copy": "review__personal-rounds__R1-summary.md.before.txt"
+    },
+    "review/personal-rounds/R2-duration.md": {
+      "sha256": "b682516c27e0229d5495c078ee5d4fd81be972874e47064ced63394f53950a52",
+      "copy": "review__personal-rounds__R2-duration.md.before.txt"
+    }
+  },
+  "planned_new_file": {
+    "path": "scripts/show_local_check.py",
+    "exists_at_preparation": false
+  },
+  "user_reported_precheck": "20261019T131706Z-eae3eef7"
+}

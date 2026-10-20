@@ -1,0 +1,14 @@
+{
+  "REAL-SEC-03": {
+    "expected": "PASS",
+    "oracle_author": "AI-authored limited interpretation of locally verified evidence; independent review pending"
+  },
+  "REAL-OBS-01": {
+    "expected": "PASS",
+    "oracle_author": "AI-authored limited interpretation of locally verified evidence; independent review pending"
+  },
+  "REAL-ISO-01": {
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "oracle_author": "AI-authored limited interpretation of locally verified evidence; independent review pending"
+  }
+}

@@ -1,6 +1,6 @@
 # E3独立审查执行材料
 
-状态：READY_FOR_REVIEW，独立执行NOT_RUN，教师Gate与签署pending。AI生成的内部Finding不冒充伙伴Finding。
+状态：READY_FOR_REVIEW，独立执行NOT_RUN。教师已同意选题（见review/teacher-approval-20261019.md），最终课程验收与签署pending。AI生成的内部Finding不冒充伙伴Finding。
 
 ## 交给伙伴的材料
 

@@ -1,0 +1,21 @@
+{
+  "schema_version": 2,
+  "contract": {
+    "id": "ipcsec-spec-draft-0.2",
+    "path": "docs/specification.md",
+    "sha256": "30e09a0d48fe9dfc0948d62d37acc55f81a8ae627f9551997ca24dbb4ec7e271",
+    "status": "project_draft"
+  },
+  "releases": {
+    "defense-20261017": {
+      "path": "evidence/native-fuzz-runs/20261017T122327Z-0b2f7718",
+      "manifest_sha256": "9b3c14e8c90c3d614e7e0eb5c90398be4a9c9b334b36a0d81d184b58aa73f84b",
+      "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+      "criteria": {
+        "SEC-03": "Only this archived defense run: verify the reported 94 malformed cases were blocked without forwarding, based on local reanalysis that reconciles request and independent receiver logs. No claim of all possible inputs, kernel enforcement, or current source equivalence.",
+        "OBS-01": "Only local archived evidence consistency: source identity is the SHA256 of the archived source_hashes mapping; original evidence hashes were rechecked and raw-log reanalysis matched summary. Assess this limited consistency claim, not authenticity, independent reproduction or current-source equivalence.",
+        "ISO-01": "Assess full QNX system isolation from the supplied archived native run. Process liveness and peer heartbeats alone cannot establish full system-service health or crash isolation."
+      }
+    }
+  }
+}

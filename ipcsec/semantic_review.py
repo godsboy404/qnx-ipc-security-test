@@ -7,6 +7,8 @@ import argparse
 import hashlib
 import json
 import os
+from datetime import datetime, timezone
+from time import perf_counter
 from pathlib import Path
 from urllib.request import Request, urlopen
 
@@ -41,6 +43,9 @@ def identity(value):
 
 
 def validate_packet(packet):
+    if isinstance(packet,dict) and packet.get('schema_version')==2:
+        from .review_contract_v2 import validate_packet as validate_v2
+        return validate_v2(packet)
     required = {'criterion_id', 'scope', 'source_version', 'evidence', 'approved_na', 'complete_system_probes'}
     if set(packet) != required or packet['criterion_id'] not in CRITERIA:
         raise ValueError('Invalid packet fields or criterion')
@@ -89,14 +94,24 @@ def build_request(packet, model, provider='openai'):
     validate_packet(packet)
     if not isinstance(model, str) or not model.strip():
         raise ValueError('Explicit model required')
-    return {'model': model, 'store': False, 'max_output_tokens': 1500,
-            'input': [{'role': 'system', 'content': SYSTEM},
+    system,schema=SYSTEM,response_schema()
+    if packet.get('schema_version')==2:
+        from .review_contract_v2 import SYSTEM as SYSTEM_V2, response_schema as schema_v2
+        system,schema=SYSTEM_V2,schema_v2()
+    request={'model': model, 'store': False, 'max_output_tokens': 1500,
+            'input': [{'role': 'system', 'content': system},
                       {'role': 'user', 'content': canonical(packet).decode('utf-8')}],
             'text': {'format': {'type': 'json_schema', 'name': 'bounded_review',
-                                'strict': True, 'schema': response_schema()}}}
+                                'strict': True, 'schema': schema}}}
+    if provider=='deepseek' and packet.get('schema_version')==2:
+        request['reasoning']={'effort':'high' if packet['criterion_id']=='OBS-01' else 'none'}
+    return request
 
 
 def validate_review(packet, review):
+    if packet.get('schema_version')==2:
+        from .review_contract_v2 import validate_review as validate_v2
+        return validate_v2(packet,review)
     validate_packet(packet)
     schema = response_schema()
     if set(review) != set(schema['required']):
@@ -153,6 +168,9 @@ def call(packet, model, run_dir, provider='openai'):
     Max ten attempts in a packet's dedicated directory; never log credentials.
     """
     request_body = build_request(packet, model, provider)
+    if packet.get('schema_version')==2 and packet['input_kind']=='registered_archive':
+        from .registered_review import assert_registered_packet
+        assert_registered_packet(packet)  # Rebuild from the trusted local registry before any network.
     endpoint, key_name = PROVIDERS[provider]
     key = os.environ.get(key_name)
     if not key:
@@ -181,6 +199,9 @@ def call(packet, model, run_dir, provider='openai'):
         'packet_sha256': identity(packet), 'model': model,
         'provider': provider, 'endpoint': endpoint,
         'transport': 'Responses HTTPS', 'human_signoff': 'pending'}))
+    started_at=datetime.now(timezone.utc).isoformat()
+    clock_start=perf_counter()
+    accepted=False
     try:
         req = Request(endpoint, data=canonical(request_body),
                       headers={'Authorization': 'Bearer '+key, 'Content-Type': 'application/json'})
@@ -191,11 +212,16 @@ def call(packet, model, run_dir, provider='openai'):
         (attempt/'response.json').write_bytes(raw)
         result = validate_review(packet, extract_review(json.loads(raw)))
         (attempt/'validated-review.json').write_bytes(canonical(result))
+        accepted=True
         return attempt
     except Exception as exc:
         # No exception message: transport exceptions may contain sensitive material.
         (attempt/'failure.json').write_bytes(canonical({'error_type': type(exc).__name__, 'accepted': False}))
         raise RuntimeError('Review failed; see attempt failure type and retained response') from None
+    finally:
+        (attempt/'timing.json').write_bytes(canonical(dict(started_utc=started_at,
+            finished_utc=datetime.now(timezone.utc).isoformat(),elapsed_ms=round((perf_counter()-clock_start)*1000,3),
+            scope='transport and response validation; excludes local archive preflight',accepted=accepted)))
 
 
 def main():
@@ -209,6 +235,8 @@ def main():
     if bool(args.request_out) == bool(args.run_dir):
         parser.error('Choose exactly one of --request-out or --run-dir')
     packet = json.loads(Path(args.packet).read_text(encoding='utf-8-sig'))
+    if args.run_dir and packet.get('schema_version')!=2:
+        parser.error('Schema v1 is historical compatibility only; prepare a schema-v2 packet')
     if args.request_out:
         with Path(args.request_out).open('x', encoding='utf-8') as stream:
             json.dump(build_request(packet, args.model, args.provider), stream, ensure_ascii=False, indent=2)

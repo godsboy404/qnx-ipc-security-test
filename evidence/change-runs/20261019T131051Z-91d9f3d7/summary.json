@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "change_id": "CH-01",
+  "backend": "simulation",
+  "cases_per_profile": 22,
+  "counts": {
+    "baseline": {
+      "ALLOW": 18,
+      "RATE_LIMIT": 2,
+      "BLOCK": 2
+    },
+    "candidate": {
+      "ALLOW": 12,
+      "RATE_LIMIT": 8,
+      "BLOCK": 2
+    },
+    "rollback": {
+      "ALLOW": 18,
+      "RATE_LIMIT": 2,
+      "BLOCK": 2
+    }
+  },
+  "approval": "pending",
+  "formal_E2": false,
+  "qnx_verified": false,
+  "isolation_verdict": "INCONCLUSIVE"
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "release_id": "defense-20261017",
+  "authority": "project_draft",
+  "verification": "local_archive_reanalysis",
+  "independent_reproduction": false,
+  "human_signoff": "pending",
+  "model_ground_truth": "independent_review_pending",
+  "registry_sha256": "c294f5f34ecd508fcd797e232d93d3c1521975aa11adb862be3c011df4edc151",
+  "checker_hashes": {
+    "claim_audit.py": "2d5fe29b47cac34ada114128b9bcf7509a55ff2b596fbeab5653e30701ed37fc",
+    "registered_review.py": "4bb9d15f4b3fff3fb6503a7949bfffc01e2fa2b19d9ff62176edfc9f3f778498",
+    "native.py": "8fbb176122b07f1867fde997f73928e68a0fdea30a8e2de6f2f97b202641c426"
+  },
+  "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
+  "packet_sha256": {
+    "SEC-03": "367a06ab21b8d98cf98742d6a9421670be1e3279aab9af2bbe70bb15c2202f57",
+    "OBS-01": "4e81819d6c6ae45d1a39c5bf7b707aff6fd5b7aba06e98155b6abef9b411196f",
+    "ISO-01": "adb4232c340f63949059d5dcc1fa293252150e660c95aeea2fd9db55ff242e82"
+  },
+  "input_hashes": {
+    "manifest.json": "9b3c14e8c90c3d614e7e0eb5c90398be4a9c9b334b36a0d81d184b58aa73f84b",
+    "cases.jsonl": "b4a290aad1024b6de774f0a0fdf2d2ae3e5cab72bc26e17796e69310069bb38b",
+    "fuzz-results.jsonl": "5637202cd182159dc6a41e8bc3dccc6d4f5aed50ca64da02fdc214059aea77cb",
+    "target-audit.jsonl": "6695b1cd0f1de99cb7ac3e5b9b66ca7b6fab45c10b695f79028eab820b2a0f20",
+    "summary.json": "4a222badbf58705fb24a5ca61083e4ec0b5d8e863cb1f99b1728d966d7e97768"
+  },
+  "criteria": {
+    "SEC-03": {
+      "local_result": "PASS",
+      "checks": {
+        "case_ids_unique_and_aligned": true,
+        "defense_mode": true,
+        "nonempty_invalid_sample": true,
+        "all_invalid_blocked_without_send": true,
+        "invalid_counts_reconcile": true,
+        "forwarded_counts_reconcile": true
+      },
+      "observed": {
+        "invalid_cases": 94,
+        "blocked": 94,
+        "forwarded": 20,
+        "received": 20
+      },
+      "boundary": "Only the registered historical sample and application gateway; no universal or kernel enforcement claim."
+    },
+    "OBS-01": {
+      "local_result": "PASS",
+      "checks": {
+        "pinned_contract_matches": true,
+        "pinned_manifest_matches": true,
+        "source_mapping_identity_matches": true,
+        "evidence_hashes_match": true,
+        "raw_log_reanalysis_matches_summary": true
+      },
+      "boundary": "Local consistency only; not archive authenticity, current-source equivalence or independent QNX reproduction."
+    },
+    "ISO-01": {
+      "local_result": "INSUFFICIENT_EVIDENCE",
+      "checks": {
+        "complete_system_service_probes": false
+      },
+      "boundary": "Process liveness and peer heartbeats cannot establish full QNX system isolation."
+    }
+  }
+}

@@ -1,0 +1,288 @@
+[
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-01",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-02",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-03",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-04",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-05",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-06",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-07",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-08",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-09",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-10",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "A-11",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 0,
+    "case": {
+      "case_id": "B-independent",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "B"
+    }
+  },
+  {
+    "time_ms": 500,
+    "case": {
+      "case_id": "A-invalid",
+      "operation": "ECHO",
+      "declared_length": 65,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 999,
+    "case": {
+      "case_id": "A-before-expiry",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 1000,
+    "case": {
+      "case_id": "A-at-expiry",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "A"
+    }
+  },
+  {
+    "time_ms": 1100,
+    "case": {
+      "case_id": "C-1",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "C"
+    }
+  },
+  {
+    "time_ms": 1100,
+    "case": {
+      "case_id": "C-2",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "C"
+    }
+  },
+  {
+    "time_ms": 1100,
+    "case": {
+      "case_id": "C-3",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "C"
+    }
+  },
+  {
+    "time_ms": 1100,
+    "case": {
+      "case_id": "C-4",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "C"
+    }
+  },
+  {
+    "time_ms": 1100,
+    "case": {
+      "case_id": "C-invalid",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": -1,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "C"
+    }
+  },
+  {
+    "time_ms": 1100,
+    "case": {
+      "case_id": "C-5",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "C"
+    }
+  },
+  {
+    "time_ms": 1100,
+    "case": {
+      "case_id": "C-6",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "C"
+    }
+  }
+]

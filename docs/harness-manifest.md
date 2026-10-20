@@ -1,5 +1,7 @@
 # Harness清单
 
+当前审批更新2026-10-19：教师已同意选题，由用户明确转述，见review/teacher-approval-20261019.md。下文选题Gate待确认表述为历史记录；限定实验授权不扩大，Spec冻结草案、CH-01提案、最终课程验收各自跟踪。
+
 同日后续决定：用户选择仅放行请求计数，模拟已修复，原生策略不变；INT-F-01的21例主机回归无差异，独立复核pending。新候选证据evidence/change-runs/20261017T144728Z-3cc92703/；下文OPEN/待选择描述为修复前检查点。
 
 2026-10-17候选演练更新：ipcsec.change_rehearsal仅用主机SimulationTarget，以同一22例逻辑时序执行10/5/10三组并记录源码身份、配置和哈希。configs/ch01-candidate.json不会覆盖默认配置，formal_E2=false。scripts/Reproduce-RateAccounting.py是21例本地Python/原生主机判定器对比，不调用VM，不宣称QNX实测或正式E3。内部Finding INT-F-01为OPEN，等待业务语义选择与独立复核。

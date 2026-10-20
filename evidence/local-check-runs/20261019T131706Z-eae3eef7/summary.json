@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T131706Z-eae3eef7",
+  "status": "PASS",
+  "execution_kind": "author_host_self_check",
+  "source_unchanged": true,
+  "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "steps": [
+    {
+      "name": "tests",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "started_utc": "2026-10-19T13:17:06.739818+00:00",
+      "elapsed_ms": 718.414,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "tests.log"
+    },
+    {
+      "name": "simulation-demo",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "ipcsec",
+        "demo"
+      ],
+      "started_utc": "2026-10-19T13:17:07.457310+00:00",
+      "elapsed_ms": 137.712,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "simulation-demo.log"
+    },
+    {
+      "name": "deterministic-calibration",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "ipcsec",
+        "calibrate"
+      ],
+      "started_utc": "2026-10-19T13:17:07.595211+00:00",
+      "elapsed_ms": 77.445,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "deterministic-calibration.log"
+    },
+    {
+      "name": "single-case-replay",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "ipcsec",
+        "replay",
+        "--case-id",
+        "CASE-0001"
+      ],
+      "started_utc": "2026-10-19T13:17:07.673471+00:00",
+      "elapsed_ms": 88.675,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "single-case-replay.log"
+    },
+    {
+      "name": "change-rehearsal",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "ipcsec.change_rehearsal",
+        "run"
+      ],
+      "started_utc": "2026-10-19T13:17:07.761677+00:00",
+      "elapsed_ms": 85.669,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "change-rehearsal.log"
+    },
+    {
+      "name": "rate-accounting-regression",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/Reproduce-RateAccounting.py"
+      ],
+      "started_utc": "2026-10-19T13:17:07.847623+00:00",
+      "elapsed_ms": 64.412,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "rate-accounting-regression.log"
+    },
+    {
+      "name": "local-claims",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "ipcsec.claim_audit",
+        "--out",
+        "D:\\Users\\Downloads\\QNXsec\\qnx-ipc-security-test\\evidence\\local-check-runs\\20261019T131706Z-eae3eef7\\claim-report.json"
+      ],
+      "started_utc": "2026-10-19T13:17:07.911928+00:00",
+      "elapsed_ms": 151.042,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "local-claims.log"
+    },
+    {
+      "name": "historical-evidence-audit",
+      "command": [
+        "C:\\Users\\zrz51\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "ipcsec.handoff",
+        "audit"
+      ],
+      "started_utc": "2026-10-19T13:17:08.063132+00:00",
+      "elapsed_ms": 592.508,
+      "exit_code": 0,
+      "timed_out": false,
+      "status": "PASS",
+      "log": "historical-evidence-audit.log"
+    }
+  ],
+  "expected_steps": [
+    "tests",
+    "simulation-demo",
+    "deterministic-calibration",
+    "single-case-replay",
+    "change-rehearsal",
+    "rate-accounting-regression",
+    "local-claims",
+    "historical-evidence-audit"
+  ],
+  "generated_runs": {
+    "evidence/change-runs/20261019T131707Z-c952ed25": "87cc307af41c3e13c689f5459577076d2b4599b366a439a01c4d657dbc0ae47a",
+    "evidence/review-runs/20261019T131707Z-c7ce1150": "ddd9041c058d1524c7a0d9c9e128e0d1a7ca188376391db762d8df0cbe61c0b8",
+    "evidence/runs/20261019T131707Z-4973d4d0": "5aa7f90fa7af5ca703e02c3dd15fe97967f689f75d8609f8c88f79f5c989734d",
+    "evidence/runs/20261019T131707Z-5d550999": "3aa0071cf753c01ecc7e70d413ff8aa689561133df3e0a3eaa095c3eed84c8bc",
+    "evidence/runs/20261019T131707Z-b3365b43": "c8ec075b29827c24d4cbfa990333f1a476deefc97c2a76bf6870b50e3cfeab96",
+    "evidence/runs/20261019T131707Z-ca9f98b8": "094e3a0f96663785bd5c24b0f09a07bf5aaa367fa9141da60d3254760bddcd6e",
+    "evidence/runs/20261019T131707Z-df19244b": "3607db12f636d99cb07a1430a57370af15df5b6b5eebfbe889bec3dafdfe930d"
+  },
+  "qnx_live_execution": false,
+  "model_api_called": false,
+  "peer_reproduced": false,
+  "formal_E1": false,
+  "formal_E2": false,
+  "formal_E3": false,
+  "human_signoff": "pending",
+  "course_gate": "PENDING",
+  "scope": "Host self-check and historical archive reanalysis only."
+}

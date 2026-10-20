@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "id": "K1",
+      "expected": "PASS",
+      "result": "MATCH",
+      "status": "PASS",
+      "validation_error": null
+    },
+    {
+      "id": "K2",
+      "expected": "FAIL",
+      "result": "MATCH",
+      "status": "FAIL",
+      "validation_error": null
+    },
+    {
+      "id": "K3",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "validation_error": null
+    },
+    {
+      "id": "K4",
+      "expected": "FAIL",
+      "result": "MATCH",
+      "status": "FAIL",
+      "validation_error": null
+    },
+    {
+      "id": "K5",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "validation_error": null
+    },
+    {
+      "id": "K6",
+      "expected": "NOT_APPLICABLE",
+      "result": "MATCH",
+      "status": "NOT_APPLICABLE",
+      "validation_error": null
+    },
+    {
+      "id": "V1-stale",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "validation_error": null
+    },
+    {
+      "id": "V2-isolation",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "validation_error": null
+    },
+    {
+      "id": "V3-injection-missing",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "result": "MATCH",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "validation_error": null
+    },
+    {
+      "id": "V4-offset",
+      "expected": "PASS",
+      "result": "MATCH",
+      "status": "PASS",
+      "validation_error": null
+    }
+  ],
+  "matches": 10,
+  "count": 10,
+  "usage": {
+    "input_tokens": 9849,
+    "output_tokens": 1484,
+    "total_tokens": 11333,
+    "cached_tokens": 6400
+  },
+  "technical_calibration": "PASS",
+  "independent_calibration": false,
+  "human_signoff": "pending",
+  "course_gate": "PENDING",
+  "review_schema_version": 2
+}

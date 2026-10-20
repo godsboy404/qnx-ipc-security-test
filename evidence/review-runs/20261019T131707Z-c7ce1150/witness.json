@@ -1,0 +1,317 @@
+[
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-00",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-01",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-02",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-03",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-04",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-05",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-06",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-07",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-08",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-09",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 0,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-10",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 900,
+    "simulation": "RATE_LIMIT",
+    "native_host_oracle": "RATE_LIMIT"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-11",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-12",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-13",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-14",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-15",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-16",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-17",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-18",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-19",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  },
+  {
+    "case": {
+      "case_id": "RATE-WITNESS-20",
+      "operation": "ECHO",
+      "declared_length": 4,
+      "offset": 0,
+      "flags": 0,
+      "payload_hex": "70696e67",
+      "mutation": "normal",
+      "session_id": "session-01"
+    },
+    "time_ms": 1000,
+    "simulation": "ALLOW",
+    "native_host_oracle": "ALLOW"
+  }
+]

@@ -14,7 +14,7 @@ from .stall import verify as verify_stall
 ROOT_FILES=('README.md','AGENTS.md','.gitignore','pyproject.toml')
 SOURCE_DIRS=('ipcsec','native','scripts','configs','docs','eval','review','release','tests')
 HISTORY_DIRS=('native-runs','native-fuzz-runs','native-recovery-runs','native-stall-runs',
-              'native-comparisons','native-stall-incidents','model-review-runs','change-runs','review-runs')
+              'native-comparisons','native-stall-incidents','model-review-runs','change-runs','review-runs','model-comparisons','local-check-runs')
 EXTENSIONS={'.py','.ps1','.md','.json','.jsonl','.txt','.tsv','.c','.h','.sh','.csv','.log','.stderr'}
 FORBIDDEN={'build','.git','.qa','__pycache__','.venv','.ssh','.aws','.codex','.agents'}
 SECRET_NAMES={'.env','credentials','id_rsa','id_ed25519','qnx-lab-ed25519','ssh-ident'}
@@ -63,6 +63,19 @@ def collect_files(root):
         candidates.extend((root/directory).rglob('*'))
     for directory in HISTORY_DIRS:
         candidates.extend((root/'evidence'/directory).rglob('*'))
+    for summary in (root/'evidence/local-check-runs').glob('*/summary.json'):
+        for name in read_json(summary).get('generated_runs',{}):
+            parts=PurePosixPath(name).parts
+            if len(parts)!=3 or parts[0]!='evidence' or parts[1] not in ('runs','change-runs','review-runs'):
+                raise ValueError('Unexpected self-check artifact')
+            candidates.extend(safe_path(root,name).rglob('*'))
+    registry=root/'configs/handoff-evidence.json'
+    if registry.is_file():
+        for name in read_json(registry).get('simulation_paths',[]):
+            part=PurePosixPath(name)
+            if len(part.parts)!=3 or part.parts[:2]!=('evidence','runs'):
+                raise ValueError('Only explicit simulation run folders can be selected')
+            candidates.extend(safe_path(root,name).rglob('*'))
     for path in candidates:
         rel=path.relative_to(root)
         if any(part.casefold() in FORBIDDEN for part in rel.parts):continue
@@ -120,11 +133,24 @@ def audit(root):
             if actual!=saved:raise ValueError('Comparison differs from referenced runs')
             comparisons.append(dict(path=name,sha256=digest(path.read_bytes()),status='PASS'))
         except (ValueError,KeyError,OSError) as exc:errors.append(name+': '+str(exc))
+    simulations=[]
+    from .simulation_evidence import verify as verify_simulation
+    for name in config.get('simulation_paths',[]):
+        try:
+            part=PurePosixPath(name)
+            if len(part.parts)!=3 or part.parts[:2]!=('evidence','runs'):raise ValueError('Invalid simulation selection')
+            summary,manifest=verify_simulation(safe_path(root,name))
+            simulations.append(dict(path=name,status='PASS',backend='simulation',scenario=manifest['scenario'],
+                source_version=manifest['source_version'],cases=summary['total'],independent_execution=False))
+        except (ValueError,KeyError,OSError) as exc:errors.append(name+': '+str(exc))
     history=[]
     for directory in HISTORY_DIRS:
         for path in sorted((root/'evidence'/directory).glob('*/manifest.json')):
             try:
                 manifest=read_json(path);manifest_integrity(path.parent,manifest)
+                if directory=='local-check-runs':
+                    from .local_check import verify as verify_local_check,verify_generated
+                    verify_generated(root,verify_local_check(path.parent))
                 summary_path=path.parent/'summary.json'
                 if summary_path.exists():status=read_json(summary_path)['status']
                 elif directory=='native-runs':status='RECORDED_LEGAL_SMOKE'
@@ -156,7 +182,7 @@ def audit(root):
     return dict(schema_version=1,created_utc=datetime.now(timezone.utc).isoformat(),
         selected_evidence_status='PASS' if not errors else 'FAIL',selected=selected,comparisons=comparisons,
         history=history,nonpassing_history=[h for h in history if h['recorded_status'] in ('FAIL','INCOMPLETE')],
-        model_reviews=model_reviews,change_rehearsals=change_rehearsals,
+        model_reviews=model_reviews,change_rehearsals=change_rehearsals,simulations=simulations,
         course_gate='PENDING',peer_reproduced=False,pending=config['pending'],errors=errors,
         version_note='Current source snapshot is included. Historical manifests identify their own versions; differing historical source is not reconstructed.')
 

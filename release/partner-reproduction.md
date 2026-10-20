@@ -17,6 +17,8 @@ SOURCE-SNAPSHOT.json标识包内当前源码。历史manifest各有自己的版�
 
 ## B. 独立主机验证
 
+作者侧统一自检入口为 `python -m ipcsec.local_check run`，详见final-execution-guide.md。伙伴可以在自己的已核查副本运行同一工具，但输出仍保守标为host self-check，必须另附本人复现记录才能支持独立性。
+
 ```powershell
 python -m ipcsec demo
 python -m ipcsec calibrate

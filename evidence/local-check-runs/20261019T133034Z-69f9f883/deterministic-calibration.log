@@ -1,0 +1,7 @@
+K1 PASS
+K2 FAIL
+K3 INSUFFICIENT_EVIDENCE
+K4 FAIL
+K5 INSUFFICIENT_EVIDENCE
+K6 NOT_APPLICABLE
+Deterministic fixtures only; LLM calibration and human signoff remain pending

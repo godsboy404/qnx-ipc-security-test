@@ -61,6 +61,8 @@ def prepare(folder, cases=None, answers=None):
     folder = Path(folder)
     if cases is None:
         cases, answers = fixtures()
+        from .review_contract_v2 import fixture_from_v1
+        cases={name:fixture_from_v1(packet,name) for name,packet in cases.items()}
     if not 1 <= len(cases) <= 10 or set(cases) != set(answers):
         raise ValueError('Require 1..10 cases with separate answers')
     for name, packet in cases.items():
@@ -74,11 +76,16 @@ def prepare(folder, cases=None, answers=None):
         write_json(folder/(name+'.packet.json'), packet)
         write_json(folder/(name+'.request.json'), build_request(packet, 'deepseek-flash', 'deepseek'))
     write_json(folder/'answers.json', answers)
+    if any(packet.get('input_kind')=='registered_archive' for packet in cases.values()):
+        (folder/'registry-snapshot.json').write_bytes((ROOT/'configs/review-registry.json').read_bytes())
+        (folder/'contract-snapshot.md').write_bytes((ROOT/'docs/specification.md').read_bytes())
     # Freeze the adapter and criteria as audit material; never execute archived code.
-    for name in ('semantic_review.py', 'model_calibration.py'):
+    adapter_files=('semantic_review.py','model_calibration.py','review_contract_v2.py','registered_review.py')
+    for name in adapter_files:
         (folder/name).write_bytes((ROOT/'ipcsec'/name).read_bytes())
     write_json(folder/'freeze.json', dict(created_utc=datetime.now(timezone.utc).isoformat(),
         provider='deepseek', model='deepseek-flash', max_calls=10, case_ids=list(cases),
+        adapter_files=list(adapter_files),
         oracle_author='AI-authored; not independently validated', human_signoff='pending',
         hashes={p.name: sha(p) for p in sorted(folder.iterdir()) if p.is_file()}))
     return folder
@@ -93,7 +100,7 @@ def check_freeze(folder, require_current=False):
         if Path(name).name != name or sha(folder/name) != digest:
             raise ValueError('Frozen input changed')
     if require_current:
-        for name in ('semantic_review.py', 'model_calibration.py'):
+        for name in freeze.get('adapter_files',('semantic_review.py','model_calibration.py')):
             if sha(ROOT/'ipcsec'/name) != sha(folder/name):
                 raise ValueError('Source changed after freeze; prepare a new snapshot')
     return freeze
@@ -109,6 +116,7 @@ def evaluate(folder):
         packet = read(folder/(name+'.packet.json'))
         attempt = folder/name/'attempt-01'
         row = dict(id=name, expected=answers[name]['expected'], result='NOT_RUN', status=None)
+        if packet.get('schema_version')==2:row['validation_error']=None
         if attempt.exists():
             row['result'] = 'ERROR'
             try:
@@ -121,17 +129,23 @@ def evaluate(folder):
                 review = validate_review(packet, extract_review(response))
                 row['status'] = review['status']
                 row['result'] = 'MATCH' if review['status'] == row['expected'] else 'MISMATCH'
-            except (ValueError, KeyError, TypeError, OSError):
-                pass
+            except (ValueError, KeyError, TypeError, OSError) as exc:
+                if packet.get('schema_version')==2:
+                    row['validation_error']=type(exc).__name__
         rows.append(row)
-    return dict(cases=rows, matches=sum(r['result'] == 'MATCH' for r in rows), count=len(rows),
+    report=dict(cases=rows, matches=sum(r['result'] == 'MATCH' for r in rows), count=len(rows),
                 usage=usage, technical_calibration='PASS' if all(r['result']=='MATCH' for r in rows) else 'FAIL',
                 independent_calibration=False, human_signoff='pending', course_gate='PENDING')
+    if all(read(folder/(name+'.packet.json')).get('schema_version')==2 for name in freeze['case_ids']):
+        report['review_schema_version']=2
+    return report
 
 
 def execute(folder):
     folder = Path(folder)
     freeze = check_freeze(folder, require_current=True)
+    if any(read(folder/(name+'.packet.json')).get('schema_version')!=2 for name in freeze['case_ids']):
+        raise ValueError('Legacy snapshots are verification-only; prepare a schema-v2 snapshot')
     if any((folder/name).exists() for name in freeze['case_ids']):
         raise ValueError('Preexisting case attempts; no implicit resume')
     # Exclusive start marker prevents parallel execution or a hidden retry.

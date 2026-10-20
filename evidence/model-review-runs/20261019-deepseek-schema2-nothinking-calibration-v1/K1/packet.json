@@ -1,0 +1,29 @@
+{
+  "schema_version": 2,
+  "criterion_id": "SEC-03",
+  "scope": "Only this fixture: a declared length of 65 with actual payload 4 must be BLOCK and NOT_SENT; no server receipt may exist. No broader claim.",
+  "source_version": "fixture-v1",
+  "input_kind": "fixture_demo",
+  "registry_id": "synthetic-calibration-v3",
+  "registry_sha256": "9996ad46a09c300e8efc188be39487b29b8a8a6e106bc042b0e85806986b2942",
+  "contract": {
+    "id": "fixture-contract-v3",
+    "status": "fixture_only",
+    "sha256": "2863a20af3fe14a6a0ef42b252fa750912fb42e37a72425bc55825fdf52fa1b3"
+  },
+  "evidence": [
+    {
+      "id": "excerpt-1",
+      "source_version": "fixture-v1",
+      "backend": "fixture",
+      "evidence_source": "fixture_demo",
+      "verification_level": "OBSERVED",
+      "excerpt": "Fixture client: declared_length=65, actual_length=4, decision=BLOCK, target_outcome=NOT_SENT. Independently indexed fixture receiver audit: zero receipts for this case.",
+      "excerpt_sha256": "b7038f3ba95b19198959b7119c9c931add296d0e40ccbb73593791df6c129104"
+    }
+  ],
+  "excluded_evidence": [],
+  "approved_na": false,
+  "na_approval_id": null,
+  "complete_system_probes": false
+}

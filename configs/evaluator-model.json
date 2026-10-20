@@ -1,6 +1,8 @@
 {
   "provider": "deepseek",
   "model": "deepseek-flash",
-  "status": "integration-check-only",
+  "status": "candidate_needs_independent_review_not_formally_qualified",
+  "review_schema_version": 2,
+  "reasoning_route": {"OBS-01": "high", "SEC-03": "none", "ISO-01": "none"},
   "max_calls_per_snapshot": 10
 }

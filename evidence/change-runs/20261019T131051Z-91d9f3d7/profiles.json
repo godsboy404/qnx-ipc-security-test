@@ -1,0 +1,536 @@
+{
+  "baseline": [
+    {
+      "case_id": "A-01",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-02",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-03",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-04",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-05",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-06",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-07",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-08",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-09",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-10",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-11",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "B-independent",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-invalid",
+      "time_ms": 500,
+      "decision": "BLOCK",
+      "expected": "BLOCK",
+      "reason": "length_range",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-before-expiry",
+      "time_ms": 999,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-at-expiry",
+      "time_ms": 1000,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-1",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-2",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-3",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-4",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-invalid",
+      "time_ms": 1100,
+      "decision": "BLOCK",
+      "expected": "BLOCK",
+      "reason": "offset_range",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "C-5",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-6",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    }
+  ],
+  "candidate": [
+    {
+      "case_id": "A-01",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-02",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-03",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-04",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-05",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-06",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-07",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-08",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-09",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-10",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-11",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "B-independent",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-invalid",
+      "time_ms": 500,
+      "decision": "BLOCK",
+      "expected": "BLOCK",
+      "reason": "length_range",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-before-expiry",
+      "time_ms": 999,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-at-expiry",
+      "time_ms": 1000,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-1",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-2",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-3",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-4",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-invalid",
+      "time_ms": 1100,
+      "decision": "BLOCK",
+      "expected": "BLOCK",
+      "reason": "offset_range",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "C-5",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-6",
+      "time_ms": 1100,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    }
+  ],
+  "rollback": [
+    {
+      "case_id": "A-01",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-02",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-03",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-04",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-05",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-06",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-07",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-08",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-09",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-10",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-11",
+      "time_ms": 0,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "B-independent",
+      "time_ms": 0,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "A-invalid",
+      "time_ms": 500,
+      "decision": "BLOCK",
+      "expected": "BLOCK",
+      "reason": "length_range",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-before-expiry",
+      "time_ms": 999,
+      "decision": "RATE_LIMIT",
+      "expected": "RATE_LIMIT",
+      "reason": "session_window",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "A-at-expiry",
+      "time_ms": 1000,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-1",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-2",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-3",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-4",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-invalid",
+      "time_ms": 1100,
+      "decision": "BLOCK",
+      "expected": "BLOCK",
+      "reason": "offset_range",
+      "target_outcome": "NOT_SENT"
+    },
+    {
+      "case_id": "C-5",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    },
+    {
+      "case_id": "C-6",
+      "time_ms": 1100,
+      "decision": "ALLOW",
+      "expected": "ALLOW",
+      "reason": "valid",
+      "target_outcome": "REPLY"
+    }
+  ]
+}
