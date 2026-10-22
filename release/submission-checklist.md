@@ -1,9 +1,10 @@
 # 课程交付清单与当前缺口
 
-状态：本地交接草稿。技术证据核验通过不等于课程Release Gate或成绩通过。
+状态：本地交接评审稿。首轮需求分析、规格及ADR见[first-round-submission.md](first-round-submission.md)；本轮文档核验不替代正式课程事件。技术证据核验通过不等于课程Release Gate或成绩通过。
 
 | 交付域 | 当前资产 | 当前判断及责任 |
 | --- | --- | --- |
+| 首轮需求分析 | docs/requirements-analysis.md、release/first-round-submission.md | 首轮可评审稿，教师实际验收待记录 |
 | Brief/Intent | docs/intent.md、问题框定、项目适配评估、review/teacher-approval-20261019.md | 教师已同意选题；最终验收未完成 |
 | Design/Spec/Plan | 规格、Req/GWT矩阵、任务、ADR、状态图、双层Harness清单 | 已建设，人工确认版本及课程适用范围 |
 | 原生实现 | 自建服务、合法客户端、有界Fuzzer、客户端网关、会话限流、监控及恢复 | 限定功能有实测；不等于全系统防护 |

@@ -1,0 +1,93 @@
+[
+  {
+    "name": "unittest",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.89,
+    "log": "review/20261022-documentation-assets-v2/unittest.log"
+  },
+  {
+    "name": "handoff-audit",
+    "command": [
+      "python",
+      "-m",
+      "ipcsec.handoff",
+      "audit"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 1.047,
+    "log": "review/20261022-documentation-assets-v2/handoff-audit.log"
+  },
+  {
+    "name": "registry-SEC-03",
+    "command": [
+      "python",
+      "-m",
+      "ipcsec.registered_review",
+      "--release",
+      "defense-20261017",
+      "--criterion",
+      "SEC-03",
+      "--out",
+      "review/20261022-documentation-assets-v2/packet-SEC-03.json"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.172,
+    "log": "review/20261022-documentation-assets-v2/registry-SEC-03.log"
+  },
+  {
+    "name": "registry-OBS-01",
+    "command": [
+      "python",
+      "-m",
+      "ipcsec.registered_review",
+      "--release",
+      "defense-20261017",
+      "--criterion",
+      "OBS-01",
+      "--out",
+      "review/20261022-documentation-assets-v2/packet-OBS-01.json"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.172,
+    "log": "review/20261022-documentation-assets-v2/registry-OBS-01.log"
+  },
+  {
+    "name": "registry-ISO-01",
+    "command": [
+      "python",
+      "-m",
+      "ipcsec.registered_review",
+      "--release",
+      "defense-20261017",
+      "--criterion",
+      "ISO-01",
+      "--out",
+      "review/20261022-documentation-assets-v2/packet-ISO-01.json"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.172,
+    "log": "review/20261022-documentation-assets-v2/registry-ISO-01.log"
+  },
+  {
+    "name": "diff-check",
+    "command": [
+      "git",
+      "-c",
+      "core.safecrlf=false",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.047,
+    "log": "review/20261022-documentation-assets-v2/diff-check.log"
+  }
+]

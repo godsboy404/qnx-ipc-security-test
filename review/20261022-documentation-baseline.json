@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-22T03:14:39.504884+00:00",
+  "client_date": "2026-10-22",
+  "status": "READY_FOR_REVIEW",
+  "baseline_git": "17a4a3776080247ec7e19fe3ab3b05a9b787edd9",
+  "current_worktree_uncommitted": true,
+  "contract": {
+    "id": "ipcsec-spec-draft-0.3",
+    "path": "docs/specification.md",
+    "sha256": "a83476f659cc0efb29acf17541895c181acafe953e3e903521352cb7021f4682",
+    "status": "project_draft"
+  },
+  "old_contract": {
+    "id": "ipcsec-spec-draft-0.2",
+    "path": "docs/specification.md",
+    "sha256": "30e09a0d48fe9dfc0948d62d37acc55f81a8ae627f9551997ca24dbb4ec7e271",
+    "status": "project_draft"
+  },
+  "host_tests": 81,
+  "host_tests_status": "PASS",
+  "selected_archive_status": "PASS",
+  "course_gate": "PENDING",
+  "peer_reproduced": false,
+  "registered_criteria_preflight": "3/3 PASS; local only",
+  "historical_packet_rejected": "Packet differs from current trusted registry and verified archive",
+  "protected_history_files": 1364,
+  "protected_history_changed": [],
+  "executable_source_changes": [],
+  "missing_current_document_links": [],
+  "commands": [
+    {
+      "name": "unittest",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.89,
+      "log": "review/20261022-documentation-assets-v2/unittest.log"
+    },
+    {
+      "name": "handoff-audit",
+      "command": [
+        "python",
+        "-m",
+        "ipcsec.handoff",
+        "audit"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1.047,
+      "log": "review/20261022-documentation-assets-v2/handoff-audit.log"
+    },
+    {
+      "name": "registry-SEC-03",
+      "command": [
+        "python",
+        "-m",
+        "ipcsec.registered_review",
+        "--release",
+        "defense-20261017",
+        "--criterion",
+        "SEC-03",
+        "--out",
+        "review/20261022-documentation-assets-v2/packet-SEC-03.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.172,
+      "log": "review/20261022-documentation-assets-v2/registry-SEC-03.log"
+    },
+    {
+      "name": "registry-OBS-01",
+      "command": [
+        "python",
+        "-m",
+        "ipcsec.registered_review",
+        "--release",
+        "defense-20261017",
+        "--criterion",
+        "OBS-01",
+        "--out",
+        "review/20261022-documentation-assets-v2/packet-OBS-01.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.172,
+      "log": "review/20261022-documentation-assets-v2/registry-OBS-01.log"
+    },
+    {
+      "name": "registry-ISO-01",
+      "command": [
+        "python",
+        "-m",
+        "ipcsec.registered_review",
+        "--release",
+        "defense-20261017",
+        "--criterion",
+        "ISO-01",
+        "--out",
+        "review/20261022-documentation-assets-v2/packet-ISO-01.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.172,
+      "log": "review/20261022-documentation-assets-v2/registry-ISO-01.log"
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "-c",
+        "core.safecrlf=false",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.047,
+      "log": "review/20261022-documentation-assets-v2/diff-check.log"
+    }
+  ],
+  "model_api_calls": 0,
+  "native_runs": 0,
+  "notes": [
+    "No historical evidence/model artifact/review modified",
+    "Only native configuration approval metadata changed; all execution settings unchanged",
+    "Old model packet remains incompatible with current registry; no requalification",
+    "Existing v2 real-material gate failure and pending human events remain",
+    "Document format Markdown; teacher acceptance and final freeze pending",
+    "Initial verification driver failed importing ipcsec after subprocess checks passed; corrected its module search path; partial first-attempt logs retained in review/20261022-documentation-assets",
+    "Delivery index updated with actual results after verification; source hashes and complete document Diff refreshed; executable/contract bytes unchanged",
+    "First package passed integrity but omitted .diff due to packager extension allowlist; delivery Diff now stored as documentation-diff.txt and index updated, then package rebuilt; old local draft retained"
+  ],
+  "artifacts": {
+    "review/20261022-documentation-assets-v2/commands.json": "3d6c7404686f14284e60393240e650c5d10af8ac3d716c11328b0a3a994d960d",
+    "review/20261022-documentation-assets-v2/diff-check.log": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+    "review/20261022-documentation-assets-v2/document-source-sha256.json": "e2c68533d25102397155a01492bd76c3a23272be34b8f7c63925b01eed7613df",
+    "review/20261022-documentation-assets-v2/documentation-diff.txt": "1b6da21a037f7cbf4deb5a5dbd44c52406c3b047c04593362fc403d26ce719e7",
+    "review/20261022-documentation-assets-v2/handoff-audit.log": "1e90b0480fd599951746f0edd725348222f7e08eb1ba93ebcf3c6b8c22589bba",
+    "review/20261022-documentation-assets-v2/packet-ISO-01.json": "a5a45f2cbe0b06ae0123a2800b3dc0d182822b0b00afed6f178e13939ed40ba4",
+    "review/20261022-documentation-assets-v2/packet-OBS-01.json": "c9a2b7067a50f4bf18fa9386a4fb01efcb093f88f4d3c06154d6d18c998ab2bd",
+    "review/20261022-documentation-assets-v2/packet-SEC-03.json": "c3d949f8b0a76bb746e95e248b41dac484bc6adb90f907861dc2f9a585f90589",
+    "review/20261022-documentation-assets-v2/protected-history-sha256.json": "752c7f4da473e82d04478719e8f00c94c611cd34bf586069623929f6b7aac38d",
+    "review/20261022-documentation-assets-v2/registry-ISO-01.log": "749820481486c9a16b685ffb28694f5f12111c526f37fe3094ef6d3f38e1d469",
+    "review/20261022-documentation-assets-v2/registry-OBS-01.log": "749820481486c9a16b685ffb28694f5f12111c526f37fe3094ef6d3f38e1d469",
+    "review/20261022-documentation-assets-v2/registry-SEC-03.log": "749820481486c9a16b685ffb28694f5f12111c526f37fe3094ef6d3f38e1d469",
+    "review/20261022-documentation-assets-v2/unittest.log": "c9a4214aaf5d630da402b1f4d9411dc75909c3c87b0e2fe4bab1fd2f33df8c12"
+  }
+}

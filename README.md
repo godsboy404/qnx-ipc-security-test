@@ -1,3 +1,27 @@
+## 分轮提交产物
+
+本板块按提交轮次列出产物位置与概要，供教师验收、伙伴复核和接续查阅。当前仅登记第一轮材料；产物已整理不等于教师已验收。
+
+| 轮次 | 整理日期 | 产物概要 | 总入口 | 状态 |
+| --- | --- | --- | --- | --- |
+| 第一轮 | 2026-10-22 | 需求分析、规格说明、ADR，附需求追踪、运行约束及核验记录 | [第一轮提交索引](release/first-round-submission.md) | 已整理为评审稿，待成员确认与教师验收 |
+| 后续轮次 | 待确定 | 按教师实际要求补充产物、版本及核验记录 | 暂未建立轮次索引 | 未登记，不代表已交付 |
+
+### 第一轮：需求、规格与架构决策
+
+| 产物 | 文档位置 | 内容概要 |
+| --- | --- | --- |
+| 需求分析 RA-001 v0.1 | [docs/requirements-analysis.md](docs/requirements-analysis.md) | 项目问题、需求来源与参与者、典型场景、安全风险、八条需求推导、范围和验收方式 |
+| 规格说明 draft 0.3 | [docs/specification.md](docs/specification.md) | 当前接口与输入输出、八条Req、GWT场景、策略语义、适用路径及限制 |
+| ADR 决策记录 | [docs/adr/README.md](docs/adr/README.md) | [0001 可控通信路径](docs/adr/0001-controlled-path.md)、[0002 评价器配置取舍](docs/adr/0002-evaluator-reasoning-profiles.md)、[0003 限流计数语义](docs/adr/0003-rate-accounting.md)、[0004 契约版本管理](docs/adr/0004-contract-versioning.md) |
+| 需求追踪与运行约束 | [验收矩阵](docs/acceptance-matrix.md) · [Harness清单](docs/harness-manifest.md) | 需求到实现、检查、历史Run及版本的映射，以及实验运行器和开发/评价Agent的边界 |
+| 整理核验与Diff | [核验报告](review/20261022-documentation-baseline.json) · [整理Diff](review/20261022-documentation-assets-v2/documentation-diff.txt) | 首轮整理时81项主机测试、档案审计及三个本地登记预检通过；历史文件保护与文档差异留存 |
+| 契约版本留存 | [docs/contracts/README.md](docs/contracts/README.md) | 旧契约与登记快照、新草案绑定及历史模型资格边界 |
+
+第一轮核验结果对应其记录的材料版本，后续README或源码修改不自动包含在旧报告及旧包中。独立互评、正式课程事件和最终签署的当前状态见[连续性与移交](release/continuity.md)及[提交清单](release/submission-checklist.md)。后续每轮在本表增加实际日期、产物概要、独立索引与状态，并保留上一轮的版本和证据。
+
+---
+
 <div align="center">
 
 # QNX IPC Security Lab
@@ -106,7 +130,7 @@ python -m ipcsec.handoff audit
 | 模型工程校准 | 修订后构造样例 10/10、有限真实材料审查 3/3 符合预期 | [校准与失败分析](review/deepseek-calibration-milestone.md) |
 | CH-01 候选与回滚 | 模拟 10/5/10 三组各 22 例通过；21 例计数差异修复回归通过 | [变更与修复](review/e2-e3-preparation-milestone.md) |
 
-模型样例匹配不代表总体准确率；真实材料审查中的完整隔离项为“证据不足”。原生限流仍使用预算 10，候选 5 尚无 QNX 实测。
+上述模型3/3属于历史v1材料，不能转移为当前v2资格。模型样例匹配不代表总体准确率；真实材料审查中的完整隔离项为“证据不足”。原生限流仍使用预算 10，候选 5 尚无 QNX 实测。
 
 完整运行 ID、比较关系及限制见 [证据索引](review/evidence-index.md)。暂停实验的历史失败与修复过程见 [问题记录](review/native-stall-issue.md)。
 
@@ -186,7 +210,7 @@ qnx-ipc-security-test/
 
 ## 当前进度
 
-截至 **2026-10-19**，当前工作区的主机回归测试为 81 项通过；历史自检运行仍分别保留当时的 76 项和 79 项记录，不能改写。限定原生实验与交接包已有核验记录。新增 [真实 Claim 人工复核卡](eval/real-claim-review-card.md) 与 [本地判定报告](review/20261019-local-claim-check.json)，将有限样本通过、档案一致性与系统隔离证据不足分开呈现。
+截至 **2026-10-19** 的历史代码复查记录为81项主机测试通过；2026-10-22整理核验另见首轮提交索引。历史自检运行仍分别保留当时的 76 项和 79 项记录，不能改写。限定原生实验与交接包已有核验记录。新增 [真实 Claim 人工复核卡](eval/real-claim-review-card.md) 与 [本地判定报告](review/20261019-local-claim-check.json)，将有限样本通过、档案一致性与系统隔离证据不足分开呈现。
 
 统一技术自检：`python -m ipcsec.local_check run`。自动保存命令、耗时、退出码、日志与源码身份，首次失败停止；详见 [最终执行指南](release/final-execution-guide.md)。作者侧自检不代替独立伙伴和正式课堂事件。
 

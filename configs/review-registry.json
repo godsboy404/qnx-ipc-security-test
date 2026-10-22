@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "contract": {
-    "id": "ipcsec-spec-draft-0.2",
+    "id": "ipcsec-spec-draft-0.3",
     "path": "docs/specification.md",
-    "sha256": "30e09a0d48fe9dfc0948d62d37acc55f81a8ae627f9551997ca24dbb4ec7e271",
+    "sha256": "a83476f659cc0efb29acf17541895c181acafe953e3e903521352cb7021f4682",
     "status": "project_draft"
   },
   "releases": {

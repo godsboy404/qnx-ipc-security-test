@@ -1,0 +1,1129 @@
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,21 +1,16 @@
+ # 项目工程规则
+ 
+-先读 docs/intent.md、docs/specification.md、docs/acceptance-matrix.md 和 docs/harness-manifest.md。
+-新会话接续再读release/new-chat-handoff.md及release/continuity.md；前者为截至2026-10-19的索引，开始工作前核对当前Git状态与最新用户信息，不能把历史快照当实时状态。
+-2026-10-19用户明确转述教师已批准选题，见review/teacher-approval-20261019.md；选题接受事项已解除。Spec冻结草案和CH-01提案未据此视为逐项批准，最终课程验收仍pending。用户已授权本机QNX实验VM、自建IPC、独立监控和有界原生Fuzzer，不授权其他真实目标测试。下文教师Gate待确认描述为历史阶段记录。
++先读docs/intent.md、docs/specification.md、docs/acceptance-matrix.md和docs/harness-manifest.md；接续读release/continuity.md及release/new-chat-handoff.md，核对实际Git状态，不把历史快照当实时状态。首轮材料入口release/first-round-submission.md。
+ 
+-- 主机模拟使用 ipcsec/，QNX原生适配使用 native/qnx/，不可混淆证据来源。
+-- 只测试明确登记并获授权的自建目标；默认不提供网络、任意Shell或系统服务测试接口。
+-- 测试配置、验收和源代码变更应关联Req ID；旧运行证据不可编辑或冒充新版本证据。
+-- 不能用timeout推断crash；没有独立探针时隔离结果必须为INCONCLUSIVE。
+-- 校验失败不得通过删除测试或降低规格解决；连续三次相同关键失败时保存证据并记录人工问题。
+-- 未经批准不进行生产部署、真实服务扫描、敏感数据接入或破坏性变更。
+-- 验证：python -m unittest discover -s tests -v；python -m ipcsec demo；python -m ipcsec calibrate。
+-- 原生代码已具备devctl ECHO合法路径。真实目标限定新建VM中的/dev/ipcsec-lab；每次IPC 2秒超时，Smoke主机截止45秒。
+-- 有界Fuzzer与独立监控已实测，见review/native-fuzz-milestone.md；系统服务和资源管理器崩溃注入不在本轮范围。扩大测试前检查授权、快照、重置及watchdog。
+-- 用户已要求继续原生应用网关和会话限流实践；仅在同一自建目标执行有界baseline/defense/rate/deny场景。教师选题已同意，最终课程验收仍pending。
+-- 动态授权场景仅由监督进程修改本轮私有授权文件，逐请求同步、最多24例；已验证撤权及缺文件等关闭路径，见review/native-authorization-milestone.md。不得把结果扩展为在途IPC可撤销或系统级强制隔离。
+-- 当前用户已要求继续自建服务受控退出与恢复：仅停止本轮创建的服务PID并重启，独立探针只做uname和只读/proc检查。此范围不覆盖系统服务攻击、漏洞崩溃注入或全系统隔离结论。
+-- 当前继续执行同一自建服务的受控SIGSTOP/SIGCONT与单次2秒IPC超时验证；仅操作本轮子进程，异常清理必须先恢复暂停进程。不扩展至系统服务或第三方目标。
++模块：ipcsec/主机模拟、归档核验及评价器；native/qnx/原生服务、客户端、监督；configs/范围与登记；docs/契约和ADR；evidence/原始事实；review/解释及签署；release/交接。
+ 
+-模型可生成建议和候选代码。范围、业务语义、证据结论、签署由人决定。
++- 只测试明确授权的自建目标。既有范围限本机VM内/dev/ipcsec-lab、有界变异、私有逐请求授权及本轮子进程受控退出/暂停恢复。系统服务、第三方目标和漏洞崩溃注入不在范围。
++- 主机模拟与原生证据分开；timeout不等于crash，缺完整独立观测时系统隔离为INCONCLUSIVE。客户端网关可绕过，会话标签不是认证。
++- 默认窗口1秒最多10次有效放行；拒绝不计数。CH-01的5仍候选模拟。变更关联Req，冲突登记，不删除检查或降低规格求通过。
++- 旧evidence、历史review及模型档案不得改写。契约改变先快照、显式新ID/登记和核验，不转移旧评价资格；登记策略见docs/contracts/README.md。
++- 教师选题同意来自用户转述；规格确认、正式事件和最终验收另行记录。AI不代填批准、贡献或签署。
++- 连续三次相同关键失败，保存证据并停止相关动作；预算、授权和恢复边界见Harness。暂停进程清理先SIGCONT，仅操作本轮子进程。
++- 不打印密钥，不擅自扩展模型外发；评价器v2真实材料门未过，仅草稿。本轮模型API调用0，不运行原生实验。
++- 保留学生修改，不擅自commit/push/reset；当前整理产物待人工评审和冻结。
++
++验证：python -m unittest discover -s tests -v；python -m ipcsec demo；python -m ipcsec calibrate；python -m ipcsec.handoff audit。作者统一自检python -m ipcsec.local_check run产生新证据，不等于伙伴复现。原生操作按release手册，先核对授权、目标、预算与恢复条件。
+--- a/README.md
++++ b/README.md
+@@ -11,6 +11,10 @@
+ </div>
+ 
+ ---
++
++## 首轮提交材料
++
++[提交索引](release/first-round-submission.md) · [需求分析](docs/requirements-analysis.md) · [规格说明 draft 0.3](docs/specification.md) · [ADR](docs/adr/README.md) · [追踪矩阵](docs/acceptance-matrix.md)。2026-10-22整理为评审稿，未代填规格批准或最终验收；当前状态见[continuity](release/continuity.md)。
+ 
+ ## 项目简介
+ 
+@@ -106,7 +110,7 @@
+ | 模型工程校准 | 修订后构造样例 10/10、有限真实材料审查 3/3 符合预期 | [校准与失败分析](review/deepseek-calibration-milestone.md) |
+ | CH-01 候选与回滚 | 模拟 10/5/10 三组各 22 例通过；21 例计数差异修复回归通过 | [变更与修复](review/e2-e3-preparation-milestone.md) |
+ 
+-模型样例匹配不代表总体准确率；真实材料审查中的完整隔离项为“证据不足”。原生限流仍使用预算 10，候选 5 尚无 QNX 实测。
++上述模型3/3属于历史v1材料，不能转移为当前v2资格。模型样例匹配不代表总体准确率；真实材料审查中的完整隔离项为“证据不足”。原生限流仍使用预算 10，候选 5 尚无 QNX 实测。
+ 
+ 完整运行 ID、比较关系及限制见 [证据索引](review/evidence-index.md)。暂停实验的历史失败与修复过程见 [问题记录](review/native-stall-issue.md)。
+ 
+@@ -186,7 +190,7 @@
+ 
+ ## 当前进度
+ 
+-截至 **2026-10-19**，当前工作区的主机回归测试为 81 项通过；历史自检运行仍分别保留当时的 76 项和 79 项记录，不能改写。限定原生实验与交接包已有核验记录。新增 [真实 Claim 人工复核卡](eval/real-claim-review-card.md) 与 [本地判定报告](review/20261019-local-claim-check.json)，将有限样本通过、档案一致性与系统隔离证据不足分开呈现。
++截至 **2026-10-19** 的历史代码复查记录为81项主机测试通过；2026-10-22整理核验另见首轮提交索引。历史自检运行仍分别保留当时的 76 项和 79 项记录，不能改写。限定原生实验与交接包已有核验记录。新增 [真实 Claim 人工复核卡](eval/real-claim-review-card.md) 与 [本地判定报告](review/20261019-local-claim-check.json)，将有限样本通过、档案一致性与系统隔离证据不足分开呈现。
+ 
+ 统一技术自检：`python -m ipcsec.local_check run`。自动保存命令、耗时、退出码、日志与源码身份，首次失败停止；详见 [最终执行指南](release/final-execution-guide.md)。作者侧自检不代替独立伙伴和正式课堂事件。
+ 
+--- a/configs/native-lab.json
++++ b/configs/native-lab.json
+@@ -14,7 +14,7 @@
+   "rate_window_ms": 1000,
+   "rate_max_valid_attempts": 10,
+   "rate_max_sessions": 8,
+-  "teacher_approval": "pending",
++  "teacher_approval": "topic_approved_user_reported_20261019; specification_and_final_acceptance_pending",
+   "system_service_testing": false,
+   "resource_manager_crash_injection": false
+ }
+--- a/configs/review-registry.json
++++ b/configs/review-registry.json
+@@ -1,9 +1,9 @@
+ {
+   "schema_version": 2,
+   "contract": {
+-    "id": "ipcsec-spec-draft-0.2",
++    "id": "ipcsec-spec-draft-0.3",
+     "path": "docs/specification.md",
+-    "sha256": "30e09a0d48fe9dfc0948d62d37acc55f81a8ae627f9551997ca24dbb4ec7e271",
++    "sha256": "a83476f659cc0efb29acf17541895c181acafe953e3e903521352cb7021f4682",
+     "status": "project_draft"
+   },
+   "releases": {
+@@ -18,4 +18,4 @@
+       }
+     }
+   }
+-}+}
+--- a/docs/acceptance-matrix.md
++++ b/docs/acceptance-matrix.md
+@@ -1,14 +1,41 @@
+ # 验收矩阵
+ 
+-| Req | 场景与证据 | Task | 当前状态 |
++2026-10-22。当前评审契约ipcsec-spec-draft-0.3（下表0.3）。历史证据仅用于追踪对应需求，不表示这些Run原先使用0.3，也不代表当前HEAD统一原生实测。所有检查均不需要模型API。H1为主机回归，H2为只读档案审计，H3为本地登记预检，命令见表后。
++
++| Req | 契约/场景 | 实现入口 | 检查/测试 | 证据Run | 结论边界 | 待完成 |
++| --- | --- | --- | --- | --- | --- | --- |
++| SEC-01 | 0.3/A03 | ipcsec/runner.py；native/qnx/client/lab_fuzzer.c、probes/lab_auth_control.h | H1 test_contracts、test_native_policy；H2 | E07/E08 | 逐请求同步授权24例各8转发16拒绝；非在途撤销或可信身份 | 伙伴复核 |
++| IPC-01 | 0.3/P01 | native/qnx/target/lab_resmgr.c、client/lab_client.c | H1 test_native；H2合法链路哈希，原生内容结论见历史记录 | E01 | 历史100+空1+重启100，不代表本轮新执行 | 伙伴当前版本复现 |
++| FUZ-01 | 0.3/A01 | ipcsec/fuzzer.py、native.py；native/qnx/client/lab_fuzzer.c | H1 test_contracts、test_native；H2 | E02 | 固定128例、单例重放；未证明漏洞检出或协议全覆盖 | 正式重复Trial |
++| SEC-03 | 0.3/P02/N01/N02/A01 | ipcsec/defense.py；native/qnx/include/lab_policy.h、target/lab_resmgr.c | H1 test_contracts、test_native_policy；H2、H3 SEC-03 | E03/E04 | 同语料94例非法阻断且接收记录吻合；客户端路径非系统强制 | 伙伴复核 |
++| SEC-04 | 0.3/A02 | ipcsec/defense.py；native/qnx/include/lab_policy.h | H1 test_native_policy、test_change_rehearsal；H2 | E05/E06；../review/findings/INT-F-01-rate-accounting.md | 原生24例验证会话和等待恢复；精确窗口为合成时钟。21例修复为主机对照，不称新增QNX复现 | 独立复核；CH-01未采纳 |
++| OBS-01 | 0.3/全部 | ipcsec/runner.py、native.py、registered_review.py、handoff.py；target/lab_resmgr.c | H1 test_handoff、test_review_v2；H2、H3 OBS-01 | E01至E10及各manifest | 本地完整性与语义重算，不证明真实性/签名/独立复现；未由哈希重建历史源文件 | 人工签署及个人引用 |
++| ISO-01 | 0.3/U01/R01/R02 | ipcsec/monitor.py、recovery.py、stall.py；native/qnx/probes/ | H1 test_contracts、test_recovery、test_stall；H2、H3 ISO-01 | E09/E10 | 缺证据正确报未知可检查；完整隔离证明未完成。受控信号不是漏洞crash | 完整系统观测、回复侧取消语义不在已证实范围 |
++| REL-01 | 0.3/R01/R02及伙伴接管 | native/qnx/probes/lab_recovery.c；release/partner-reproduction.md、native-recovery-runbook.md；ipcsec/handoff.py | H1 test_recovery、test_stall、test_handoff；H2 | E09/E10 | 作者退出重启及同PID恢复已历史实测；伙伴接管仍pending | 伙伴实际新运行及最终签署 |
++
++## 检查入口
++
++H1（主机）：`python -m unittest discover -s tests -v`。表中test_*指tests目录对应模块；不执行VM。
++
++H2（只读历史归档）：`python -m ipcsec.handoff audit`，选择由configs/handoff-evidence.json管理，同时保留历史FAIL/INCOMPLETE；合法链路与不同类型档案的核验强度按审计报告解释，不将所有档案都说成完整重算。
++
++H3（仅本地packet）：`python -m ipcsec.registered_review --release defense-20261017 --criterion SEC-03 --out <新的输出文件>`；OBS-01、ISO-01分别替换criterion，输出路径须尚不存在。只验证登记及有限档案，不调用模型、不提升模型资格、不代替原生运行。
++
++## 历史证据身份
++
++源身份优先使用manifest的source_version；没有该字段时，采用source_hashes映射的排序紧凑JSON SHA256（与semantic_review.identity相同）。它是历史源码映射身份，不是Git提交，也不保证源码可重建。
++
++| ID | Run/manifest | 源身份 | manifest SHA256 |
+ | --- | --- | --- | --- |
+-| SEC-01 | GWT-A03，scope gate测试及原生授权日志 | TASK-01 | 原生动态撤权、缺文件、坏格式、目标记录不匹配及恢复已实测；限固定自建目标和逐请求同步边界 |
+-| IPC-01 | GWT-P01，100次合法往返与真实内容断言 | TASK-01 | QNX实测通过，另有空载荷和重启后100次 |
+-| FUZ-01 | 同种子语料哈希、三类变异测试 | TASK-02 | 主机及原生批处理已实现；128例与单例重放通过 |
+-| SEC-03 | GWT-P02/N01/N02/A01，拒绝与NOT_SENT | TASK-05 | 原生客户端网关94例非法输入NOT_SENT，服务端独立接收审计吻合 |
+-| SEC-04 | GWT-A02，窗口边界和不同session测试 | TASK-05 | 原生真实时钟24例专测通过；精确端点用合成时钟校准 |
+-| OBS-01 | 原始JSONL与manifest哈希、版本匹配 | TASK-03 | 原生JSONL、源码及二进制哈希已保存并校验；人工签署待做 |
+-| ISO-01 | GWT-U01，独立探针、恢复与未知记录 | TASK-04 | 受控SIGTERM退出、专用检查点发送侧超时与独立只读OS探针已测；完整系统隔离仍未知 |
+-| REL-01 | 干净环境伙伴记录、原生恢复演练 | TASK-08 | 受控退出重启及2秒超时后同PID恢复已验证；伙伴复现待做 |
++| E01 | [ 20261015T104537Z-afa1f753 ](../evidence/native-runs/20261015T104537Z-afa1f753/manifest.json) | 09207447a23e63e675c542452761a90ad1cb104ee346aebfec0c6cb93311f440 | 3b6cda551e9e3ede3396f33a0a7384f639518abe226e7b3657179c71166572ac |
++| E02 | [ 20261017T121606Z-e29291df ](../evidence/native-fuzz-runs/20261017T121606Z-e29291df/manifest.json) | 11b48e1d68d2bef37093dd0381f649598313a73ea535de24ad2f441d5923662e | e816d555867858b37dd87abd65165f7f23fb7a488a64e8fd8a3e0287f4e0ac48 |
++| E03 | [ 20261017T122304Z-ad2730f7 ](../evidence/native-fuzz-runs/20261017T122304Z-ad2730f7/manifest.json) | 75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e | bdc45c6345a1a895d2fffd6937b23347b12eb408d250ca83b3881c3ef5460b88 |
++| E04 | [ 20261017T122327Z-0b2f7718 ](../evidence/native-fuzz-runs/20261017T122327Z-0b2f7718/manifest.json) | 75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e | 9b3c14e8c90c3d614e7e0eb5c90398be4a9c9b334b36a0d81d184b58aa73f84b |
++| E05 | [ 20261017T122624Z-166ba568 ](../evidence/native-fuzz-runs/20261017T122624Z-166ba568/manifest.json) | bb04ab3199b5e0848666d56608e8e72e8d8be1551cd5e14ee45960a6b19f41e8 | 499c737be0a6836fd515ee01817c0694a98c56208b0a93c5f5590f4078e24271 |
++| E06 | [ 20261017T122645Z-89c9b79f ](../evidence/native-fuzz-runs/20261017T122645Z-89c9b79f/manifest.json) | bb04ab3199b5e0848666d56608e8e72e8d8be1551cd5e14ee45960a6b19f41e8 | 0000780cf0663fefd6dd5fc52559f83db8c3936fb6e1c1e88caedc91910b4f1c |
++| E07 | [ 20261017T123348Z-63e1b79f ](../evidence/native-fuzz-runs/20261017T123348Z-63e1b79f/manifest.json) | 467edb0af8c520bd0e2ed13baefd25366e5cb5171dc3b417df42e079cb4e944d | bb493197195649caaf6931be3ce02bd90969bdf3d2c7189895fc7cd419cb946f |
++| E08 | [ 20261017T123421Z-e4e1c71d ](../evidence/native-fuzz-runs/20261017T123421Z-e4e1c71d/manifest.json) | 467edb0af8c520bd0e2ed13baefd25366e5cb5171dc3b417df42e079cb4e944d | f8bf81b372d33def6d9aa0c41b50b57debd1eb64862eaf54b7f48dffe012dc83 |
++| E09 | [ 20261017T130304Z-d6c6072a ](../evidence/native-recovery-runs/20261017T130304Z-d6c6072a/manifest.json) | bf2843a5f8708393fc5f4cd893e4be592e33ca82fbc2778ff7fa296260f974b1 | bd1131ea6ef7e8033048e616ada74e7bbe088de57c35018e527461fa83dcc743 |
++| E10 | [ 20261017T130224Z-8ed73897 ](../evidence/native-stall-runs/20261017T130224Z-8ed73897/manifest.json) | bf2843a5f8708393fc5f4cd893e4be592e33ca82fbc2778ff7fa296260f974b1 | 49b5044da9ac19773ea7ab71541225088a02035bc5844f36fe58b28f686542d3 |
+ 
+-验证命令见README。证据目录随运行生成，不能预填通过。
++本轮文档核验记录见../release/first-round-submission.md；历史技术解释见../review/evidence-index.md。
+--- a/docs/adr/0001-controlled-path.md
++++ b/docs/adr/0001-controlled-path.md
+@@ -1,8 +1,26 @@
+ # ADR 0001 可控教学通信路径
+ 
+-状态：Proposed，待教师确认。
+-背景：全系统透明拦截与真实服务测试风险和实现成本超出课程首版。
+-决策：单个自建资源管理器，应用路径防御，主机模拟与原生后端分开。
+-备选：系统全局拦截不采用；仅普通消息服务可用于练习但不能冒充资源管理器交付。
+-收益：目标、授权、反例与恢复可控制。代价：覆盖有限且无法证明系统级防护。
+-回退：保持主机模拟设计验证，原生门未过时暂停实测；不扩大真实目标。
++状态：Proposed，课程设计确认待实际记录；下述方案已由用户授权实施，不等于教师逐项批准。2026-10-22整理现状，关联SEC-01、IPC-01、SEC-03、ISO-01、REL-01。
++
++## 背景
++
++目标是完成可重复、可恢复的资源管理器IPC测试。普通用户态监控进程不能仅凭存在就透明拦截其他客户端的所有MsgSend；全系统改造和真实服务风险超出首版范围。
++
++## 备选与决定
++
++| 方案 | 评价 |
++| --- | --- |
++| 全系统透明拦截 | 实现/授权边界不满足，首版不采用 |
++| 独立强制代理 | 需证明设备访问受约束及身份传递；作为后续候选，不声称已实现 |
++| 自建资源管理器及客户端应用网关 | 已采用的工程路径，通信与恢复可控；接受可被直接设备访问者绕过 |
++| 只有旁路监控 | 能观察但不能证明主动阻断，不能单独满足SEC-03 |
++
++选择单一自建/dev/ipcsec-lab、合法devctl、客户端字段/频率策略及服务端边界校验。主机模拟验证流程与策略，原生C执行真实IPC，证据分开；Python逐请求QnxTransport不静默回退。
++
++## 后果与验证
++
++收益为输入、对照、接收审计和恢复边界明确；代价为有限协议、非可信会话和非系统强制。验证见../acceptance-matrix.md的IPC-01、SEC-03及ISO-01；历史原生说明见../../review/native-defense-milestone.md。超时、受控退出和完整隔离分别解释。
++
++## 回退及重议条件
++
++原生门失败时停止相关实测，保留模拟和失败证据，不扩展目标。若要求不可绕过防御，需另做服务端策略或受设备权限约束的代理设计并取得相应范围确认，不能改名冒充实现。
+--- /dev/null
++++ b/docs/adr/0003-rate-accounting.md
+@@ -0,0 +1,17 @@
++# ADR 0003 只计获准转发请求的会话窗口
++
++状态：用户业务语义已决定，主机修复回归有记录；伙伴复核pending，非教师最终验收。决定依据为../../review/DEC-SEC04-rate-accounting.md；本ADR于2026-10-22整理，不追认新事件。关联SEC-04、OBS-01。
++
++## 背景与备选
++
++INT-F-01发现Python先追加再限流，而C在满窗口时不追加，导致同一21例时序最后一项不同。方案A只计放行，方案B计全部结构合法到达；二者都可成为产品语义，但不能两后端混用。
++
++## 决定
++
++采用用户选择A：窗口(now−1000ms,now]内最多10次有效ALLOW，拒绝不占槽、不延长窗口；计数发生于IPC调用前，不以成功应答计数。恢复授权不清空历史。默认10不变，CH-01的5仍候选模拟。
++
++## 后果、验证与回退
++
++避免拒绝请求持续延长封锁；不能以此防御非法请求自身的处理资源消耗。会话标签非认证，可绕过客户端网关的程序不受此策略强制约束。
++
++Python修复、21例反例与5/10边界回归见../../review/findings/INT-F-01-rate-accounting.md；原生C本次未改。该反例复核在主机进行，不声称QNX新实测。若改为方案B，需新Change、足够计数容量、两后端新对照及回滚证据，不覆盖旧记录。
+--- /dev/null
++++ b/docs/adr/0004-contract-versioning.md
+@@ -0,0 +1,19 @@
++# ADR 0004 当前契约、历史证据与模型登记分离
++
++状态：本轮文档整理采用的工程方案，待项目成员评审及冻结；不等于教师批准。2026-10-22，关联OBS-01、ISO-01、REL-01。
++
++## 背景与备选
++
++旧Spec混合现行规则和阶段时间线，且登记预检绑定文件哈希。直接重写并静默换哈希会隐藏评价上下文变化；继续追加更新则增加歧义；为旧契约添加多版本执行支持会扩大本轮功能范围。
++
++## 决定
++
++保留逐字节旧Spec/登记快照，建立ipcsec-spec-draft-0.3项目草案，显式更新当前登记的ID和哈希；不改程序、release条目或历史模型档案。当前规则放Spec，状态放continuity，历史事实留原档案，需求/实现/检查/证据映射放验收矩阵。迁移细节及旧绑定验证见../contracts/README.md。
++
++## 后果与验证
++
++程序仍只支持一个当前契约，不声称并行支持旧版本。旧packet与当前登记不相等是预期隔离；新packet不继承旧模型资格。v2真实材料门未通过的事实不变。快照哈希、历史文件保护清单、三criterion本地预检和主机回归共同验证迁移。
++
++## 回退与重议
++
++如本轮变更未被接受，通过评审后的精确文件差异回退当前文档及登记，不reset学生工作树、不改历史证据；旧快照可供比较，禁止把旧模型结果重新贴到新版本。多版本预检若成为需求，另立功能变更。
+--- /dev/null
++++ b/docs/adr/README.md
+@@ -0,0 +1,12 @@
++# 架构决策记录索引
++
++2026-10-22首轮提交。ADR描述背景、备选、取舍、后果和验证，状态按实际决定来源区分，不以文档存在代替教师批准。
++
++| ADR | 决策 | 状态与关联 |
++| --- | --- | --- |
++| [0001](0001-controlled-path.md) | 自建资源管理器及可控客户端路径，分离模拟/原生 | 用户授权实施；课程设计确认仍Proposed；SEC-01/03、IPC-01、ISO-01、REL-01 |
++| [0002](0002-evaluator-reasoning-profiles.md) | 评价器推理配置比较后暂不授予正式资格 | 原历史工程记录不修改；NEEDS_MORE_EVIDENCE；OBS-01 |
++| [0003](0003-rate-accounting.md) | 只计ALLOW阶段请求，拒绝不延长窗口 | 用户已决定，主机修复；伙伴复核待完成；SEC-04 |
++| [0004](0004-contract-versioning.md) | 新契约与历史模型/证据分离 | 本轮工程方案待评审冻结；OBS-01、ISO-01、REL-01 |
++
++需求来源见../requirements-analysis.md，行为见../specification.md，验证见../acceptance-matrix.md。正式E1/E2/E3与最终签署另行记录。
+--- /dev/null
++++ b/docs/contracts/README.md
+@@ -0,0 +1,17 @@
++# 契约版本与登记迁移
++
++2026-10-22，TASK-09，基线17a4a3776080247ec7e19fe3ab3b05a9b787edd9。旧Spec正文标题为draft0.1，但历史登记ID为ipcsec-spec-draft-0.2；此处按登记ID保留，不改旧字节。
++
++| 版本 | 存放与身份 | 用途 |
++| --- | --- | --- |
++| 历史0.2 | ipcsec-spec-draft-0.2.md；SHA256 30e09a0d48fe9dfc0948d62d37acc55f81a8ae627f9551997ca24dbb4ec7e271 | 旧登记的逐字节契约快照；旧模型档案保持原样 |
++| 历史登记 | review-registry-draft-0.2.json | 原configs/review-registry.json逐字节副本，原路径字符串保留，仅用于解释历史关联 |
++| 当前0.3 | ../specification.md；SHA256由../../configs/review-registry.json记录 | project_draft、首轮评审稿；新本地packet绑定此ID及哈希 |
++
++改变内容：重组八条Req、GWT及限制，明确ALLOW阶段计数、baseline范围控制、两后端与历史证据边界；澄清指标，不新增IPC功能或正式批准。
++
++registered_review.py仅支持docs/specification.md及一个当前contract。因此旧绑定保存在快照与旧模型packet中；不声称程序支持两版并行预检。当前登记仅修改contract.id和sha256，release、历史manifest、criteria及source_version保持不变。新packet可核验同一历史档案的有限Claim，不能声称原运行使用0.3或当前源码已原生验证。
++
++旧packet与当前可信登记比对预期不相等，仍不能直接进入当前调用路径；历史模型校准/响应不重新标PASS。旧绑定核验采用快照哈希及原档案，不将旧登记复制到当前路径覆盖新登记。新绑定本轮只做本地预检，模型API调用0，v2真实材料门仍未通过。
++
++核验与保护清单见../../release/first-round-submission.md及其本轮验证记录；不通过修改旧证据实现迁移。
+--- /dev/null
++++ b/docs/contracts/ipcsec-spec-draft-0.2.md
+@@ -0,0 +1,71 @@
++# 项目规格 draft 0.1
++
++状态：待教师批准。模型载荷为ECHO、declared_length、offset、flags、payload。
++模拟协议：payload上限64字节，declared_length等于实际字节，offset在0至实际长度之间，flags为0。
++QNX系统消息封装尚未定稿，当前应用载荷不允许直接发送到任意resource manager。
++实施更新：首个原生切片已采用自定义devctl ECHO，16字节应用头加实际payload；仅适用于自建/dev/ipcsec-lab。
++该选择是当前工程实现，不代替教师对课程规格的批准；原生合法路径已实测，变异及隔离尚未验收。
++
++| ID | 强度 | 要求 |
++| --- | --- | --- |
++| SEC-01 | MUST | 未登记、未授权或撤权目标不执行；真实发送逐次核权限 |
++| IPC-01 | MUST | 合法请求返回可预测内容，QNX路径完成100次记录 |
++| FUZ-01 | MUST | 边界、字段、组合变异具有固定种子和可保存语料 |
++| SEC-03 | MUST | 非法类型、长度、offset、flags拒绝且不转发 |
++| SEC-04 | MUST | 每会话有效放行请求窗口(now-1000,now]，初始上限10，超额拒绝且不追加计数 |
++| OBS-01 | MUST | 每次运行记录源、配置、用例、结果、来源与预算，旧证据不改写 |
++| ISO-01 | MUST | timeout不推断crash；缺独立目标、client、peer、service、system、recovery观测为未知 |
++| REL-01 | MUST | 伙伴可依据说明启动、重放、重置、恢复并解释限制 |
++
++## GWT场景
++
++语义澄清2026-10-17：用户明确选择仅计有效放行请求，限流拒绝不占槽或延长窗口；非法请求也不计。见review/DEC-SEC04-rate-accounting.md及INT-F-01修复回归。默认预算10，CH-01候选5未正式采用，教师Gate仍pending。
++
++- GWT-P01 / IPC-01：给定ECHO和ping有效载荷，当发送，则正常应答且记录实长4。
++- GWT-P02 / SEC-03：给定空载荷及声明0，当发送，则合法；不能把0长度默认视为攻击。
++- GWT-N01 / SEC-03：给定声明65实长4，当启用防御发送，则BLOCK且target_outcome为NOT_SENT。
++- GWT-N02 / SEC-03：给定offset为负，当发送，则BLOCK且不更改目标状态。
++- GWT-A01 / SEC-03：给定非法type、超长与非法flags组合，当发送，则拒绝，不为声明的大长度分配内存。
++- GWT-A02 / SEC-04：给定同会话同窗口前10个有效请求，当第11个到达，则RATE_LIMIT，其他会话仍可通过。
++- GWT-A03 / SEC-01：给定未登记目标，当发起运行，则拒绝且不发送。
++- GWT-U01 / ISO-01：给定缺独立系统探针，当只有超时或模拟异常，则INCONCLUSIVE，不计算隔离成功率。
++
++性能阈值：待QNX实测基线和教师批准，不编造P95目标。模拟逻辑时间不当作真实运行延迟。
++事实：存在主机模拟。假设：可取得QNX教学环境。决策草案：自建目标与应用网关。
++未决：原生devctl封装、架构、探针权限与授权责任人。原生实验均被这些未知阻塞，主机模拟不阻塞。
++
++## 原生切片更新 2026-10-17
++
++以上未决及“变异尚未验收”为历史基线；当前已完成QNX 8.0 x86_64 devctl封装和有界原生变异。详见review/native-fuzz-milestone.md。
++FUZ-01：默认128例、最多200例；实际payload最多65字节，不依据声明长度分配内存；固定种子和原始字段可重放。
++OBS-01/ISO-01：独立waitpid监督进程、独立peer心跳；IPC截止2秒、监督截止15秒、主机截止45秒；结束后回收自己创建的进程。
++本切片直接将有界非法字段发送给自建服务，验证服务端拒绝；不能替代SEC-03网关NOT_SENT或SEC-04限流验收。原生Python逐请求Transport尚未实现，当前使用批处理桥接。
++本轮未注入服务崩溃、未运行系统服务探针，隔离结论必须INCONCLUSIVE，不能计算隔离成功率。
++
++## 原生应用网关切片（SEC-01/03/04）
++
++授权范围仍为同一自建VM与/dev/ipcsec-lab，用户已要求继续原生网关和限流实践。schema_version=2语料增加受限会话编号与最多1100ms等待，最多200例。baseline与defense使用相同字段、种子和顺序。
++网关位于单线程原生客户端中，每次允许转发前读取专用authorization.txt，仅精确的lab-resmgr-01 allow记录可授权。未知目标、无授权或无效会话拒绝；baseline仍检查授权。权限文件是实验配置，不是防篡改的安全凭证。
++defense依次校验字段与实际长度，再按会话应用真实CLOCK_MONOTONIC窗口(now-1000ms,now]，最多10个合法请求尝试；非法、撤权和限流拒绝不执行devctl。空载荷保持合法。此客户端网关可被拥有直接设备访问权的其他程序绕过，不宣称系统级强制隔离。
++服务端在应用校验前独立记录每次ECHO接收的完整有界字节、顺序、时间与PID。验收必须使接收记录与所有forwarded请求逐条一致，被拒请求标NOT_SENT、返回码-1（本地哨兵，不是目标errno）。
++混合语料用于防御开关对照，24例rate专用语料用于同会话第11例拒绝、第二会话通过、等待1100ms后恢复。精确1000ms边界使用原生策略自测的合成时钟校准，不能冒充实时时钟实测。deny配置用于验证运行中所有请求都不转发；运行中动态撤权尚待独立验收。
++
++## 动态授权验收切片（SEC-01）
++
++authorization专用语料24例合法ECHO，按每4例依次采用allow、deny、missing、malformed、wrong-target、allow。独立监督进程原子替换或移除本轮私有授权文件，读回实际内容并记录PID、时间、状态和字节；客户端逐请求握手后重新读取权限。握手截止2秒，未确认则不执行下一次IPC。预计8次应答、16次SCOPE_DENY，且服务端只收到8次。
++拒绝从授权变更确认后的下一请求生效，不追溯取消已在途IPC，也不声称无同步任意时刻撤权的竞态已穷尽。恢复授权后原有限流历史不清空。不存在系统服务或资源管理器故障注入。
++
++## 受控退出与恢复切片（REL-01、ISO-01）
++
++用户继续要求自建服务恢复实验：仅向本轮posix_spawn创建的资源管理器PID发SIGTERM，通过waitpid确认指定信号退出，设备解绑后由独立客户端确认open返回ENOENT；保留约200ms主动停机观测窗口，再启动新PID并验证ECHO恢复。停止前与恢复后各10次合法请求，与服务端审计逐条核对。
++新增独立探针进程在前、中、后三个阶段持续执行uname及只读stat(/proc)，每阶段至少两条成功观测。这不是全系统健康或独立系统服务IPC探针。信号由监督进程主动发送，不能称为发现漏洞崩溃；timeout不能代替退出信号证据。
++IPC截止2秒、监督15秒、主机45秒。记录停止请求到首个恢复应答、重启请求到首个应答和主动停机时长；不把少量样本称为P95或性能达标。仅回收本轮子进程，现有同名设备拒绝接管；隔离结论保持INCONCLUSIVE。
++
++## 受控暂停与真实IPC超时切片（ISO-01、REL-01）
++
++仅暂停本轮创建的自建服务PID：阻塞客户端先建立连接，专用合法gate ECHO使显式启用--controlled-pause的服务在该次回复之后、下一次接收之前自发SIGSTOP；监督进程通过WUNTRACED确认停止，再允许客户端以2秒SEND/REPLY截止执行单次合法devctl。保存ETIMEDOUT和实际单调时间；确认超时后发SIGCONT并观测继续，再释放客户端close及发送10次正常恢复请求。暂停前另有10次正常请求，总22次有界devctl尝试，含一次检查点请求。此修正版待QNX实测。
++暂停和恢复前后必须同一服务PID；暂停期间禁止访问自建设备做状态检查，设备可见性记录null，不伪称已观测存在或不存在。暂停不是终止，不因TIMEOUT宣称crash。服务端审计应恰好匹配前后20次成功请求及1次gate请求，若发现多余的延迟交付则验收失败。目标是验证暂停接收端的发送侧超时，不声称回复侧或全部取消语义已穷尽。
++独立只读OS探针覆盖前、中、后三阶段，监督15秒、主机45秒。异常清理先对自己创建的服务发SIGCONT再回收，防止留下暂停进程。系统服务与完整隔离仍未验收。
++另配置6秒SIGALRM恢复兜底，仅操作尚未回收的本轮暂停PID，清理前撤销；触发兜底必须判FAIL。当前连续三轮暂停验收未完成，实际注入已按规则暂停，见review/native-stall-issue.md。
++
++后续验收更新：用户明确要求继续后，专用gate修正版于20261017T130224Z-8ed73897实测PASS，实际超时2,001,796,947ns、ETIMEDOUT=260、同PID恢复，兜底未触发；共享停止/重启路径也已回归。上段停止状态为历史，完整隔离仍未知，详见review/native-stall-milestone.md。
+--- /dev/null
++++ b/docs/contracts/review-registry-draft-0.2.json
+@@ -0,0 +1,21 @@
++{
++  "schema_version": 2,
++  "contract": {
++    "id": "ipcsec-spec-draft-0.2",
++    "path": "docs/specification.md",
++    "sha256": "30e09a0d48fe9dfc0948d62d37acc55f81a8ae627f9551997ca24dbb4ec7e271",
++    "status": "project_draft"
++  },
++  "releases": {
++    "defense-20261017": {
++      "path": "evidence/native-fuzz-runs/20261017T122327Z-0b2f7718",
++      "manifest_sha256": "9b3c14e8c90c3d614e7e0eb5c90398be4a9c9b334b36a0d81d184b58aa73f84b",
++      "source_version": "75049b2ab8894422acbb33225eadc7dca5a078cabaea8086fb197a89e7e4e46e",
++      "criteria": {
++        "SEC-03": "Only this archived defense run: verify the reported 94 malformed cases were blocked without forwarding, based on local reanalysis that reconciles request and independent receiver logs. No claim of all possible inputs, kernel enforcement, or current source equivalence.",
++        "OBS-01": "Only local archived evidence consistency: source identity is the SHA256 of the archived source_hashes mapping; original evidence hashes were rechecked and raw-log reanalysis matched summary. Assess this limited consistency claim, not authenticity, independent reproduction or current-source equivalence.",
++        "ISO-01": "Assess full QNX system isolation from the supplied archived native run. Process liveness and peer heartbeats alone cannot establish full system-service health or crash isolation."
++      }
++    }
++  }
++}--- a/docs/experiment-plan.md
++++ b/docs/experiment-plan.md
+@@ -1,22 +1,28 @@
+-四场景分阶段实施。固定源版本、初始状态、语料文件、协议、输入顺序、环境、评价和预算；先证明功能与安全底线，再比较成本。每个场景建议至少3次Trial，保留逐次结果和失败，重复次数由教师与资源预算确认。
++# 实验计划与指标口径
+ 
+-| 实验 | 主变量和结论范围 |
++2026-10-22整理。固定源版本、后端、初始状态、语料、顺序、配置、预算与oracle；历史技术对照不等于正式E1。建议先预实验再冻结Trial数、种子及停止条件；原建议每场景至少3次不是已批准硬门槛，不能事后挑选最好一轮。
++
++| 实验 | 控制变量及边界 |
+ | --- | --- |
+-| EXP 01 | 合法请求正常基线，检查Harness与监控稳定性 |
+-| EXP 02 | 固定变异语料，无防御，建立异常基线 |
+-| EXP 03 | 与EXP 02逐字节相同语料，仅开启基础防御 |
+-| EXP 04 | 固定防御和预算，比较固定顺序与反馈调度；允许无收益 |
++| EXP01合法基线 | 验证Harness、合法请求与观测稳定性 |
++| EXP02基线变异 | 固定语料，关闭客户端结构/频率防御但保留范围授权及服务端检查 |
++| EXP03启用防御 | 同EXP02源版本和逐字节相同语料，仅切换客户端defense；真实时序限流数量可能变化 |
++| EXP04反馈调度 | 主机固定候选池重排，允许无收益，不声称生成新绕过输入或实现原生覆盖反馈 |
+ 
+-主机起步版实现四个模拟场景；EXP-04仅重排固定候选池，是反馈调度探索，不声称实现漏洞绕过搜索。自适应新样本或复杂异常检测属于可裁剪加分项。没有真实QNX执行时，不报告真实Crash率或性能开销。
++## 已实现字段的解释
+ 
+-统计单位为逻辑test case。normal与invalid标签由冻结协议及独立参考规则确定，不能直接把防御ALLOW当normal。语法非法不等于恶意攻击，语法合法也不代表安全。状态与频率另设情境标签。
++ipcsec/metrics.py的false_positive_rate = 结构合法用例中decision不为ALLOW的数量 / 结构合法总数。保留旧字段及原始summary，此字段更准确表示结构合法输入非放行比例，包含正确限流，不能称为策略错误误拒率。invalid_prevention_rate与invalid_allow_rate按结构非法oracle分组；语法非法不等于恶意，语法合法不等于安全。
+ 
+-| 指标 | 分子与分母 |
++## 候选分析口径（尚未改计算实现）
++
++| 指标 | 分子 / 分母 |
+ | --- | --- |
+-| 非法输入阻断率 | 已阻止转发的非法用例数 / 冻结非法用例数 |
+-| 正常误拒率 | 被拒绝或限流的正常用例数 / 正常用例数 |
+-| 非法放行率 | 实际允许转发的非法用例数 / 非法用例数 |
+-| 防御开销 | 相同负载下耗时和资源的增量；同时报告绝对值 |
+-| 隔离成功率 | 完整观测下成功隔离的确认故障数 / 完整观测的确认故障数 |
++| 非法输入阻断率 | 不转发的结构非法用例 / 结构非法用例 |
++| 非法放行率 | 实际转发的结构非法用例 / 结构非法用例 |
++| 策略错误拒绝率 | 独立情境oracle应放行但被拒的用例 / oracle应放行用例 |
++| 正确限流拒绝 | oracle认定超窗口且实际限流的数量，单列计数及对应样本总数 |
++| 正确授权拒绝 | oracle认定撤权/范围不足且实际拒绝的数量，单列计数及对应样本总数 |
++| 防御开销 | 同负载时间/资源增量及绝对值，模拟逻辑时间不替代实测 |
++| 隔离成功率 | 完整观测下成功隔离的确认故障 / 完整观测的确认故障；当前不可计算 |
+ 
+-分母为零时返回null或N/A，并说明原因。隔离同时报告确认故障总数、完整观测数、成功、失败和未知；未知不能隐藏。Timeout样本保留在总体耗时中，成功子集另列。穿过网关不直接等于漏洞利用成功。
++新口径需独立冻结oracle、时序和分类，并通过后续实现/回归才可输出正式指标；本轮只澄清定义，不宣称已支持。零分母返回null或N/A并说明；确认故障、完整观测、成功、失败与未知分列，不能丢弃未知。Timeout保留在总体耗时，成功子集另列。穿过网关不等于利用成功，受控SIGTERM不是漏洞崩溃。重复结果报告分布及样本数，正式性能阈值/Trial/人工成本仍待确认。
+--- a/docs/harness-manifest.md
++++ b/docs/harness-manifest.md
+@@ -1,33 +1,45 @@
+ # Harness清单
+ 
+-当前审批更新2026-10-19：教师已同意选题，由用户明确转述，见review/teacher-approval-20261019.md。下文选题Gate待确认表述为历史记录；限定实验授权不扩大，Spec冻结草案、CH-01提案、最终课程验收各自跟踪。
++2026-10-22，适用ipcsec-spec-draft-0.3；本轮只做文档整理、本地回归和档案核验。
+ 
+-同日后续决定：用户选择仅放行请求计数，模拟已修复，原生策略不变；INT-F-01的21例主机回归无差异，独立复核pending。新候选证据evidence/change-runs/20261017T144728Z-3cc92703/；下文OPEN/待选择描述为修复前检查点。
++## QNX实验运行器与主机模拟
+ 
+-2026-10-17候选演练更新：ipcsec.change_rehearsal仅用主机SimulationTarget，以同一22例逻辑时序执行10/5/10三组并记录源码身份、配置和哈希。configs/ch01-candidate.json不会覆盖默认配置，formal_E2=false。scripts/Reproduce-RateAccounting.py是21例本地Python/原生主机判定器对比，不调用VM，不宣称QNX实测或正式E3。内部Finding INT-F-01为OPEN，等待业务语义选择与独立复核。
++| 项目 | 主机模拟 | QNX原生实验运行器 |
++| --- | --- | --- |
++| 入口 | ipcsec/runner.py、configs/lab.json | native/qnx、scripts/Deploy-Qnx*.ps1、configs/native-lab.json |
++| 目标 | SimulationTarget，非真实QNX | 本机授权VM内自建/dev/ipcsec-lab |
++| 预算 | 配置max_cases=100；四场景400例是计划口径，不是原生批次 | 常规默认128/最多200；实际payload最多65字节；合法上限64 |
++| 专用场景 | CH-01模拟10/5/10，默认仍10 | rate24；authorization24；deny历史16；退出恢复20次ECHO及停机open检查；暂停22次devctl尝试含gate及一次超时 |
++| 时间 | 受控逻辑时间，不作为延迟 | 每次IPC2秒、监督15秒、主机45秒；动态授权握手2秒 |
++| 防御 | 字段及会话窗口模型 | v2客户端应用网关，8会话、1秒最多10次ALLOW；baseline仍执行范围检查 |
++| 观测 | cases/results/manifest | 目标审计、waitpid、peer；恢复期间有限uname及只读/proc探针 |
++| 恢复 | 新实例、新run | 仅回收本轮子进程；先SIGCONT再清理暂停者；现有同名设备不接管 |
+ 
+-Runtime：当前Python单进程模拟，单槽、确定性语料；无网络、无shell调用、无生产系统访问。
+-新增原生合法路径：用户授权的新建QNX 8.0 VM、自建/dev/ipcsec-lab、项目专用SSH密钥；只运行合法ECHO及自建服务重启。
+-原生每次请求2秒SEND/REPLY超时，主机执行截止45秒；阻塞场景本轮未测试。VM使用已有VMnet8，移除Guest默认路由。
+-Project：本目录AGENTS、docs、configs、tests、eval、evidence、review和release。
+-验证命令：README四条命令均需可运行；QNX不提供伪可执行命令，见native/qnx/README.md待实现项。
+-预算：每场景100例、4场景，总400例；真实测试时间与API成本待试跑批准。
+-允许：本仓库读写、主机模拟、回归。禁止：真实系统扫描、敏感数据、修改旧证据。
+-需批准：教师Intent Gate、故障注入、变更CH-01和发布。用户已明确授权创建本机实验VM、部署Hello与自建合法IPC；不据此声称教师审批完成。
+-Stop：未知目标、原生后端误调用、同类关键失败三次、预算耗尽。
+-恢复：模拟新实例新run；原生依赖快照和外部watchdog，尚未完成。
+-上下文：全局入口仅地图与规则；任务按需读取Spec、ADR、代码和测试；日志限必要字段。
+-权威：批准的课程契约优先于目标README；运行事实在evidence；教师批准和签署在review。
+-配置评估：每改规则/限流/权限，重跑相同语料、窗口边界和校准样例，报告结果及成本变化。
++暂停使用显式controlled-pause及gate检查点，接收审计应匹配前后20次成功请求加1次gate；多余延迟交付判失败。暂停期间不访问设备作状态探针，可见性记null。6秒SIGALRM是异常恢复兜底，触发必须判FAIL，不是2秒截止通过。
+ 
+-更新2026-10-17：用户已授权独立监控和有界原生Fuzzer。当前原生预算以configs/native-lab.json为准：默认128/最多200例，单次IPC 2秒，监督15秒，主机45秒。Runtime新增独立target、worker、monitor、peer四个进程。历史400例为实验计划，非本轮实际执行量。快照恢复已演练，见review/snapshot-restore.txt；故障后恢复尚未验收。原生数据、哈希和重放说明见release/native-fuzz-runbook.md。
++快照恢复、退出重启和gate发送侧超时已有历史记录；未覆盖全部取消语义及完整系统服务健康。操作见../release/native-fuzz-runbook.md与native-recovery-runbook.md；本轮不执行。
+ 
+-原生客户端网关更新：schema_version=2支持baseline/defense、八个受限会话、真实1秒窗口内10次合法请求尝试。每次转发前读取authorization.txt；服务端独立接收审计与客户端记录逐条核对。会话来自有界实验语料，不等于可信身份。网关可被直接访问设备的程序绕过，不宣称内核级拦截。专用rate语料24例、等待1100ms；deny场景16例；失败实验保留原始证据。操作与最新事实见review/native-defense-milestone.md。
++## 开发/评价Agent Runtime Harness
+ 
+-动态授权更新：authorization专用24例由独立监督进程执行每请求授权计划，写入/移除文件、读回并记录后才确认客户端下一次权限读取；确认截止2秒，监督15秒和主机45秒截止保留。两轮各8转发/16拒绝及缺文件单例重放通过，原始事件、字段和服务端审计分开保存。只验证同步请求边界，不撤销在途IPC。见review/native-authorization-milestone.md。
++| 控制项 | 规则 |
++| --- | --- |
++| 文件与工具 | 依本会话工具权限和项目范围，仅本仓库必要修改；不执行陌生目标代码、不打印密钥 |
++| 网络与模型 | 本轮模型API调用预算0、VM操作0；既有有限摘要外发授权不扩大为完整日志外发 |
++| 材料 | 按Req读取最小代码/文档/证据；模型只看已批准有限packet，输出为待人工复核草稿 |
++| 失败与停止 | 未知目标、预算耗尽、权限不足、同类关键失败三次则保存证据并停止相关动作；其他可完成工作继续 |
++| 恢复 | 文档变更使用可评审Diff及契约快照；运行新建目录；不覆盖旧证据、不擅自reset或提交 |
+ 
+-恢复切片更新：lab-recovery独立启动本轮服务、只读OS探针及三个阶段客户端，最多20次合法IPC和1次停机open检查；仅向自己启动的服务PID发送SIGTERM，waitpid确认后重启新PID。探针执行uname和只读stat(/proc)，不发送系统服务变异消息。IPC 2秒、监督15秒、主机45秒；主动停机观察约200ms，不当作纯启动延迟。既有设备拒绝接管，结束只回收自己启动的子进程。证据在evidence/native-recovery-runs/，完整隔离保持未知。
++目标watchdog不控制Agent工具权限、模型费用或外发。评价器v2真实材料门未通过，不追加付费试错；ADR0002决定继续适用。
+ 
+-暂停实验状态：4轮均未验收，后3轮6秒SIGALRM兜底恢复并清理；按连续失败规则停止真实注入。最新修复仅在显式controlled-pause模式用gate ECHO触发接收前暂停，计划22次IPC尝试；尚未在QNX验证。暂停时禁止访问目标设备，probe仅做独立只读OS检查。失败原始目录、首轮后续恢复记录和人工问题见review/native-stall-issue.md。
++## 权威与冲突处理
+ 
+-用户再次明确要求继续后，gate检查点版本已在20261017T130224Z-8ed73897验证通过，原4轮失败不变；默认停止/重启回归20261017T130304Z-d6c6072a通过。当前可验收限定发送侧超时与同PID恢复，完整隔离仍未知。见review/native-stall-milestone.md。
++| 信息/冲突 | 权威来源与处理 | 确认角色 |
++| --- | --- | --- |
++| 范围、授权 | 当前用户明确指示及intent；历史批准限其范围 | 环境所有者/项目负责人；新增范围需明确决定 |
++| 课程要求、最终验收 | 实际教师要求与批准记录；选题同意不等于规格/验收确认 | 教师；AI不代签 |
++| 当前行为 | specification的Req；代码不一致登记Finding，不自动修改规格迁就实现 | 项目成员确认业务语义，课程影响按教师要求确认 |
++| 运行事实 | 具体evidence Run、manifest、原始日志；review负责解释 | 验证成员，独立复现由伙伴实际执行 |
++| Change | 明确决定、Req影响、候选/回滚证据；CH-01仍候选 | 项目负责人；需要课程批准的事项按实际要求执行 |
++| 模型意见 | 仅建议；可信登记预检不是真实性或教师签署 | 人工复核者 |
++
++假设、责任及材料可见性见open-questions；当前状态表仅在../release/continuity.md维护。
+--- a/docs/intent.md
++++ b/docs/intent.md
+@@ -1,24 +1,13 @@
+-# INTENT-001
++# INTENT-001 当前项目意图
+ 
+-状态：选题已获教师同意（2026-10-19用户转述，见review/teacher-approval-20261019.md）；规格及最终验收分别跟踪。发起来源：用户QNX课程项目附件。起草日期：2026-10-15。
+-原始问题：如何对可控QNX资源管理器接口开展可重复安全测试，并验证防御与故障影响范围。
+-期望结果：一个自建目标、一条合法IPC路径、有限变异、防御、监控、可复核实验及交接。
+-影响对象：两个项目成员、结对组、教师和隔离实验环境。
+-约束：合法授权、无真实敏感数据、单目标、预算、可恢复、证据真实。
+-Non-goal：全系统拦截、系统服务攻击、生产级隔离保证。
+-选题Gate决策：APPROVED_USER_REPORTED；依据为用户明确告知“老师批准、同意了。”任课教师姓名、实际批准时间及原始记录尚未提供，不代填。
+-用户授权建设及限定真实测试范围已具备；选题接受已确认，正式课程事件与最终交付验收仍待完成。以下授权更新保留历史状态，以本段和批准记录为当前入口。
+-实施授权更新 2026-10-15：用户明确要求继续创建QNX目标虚拟机、部署Hello、实现资源管理器与合法客户端。
+-授权范围限本机新建实验VM及自建/dev/ipcsec-lab；不覆盖系统服务攻击、第三方目标或故障注入。教师课程Gate仍为pending。
++2026-10-22整理；原始立项2026-10-15。问题：对可控QNX资源管理器接口开展可重复测试，验证客户端防御与限定故障影响，形成可复核证据和伙伴交接材料。
+ 
+-实施授权更新 2026-10-17：用户明确要求继续独立监控和原生Fuzzer接入。本轮仅向同一自建/dev/ipcsec-lab发送有界输入；不覆盖系统服务、第三方目标或资源管理器崩溃注入。监督进程使用自己创建的校准子进程验证退出码与SIGTERM观测。
++对象：本机授权QNX8 x86_64 VM内自建lab-resmgr-01（/dev/ipcsec-lab）。参与者、需求推导见[需求分析](requirements-analysis.md)，行为见[规格](specification.md)。
+ 
+-同日用户继续要求实践，实施了同一目标的原生客户端应用网关、会话限流、防御开关对照和无授权零转发验证。目标和故障注入边界未扩大；不据此声称教师Gate批准。
++教师已同意选题，依据为用户2026-10-19转述，见../review/teacher-approval-20261019.md；教师姓名和原始批准时间不代填。规格仍为项目草案，正式E1/E2/E3与最终课程验收待实际记录。
+ 
+-后续“继续”授权下完成同一VM中的逐请求动态授权验收；只变更该轮私有授权文件，未修改系统授权或注入服务故障。详情见review/native-authorization-milestone.md。
++现有授权覆盖同一自建目标的合法IPC、有界变异、客户端网关、私有逐请求授权、独立监控及本轮自建进程SIGTERM退出/重启、SIGSTOP/SIGCONT暂停恢复。只读OS探针限uname与/proc状态检查。原生服务、系统服务攻击、漏洞崩溃注入和第三方目标不得混淆；本轮文档整理不执行原生实验。
+ 
+-本轮用户继续要求推进受控异常与恢复，实施范围为停止本轮创建的自建服务PID、确认退出并重启，独立探针仅执行uname和只读/proc检查。不会据此测试系统服务或注入漏洞崩溃，教师Gate仍pending。
++非目标：透明拦截全系统MsgSend、生产部署、系统服务/第三方目标测试、可信会话认证、完整系统隔离保证。扩大范围需明确授权和可恢复设计。
+ 
+-随后用户继续推进受控暂停超时：仅操作本轮自建服务SIGSTOP/SIGCONT，4轮未完成，后3轮由6秒兜底自动恢复清理，按规则停止进一步注入。最新检查点修复编译和主机回归通过，QNX待验收。问题Q-ST-01不改变历史已通过运行的结果归属。
+-
+-新一轮授权：用户在收到连续失败暂停说明后明确回复“继续按你的节奏来”，恢复限定自建目标的验证。先复核gate检查点，再执行有界实测，保留原失败证据与相同的停止标准，不扩展目标或降低验收规格。
++历史授权过程与技术演进分别见../review/native-milestone.md、native-fuzz-milestone.md、native-defense-milestone.md、native-authorization-milestone.md、native-recovery-milestone.md、native-stall-issue.md和native-stall-milestone.md。旧失败保留，不再混入当前规则正文。
+--- a/docs/open-questions.md
++++ b/docs/open-questions.md
+@@ -1,6 +1,6 @@
+ # 未决问题与假设登记
+ 
+-更新：2026-10-19。下表表示当前状态；已解决过程在历史里程碑保留。成员为张润泽、陈卫吉；互评组成员邓一帆。已发生的个人轮换见review/roles.md，不把后续任务安排写成既成贡献。
++更新：2026-10-22。下表表示当前状态；已解决过程在历史里程碑保留。成员为张润泽、陈卫吉；互评组成员邓一帆。已发生的个人轮换见review/roles.md，不把后续任务安排写成既成贡献。
+ 
+ | ID | 当前事实或未决 | 责任角色/检查点 | 是否阻塞 |
+ | --- | --- | --- | --- |
+@@ -15,3 +15,20 @@
+ 
+ Q-ST-01：限定gate检查点的暂停超时已由20261017T130224Z-8ed73897解决，旧4轮失败保留。不得重新把6秒兜底当2秒超时通过。
+ INT-F-01：用户选择只计放行请求，模拟修复及21例回归通过；伙伴独立复核仍pending。
++
++## 假设验证与材料可见性
++
++| 假设 | 责任角色 | 验证时点与依据 | 阻塞范围 |
++| --- | --- | --- | --- |
++| 当前VM、SDK与快照可用 | 环境所有者/执行成员 | 新原生操作前；历史可行性见native里程碑，不假定当前在线 | 新原生运行，不阻塞文档整理 |
++| 需求草案满足首轮格式 | 项目成员/教师 | 首轮材料评审时；未收到额外模板不虚构学校格式 | 正式确认与冻结 |
++| 历史档案与源码映射相符 | 验证成员 | 每次引用前做本地哈希/语义核验；不保证真实性和源码可重建 | 对应技术结论 |
++| 误拒率有独立情境oracle | 项目成员/复核者 | 新指标实现前；目前只有结构合法非放行字段 | 策略错误误拒率结论 |
++
++| 接收者/载体 | 可见材料 | 边界 |
++| --- | --- | --- |
++| 开发Agent | 授权仓库必要代码、文档、本地证据 | 不打印密钥，不自动外发，不代签 |
++| 模型评价器 | 已批准有限packet中的摘要、哈希及Claim | 非完整日志；当前只草稿，本轮API调用0 |
++| 本地日志 | 用例、决策、审计、预算和版本 | 仅必要字段，脱敏；哈希不代替访问控制 |
++| 独立伙伴 | 脱敏源码、手册及选定证据包 | 不含私钥、VM磁盘或SDK；独立复现必须自己产生记录 |
++| 教师 | 首轮需求、规格、ADR及追踪/核验材料 | 收到材料不等于已验收，不代填签署 |
+--- a/docs/plan.md
++++ b/docs/plan.md
+@@ -1,17 +1,13 @@
+-# 实施计划
++# 当前实施计划
+ 
+-2026-10-19当前审批：用户明确转述教师已同意项目，选题Gate已解除，记录见review/teacher-approval-20261019.md。下一步按既有范围完成独立复核和课程交付；不扩展到其他目标，不把选题批准计作最终验收。
++2026-10-22。TASK-01至08承载既有实现与课程收尾，TASK-09为当前基线整理及首轮文档交付。技术历史见../review/evidence-index.md，当前状态见../release/continuity.md。
+ 
+-执行顺序和周次见项目工作流第3节。任务卡TASK-01至08为入口，任务之间用质量门控制。
+-当前里程碑：QNX合法路径、有界原生Fuzzer、独立进程监控、客户端网关和会话限流对照均已实测。最新见review/native-defense-milestone.md。
+-动态撤权与授权异常关闭路径已实测，见review/native-authorization-milestone.md。
+-受控SIGTERM退出、新PID恢复及独立只读OS探针已实测，见review/native-recovery-milestone.md。
+-下一里程碑：阻塞超时与更完整的故障观测；伙伴复现及课程交付。当前不宣称全系统故障隔离。
++| 顺序 | 工作 | 依赖/完成证据 |
++| --- | --- | --- |
++| 1 | 当前契约整理、需求分析、ADR与追踪矩阵 | TASK-09；旧契约快照、新草案登记及本轮核验 |
++| 2 | 两轮个人修改身份/验证日志引用与冻结留存说明 | 本人实际材料，不能由AI补造 |
++| 3 | 伙伴复现、Finding独立复核与人工真值 | 当前交接材料、授权环境、伙伴实际运行 |
++| 4 | 正式E1/E2/E3、Trial与成本、评价器资格 | 人工组织事件；CH-01采纳另行确认；v2真实门未过 |
++| 5 | 最终签署、冻结、重新打包及演示 | 上述适用门完成；最终人工决定 |
+ 
+-阻塞超时状态更新：连续三轮暂停验收未完成，已停止真实注入并登记Q-ST-01。专用gate检查点修复已编译和主机校验，尚待QNX验收，见review/native-stall-issue.md。
+-
+-最新里程碑：用户重新指示后，真实发送侧2秒超时与同PID恢复通过，停止/重启回归通过，见review/native-stall-milestone.md。下一步优先整理课堂演示和证据索引、伙伴复现，教师Gate及人工签署不由AI代填；完整系统隔离保持未知。
+-并行允许：规格、语料和文档准备；原生畸形消息发送依赖合法路径、授权、watchdog、恢复全部完成。
+-每轮两人交换实现与验证。新依赖、原生权限和真实执行另行记录批准，不由脚手架默认启用。
+-
+-当前计划更新2026-10-19：Schema v2和固定档案预检已实现，模型真实材料复测未过门，保留负结果。教师选题已同意；张润泽/陈卫吉两轮个人实现与交叉验证由用户报告完成并签署，代码复查81项通过，日志与版本引用待收尾。下一步为邓一帆独立复现/审查、独立人工判据及正式E1/E2/E3，最终冻结打包；不把内部演练或个人任务升级为这些事件已完成。当前入口release/continuity.md。
++gate发送侧2秒超时及同PID恢复已有历史通过，不再列为待首次实测；完整系统隔离与回复侧完整取消语义仍未知。不扩大目标，不以毕设规划代替课设缺口。
+--- a/docs/problem-frame.md
++++ b/docs/problem-frame.md
+@@ -1,8 +1,7 @@
+ # 问题框架
+ 
+-对象：自建教学资源管理器lab-resmgr-01。输入为ECHO族应用载荷，输出为应答或拒绝及关联日志。
+-流程：客户端提交用例，边界控制验证并按批准策略发送，监控记录结果与影响。
+-首版不做：透明系统IPC拦截、真实服务测试、复杂机器学习或界面平台。
+-不变量：未授权不执行，拒绝不转发，未知不伪装成功，simulation不等于QNX实测。
+-前置未知：目标架构、工具链所在会话、教师授权、恢复快照与探针能力。
+-结果证据：同版本cases/results/manifest及独立runner复核；个人分别完成实现和验证。
++2026-10-22。对象为授权自建lab-resmgr-01，输入为有限ECHO应用载荷，输出为应答、错误或网关拒绝及关联记录。问题是能否区分非法输入、策略阻断、目标接收、超时和进程退出，并依据版本化证据交接。
++
++QNX8 x86_64工具链、VM、合法devctl、快照恢复及有限探针已有历史验证，不再列为未解决的起步未知；新接管仍要复核当前可用环境，不假定VM在线或沿用旧IP。
++
++不变量：未授权下一请求不执行；defense拒绝不转发；缺完整观测报告未知；主机模拟不冒充QNX。限制是客户端网关可绕过、session非认证、有限OS探针不能证明完整隔离。需求来源见requirements-analysis；当前行为见specification；未决见open-questions；历史见../review/evidence-index.md。
+--- a/docs/repository-map.md
++++ b/docs/repository-map.md
+@@ -2,22 +2,21 @@
+ 
+ | 入口 | 职责 |
+ | --- | --- |
+-| README.md及AGENTS.md | 启动、边界、验证与规则入口 |
+-| docs/项目工作流.md | 从开题到个人答辩的完整流程 |
+-| docs/项目适配评估.md | 附件符合项、差距、修正及Ready条件 |
+-| docs/intent.md及problem-frame.md | 原始目标、Gate和问题边界 |
+-| docs/specification.md及acceptance-matrix.md | 稳定要求、场景及验证映射 |
+-| docs/state-model.md及impact-map.md | 状态、影响、兼容与恢复 |
+-| docs/adr/及tasks/ | 决策、8项任务和质量门 |
+-| ipcsec/model.py及fuzzer.py | 用例和三类确定性变异 |
+-| ipcsec/harness.py | 主机目标模型与拒绝静默回退的QNX接口 |
+-| ipcsec/defense.py及monitor.py | 字段检查、会话窗口和隔离判定 |
+-| ipcsec/runner.py及metrics.py | 新运行目录、证据索引和指标 |
+-| ipcsec/evaluator.py及eval/ | 确定性预检、构造校准和LLM设计契约 |
+-| native/qnx/ | 原生协议草案、接入说明及待实现目录 |
+-| configs/及tests/ | 试跑参数、边界及回归 |
+-| evidence/及review/ | 原始事实、解释、校准、角色及签署 |
+-| release/ | 启动、重置、恢复、已知限制与连续性 |
++| README.md、AGENTS.md | 启动、规则与文档入口 |
++| release/first-round-submission.md | 首轮需求分析、规格、ADR及核验交付索引 |
++| docs/requirements-analysis.md、intent.md、problem-frame.md | 需求来源、场景、边界及取舍 |
++| docs/specification.md、acceptance-matrix.md | 当前Req/GWT与版本化追踪 |
++| docs/contracts/ | 旧契约/登记快照及显式迁移记录 |
++| docs/harness-manifest.md、open-questions.md | 两类Harness、权威、假设、可见性及缺口 |
++| docs/adr/、tasks/、plan.md | 架构决定、任务及依赖 |
++| ipcsec/model.py、fuzzer.py、runner.py、defense.py、monitor.py、metrics.py | 主机用例、变异、执行、策略、未知判断及旧指标计算 |
++| ipcsec/native.py、recovery.py、stall.py、simulation_evidence.py | 原生归档与恢复/暂停、模拟证据核验 |
++| ipcsec/registered_review.py、review_contract_v2.py、semantic_review.py、model_calibration.py、claim_audit.py | 登记预检、评价契约、有限模型调用、校准与本地断言 |
++| ipcsec/handoff.py、local_check.py | 交接审计/打包与作者自检 |
++| native/qnx/include、target、client、probes | devctl协议/策略、资源管理器、客户端/Fuzzer、独立监控/恢复 |
++| native/qnx/transport | 批处理桥接说明；Python逐请求QnxTransport仍未实现 |
++| configs/、tests/、scripts/ | 范围/预算/登记、主机回归、构建部署与检查 |
++| evidence/、review/ | 原始运行及历史解释/签署，禁止改写 |
++| release/ | 演示、运行手册、伙伴接管和当前状态 |
+ 
+-六类交付映射：Brief对应problem-frame与intent；Design对应spec、ADR与Harness；
+-eval对应验收和用例；evidence对应运行原始记录；release对应交接；review对应复核及签署。
++当前状态唯一摘要见release/continuity.md；历史技术索引见review/evidence-index.md。状态图与影响分析在docs/state-model.md、impact-map.md；课程映射见项目工作流.md和项目适配评估.md。
+--- /dev/null
++++ b/docs/requirements-analysis.md
+@@ -0,0 +1,60 @@
++# 需求分析：QNX IPC Security Lab
++
++文档ID：RA-001，版本0.1，2026-10-22首轮提交评审稿。基线为17a4a3776080247ec7e19fe3ab3b05a9b787edd9及本轮文档差异。本文是需求来源与取舍分析；可执行行为以[规格说明](specification.md)为准。教师已同意选题（用户转述），本文不代替正式规格确认或最终验收。
++
++## 问题与建设目标
++
++QNX资源管理器通过消息处理客户端操作。仅观察一次请求是否返回错误，不能回答非法输入是否被防御层阻断、目标是否真正收到请求、超时是否意味着进程退出等问题。本项目以授权自建的/dev/ipcsec-lab为对象，建立合法通信、有限变异、客户端策略、独立接收审计和限定恢复的可重复流程。
++
++目标是使每个结论能够对应具体输入、策略、后端及源码身份，支持教师检查和伙伴接管。课程目标以工程实现和证据可复核为主；本科毕设升级为后续建议，不计入当前交付承诺。
++
++## 需求来源与参与者
++
++| 来源/角色 | 关注点 | 当前依据 |
++| --- | --- | --- |
++| 用户及课程任务 | 可实施的攻防实验、需求/规格/ADR首轮交付 | 本轮用户明确要求；项目intent及适配评估 |
++| 教师 | 选题、规格与课程产物验收 | review/teacher-approval-20261019.md仅记载用户转述的选题同意；其他确认待实际记录 |
++| 张润泽、陈卫吉 | 实现、交叉验证、个人解释和交接 | review/roles.md及personal-rounds；两轮完成由用户报告，引用待收尾 |
++| 独立伙伴邓一帆 | 在自己的环境复现并给出审查意见 | release/partner-reproduction.md；尚无完成记录 |
++| 环境所有者 | 限定目标、预算、停止与恢复 | docs/intent.md与harness-manifest.md |
++
++## 场景、风险与需求推导
++
++| 场景/风险 | 需要的能力 | 需求及优先级 |
++| --- | --- | --- |
++| 错目标、撤权后仍发请求 | 登记范围、逐请求授权及关闭失败路径 | SEC-01，必须 |
++| 合法输入也不能稳定完成 | ECHO已知应答与合法基线 | IPC-01，必须 |
++| 手工输入无法复核边界 | 固定种子、三类变异、保存和重放 | FUZ-01，必须 |
++| 长度、类型等非法输入进入目标 | 应用路径校验及拒绝不转发证明 | SEC-03，必须 |
++| 连续有效请求消耗资源 | 有界会话窗口及拒绝不计数 | SEC-04，必须 |
++| 混用模拟和原生证据或版本 | 用例/结果/manifest与独立审计关联 | OBS-01，必须 |
++| 将超时说成崩溃或隔离成功 | 分类观测及缺失证据报告未知 | ISO-01，必须 |
++| 作者能运行但伙伴不能接管 | 启动、重放、重置、恢复说明及伙伴验证 | REL-01，必须；伙伴完成状态另列 |
++
++主要资产为自建设备、运行配置、授权文件、测试语料和证据。信任边界包括主机与Guest、客户端与资源管理器、原始记录与评价器。会话编号和私有授权文本属于实验输入，不是认证凭证；可直接访问设备的程序能绕过客户端网关。模型输出是建议，不拥有批准或签署权限。
++
++## 典型用例
++
++UC-01：作者启动已登记自建服务，发送合法ping和空载荷，核对返回及目标接收记录（IPC-01、OBS-01）。
++
++UC-02：固定同一语料，分别执行baseline与defense；前者保留范围控制，后者增加字段检查与会话限流；核对拒绝请求未到达目标（SEC-01/03/04、FUZ-01）。
++
++UC-03：监督进程按逐请求握手更改本轮私有授权文件；撤权确认后的请求拒绝，重新授权后恢复；不承诺取消在途IPC（SEC-01）。
++
++UC-04：只对本轮子进程受控退出/暂停，分别观测退出、发送侧超时和恢复，缺完整系统服务探针时报告INCONCLUSIVE（ISO-01、REL-01）。
++
++UC-05：伙伴按手册在授权环境生成新证据并独立解释限制，作者自检不替代此事件（REL-01）。
++
++## 约束、非目标与质量要求
++
++仅测试本机授权VM内自建目标；不测试系统服务和第三方目标，不承诺全系统透明MsgSend拦截、漏洞崩溃发现或生产级隔离。主机Python标准库模拟用于流程校验，C/QNX原生用于真实IPC；二者不能静默替代。
++
++协议合法payload最多64字节；畸形输入实际最多65字节，不能依不可信声明长度分配内存。原生常规批次默认128、最多200；每次IPC 2秒、监督15秒、主机45秒。专用场景预算见Harness。保留失败、版本和哈希；哈希提供完整性核对，不证明真实性或独立复现。性能阈值和正式Trial数待冻结，不编造指标。
++
++## 可行性与取舍
++
++QNX8 x86_64工具链、VM、合法devctl及限定原生实验已有历史记录，起步可行性已解除；新会话仍需核对环境。选择自建资源管理器及客户端应用网关以控制目标和恢复成本，接受可绕过与覆盖有限的代价（ADR0001）。只计放行请求解决两后端计数差异（ADR0003）。评价器与执行链路解耦，真实材料门未通过时保留人工复核（ADR0002）。
++
++## 验收与未决
++
++逐条验证见[验收矩阵](acceptance-matrix.md)。首轮提交提供本需求分析、当前规格、ADR及追踪关系；这些材料形成可评审稿，不表示教师已经验收。独立互评、正式E1/E2/E3、最终签署、指标实现口径和评价器独立真值等缺口见[未决问题](open-questions.md)。新增范围或语义必须单独登记，不通过补写文档追认历史事件。
+--- a/docs/specification.md
++++ b/docs/specification.md
+@@ -1,71 +1,59 @@
+-# 项目规格 draft 0.1
++# 规格说明：QNX IPC Security Lab
+ 
+-状态：待教师批准。模型载荷为ECHO、declared_length、offset、flags、payload。
+-模拟协议：payload上限64字节，declared_length等于实际字节，offset在0至实际长度之间，flags为0。
+-QNX系统消息封装尚未定稿，当前应用载荷不允许直接发送到任意resource manager。
+-实施更新：首个原生切片已采用自定义devctl ECHO，16字节应用头加实际payload；仅适用于自建/dev/ipcsec-lab。
+-该选择是当前工程实现，不代替教师对课程规格的批准；原生合法路径已实测，变异及隔离尚未验收。
++契约ID：ipcsec-spec-draft-0.3；状态：project_draft，首轮提交评审稿。日期2026-10-22。本文整理现行行为，不新增功能或教师批准。整理基线17a4a37；旧契约逐字节快照及登记迁移见[版本记录](contracts/README.md)。需求来源见[需求分析](requirements-analysis.md)。
+ 
+-| ID | 强度 | 要求 |
++## 1. 目标、范围及非目标
++
++对象为已登记lab-resmgr-01，仅对应授权自建QNX8 x86_64 VM内/dev/ipcsec-lab。主机模拟与原生批处理分别执行和归档；Python QnxTransport逐请求接口不提供可用实现，不允许静默回退。原生服务端有边界检查，客户端应用网关另做策略检查。
++
++本规格不承诺内核钩子、全系统IPC拦截、可信会话身份、在途IPC撤销、系统服务攻击、漏洞崩溃发现或完整系统隔离。受控退出/暂停仅验证限定恢复行为。
++
++## 2. 接口与结果
++
++合法请求为ECHO，declared_length等于实际payload字节数，范围0至64；offset为0至实际长度；flags为0。空载荷合法。原生LAB_DCMD_ECHO封装16字节应用头（uint32 operation=1、uint32 declared_length、int32 offset、uint32 flags）及实际payload；容量80字节，不是任意资源管理器通用协议。声明长度不构成已接收字节的证明。
++
++原生目标核对实际接收大小、nbytes、消息长度及回复容量，再读取头和复制有限字节；畸形测试实际payload最多65字节。合法应答返回请求头及payload，非法输入返回对应错误。offset只是合法性字段，当前不表示截断回显。
++
++客户端决策为ALLOW、BLOCK、RATE_LIMIT、SCOPE_DENY。v2原生测试的baseline保留目标/授权/会话范围检查；defense再检查结构及频率。ALLOW表示获准尝试发送，不保证应答成功。网关拒绝时forwarded=false、target_outcome=NOT_SENT；本地返回码-1是哨兵，不是目标errno。真实发送结果区分REPLY、ERROR_REPLY、TIMEOUT；退出证据另由监督进程确认。
++
++## 3. 当前需求
++
++| Req | 强度 | 行为与判定要求 |
+ | --- | --- | --- |
+-| SEC-01 | MUST | 未登记、未授权或撤权目标不执行；真实发送逐次核权限 |
+-| IPC-01 | MUST | 合法请求返回可预测内容，QNX路径完成100次记录 |
+-| FUZ-01 | MUST | 边界、字段、组合变异具有固定种子和可保存语料 |
+-| SEC-03 | MUST | 非法类型、长度、offset、flags拒绝且不转发 |
+-| SEC-04 | MUST | 每会话有效放行请求窗口(now-1000,now]，初始上限10，超额拒绝且不追加计数 |
+-| OBS-01 | MUST | 每次运行记录源、配置、用例、结果、来源与预算，旧证据不改写 |
+-| ISO-01 | MUST | timeout不推断crash；缺独立目标、client、peer、service、system、recovery观测为未知 |
+-| REL-01 | MUST | 伙伴可依据说明启动、重放、重置、恢复并解释限制 |
++| SEC-01 | MUST | 未登记、未授权、授权文件缺失/坏格式/目标不匹配时不执行下一请求。v2原生客户端逐请求检查私有authorization.txt；动态授权在监督进程变更读回并握手确认后生效，不取消在途IPC。恢复授权不清空限流历史 |
++| IPC-01 | MUST | 合法ECHO返回可预测内容；原生合法基线记录100次ping、空载荷及重启后往返；逐条核对返回，具体历史次数不作为每次新运行的固定预算 |
++| FUZ-01 | MUST | 固定种子生成边界、字段与组合变异，保存实际语料及顺序，支持单例重放；重放单例不等于重现完整会话历史 |
++| SEC-03 | MUST | defense路径拒绝非法操作、长度、offset、flags且不调用devctl；用接收审计核对无转发。服务端独立做实际长度校验，baseline发送畸形输入不等于关闭服务端检查 |
++| SEC-04 | MUST | defense中每个实验会话窗口(now−1000ms, now]最多10次结构有效且获准转发的请求。非法、撤权、限流拒绝不追加计数、不延长窗口。计数在ALLOW决策阶段、实际IPC之前发生，随后超时/错误不返还槽位。原生使用CLOCK_MONOTONIC及八个会话槽，主机使用受控逻辑时间；会话标签不是认证身份。CH-01的5仅候选模拟，未采用 |
++| OBS-01 | MUST | 每轮记录源/配置/输入/结果/预算与后端；原生审计关联顺序、有界字节和目标PID。保存manifest及哈希，拒绝旧版本冒充当前；接收审计仅覆盖登记处理路径，不推断全部系统流量 |
++| ISO-01 | MUST | 不以TIMEOUT推断crash；缺独立目标、client、peer、service、system或recovery所需观测时完整隔离为INCONCLUSIVE，隔离成功率不计算。有限存活与只读OS探针不证明完整系统健康 |
++| REL-01 | MUST | 提供启动、重放、重置、恢复、限制和伙伴步骤；受控退出重启与同PID暂停恢复分别留证。伙伴独立接管需其实际新运行及记录；作者自检不能代替 |
+ 
+-## GWT场景
++## 4. GWT及验收方式
+ 
+-语义澄清2026-10-17：用户明确选择仅计有效放行请求，限流拒绝不占槽或延长窗口；非法请求也不计。见review/DEC-SEC04-rate-accounting.md及INT-F-01修复回归。默认预算10，CH-01候选5未正式采用，教师Gate仍pending。
++| 场景 | Given / When / Then | Req |
++| --- | --- | --- |
++| GWT-P01 | 已授权ECHO ping；发送；返回相同载荷并记录实长4 | IPC-01 |
++| GWT-P02 | 空payload且声明0、offset0、flags0；启用defense；结构检查允许，仍服从授权/频率规则 | SEC-03 |
++| GWT-N01 | 声明65实长4；defense判定；BLOCK且NOT_SENT | SEC-03 |
++| GWT-N02 | offset负数；defense判定；BLOCK且目标无该次接收 | SEC-03 |
++| GWT-A01 | 非法操作/超长/flags组合；校验；拒绝且不按声明长度分配 | SEC-03、FUZ-01 |
++| GWT-A02 | 同会话同窗口已放行10例；第11例到达；限流，其他会话可通过，边界过期后恢复 | SEC-04 |
++| GWT-A03 | 未登记或撤权已确认；下一请求；拒绝且不发送 | SEC-01 |
++| GWT-U01 | 只有超时/模拟异常或缺独立探针；作隔离判断；INCONCLUSIVE | ISO-01 |
++| GWT-R01 | 本轮自建服务受控SIGTERM退出；重启；新PID正确应答，停机open错误单独记录 | REL-01、ISO-01 |
++| GWT-R02 | 显式gate回复后服务SIGSTOP且waitpid确认；合法devctl的2秒截止到期；记录超时、SIGCONT、同PID恢复及接收审计 | REL-01、ISO-01 |
+ 
+-- GWT-P01 / IPC-01：给定ECHO和ping有效载荷，当发送，则正常应答且记录实长4。
+-- GWT-P02 / SEC-03：给定空载荷及声明0，当发送，则合法；不能把0长度默认视为攻击。
+-- GWT-N01 / SEC-03：给定声明65实长4，当启用防御发送，则BLOCK且target_outcome为NOT_SENT。
+-- GWT-N02 / SEC-03：给定offset为负，当发送，则BLOCK且不更改目标状态。
+-- GWT-A01 / SEC-03：给定非法type、超长与非法flags组合，当发送，则拒绝，不为声明的大长度分配内存。
+-- GWT-A02 / SEC-04：给定同会话同窗口前10个有效请求，当第11个到达，则RATE_LIMIT，其他会话仍可通过。
+-- GWT-A03 / SEC-01：给定未登记目标，当发起运行，则拒绝且不发送。
+-- GWT-U01 / ISO-01：给定缺独立系统探针，当只有超时或模拟异常，则INCONCLUSIVE，不计算隔离成功率。
++检查入口、证据Run及源身份见[验收矩阵](acceptance-matrix.md)。逻辑时钟端点自测不冒充实时时钟精确1000ms实验。恢复/暂停的预期接收条数、清理和停止条件见[Harness](harness-manifest.md)。
+ 
+-性能阈值：待QNX实测基线和教师批准，不编造P95目标。模拟逻辑时间不当作真实运行延迟。
+-事实：存在主机模拟。假设：可取得QNX教学环境。决策草案：自建目标与应用网关。
+-未决：原生devctl封装、架构、探针权限与授权责任人。原生实验均被这些未知阻塞，主机模拟不阻塞。
++## 5. 限制、假设及确认事项
+ 
+-## 原生切片更新 2026-10-17
++默认预算和期限见Harness；当前运行参数不表示性能目标。性能阈值、重复Trial及人工成本口径待项目成员/教师确认；不编造P95/P99标准。完整系统隔离未知，回复侧完整取消语义未穷尽。
+ 
+-以上未决及“变异尚未验收”为历史基线；当前已完成QNX 8.0 x86_64 devctl封装和有界原生变异。详见review/native-fuzz-milestone.md。
+-FUZ-01：默认128例、最多200例；实际payload最多65字节，不依据声明长度分配内存；固定种子和原始字段可重放。
+-OBS-01/ISO-01：独立waitpid监督进程、独立peer心跳；IPC截止2秒、监督截止15秒、主机截止45秒；结束后回收自己创建的进程。
+-本切片直接将有界非法字段发送给自建服务，验证服务端拒绝；不能替代SEC-03网关NOT_SENT或SEC-04限流验收。原生Python逐请求Transport尚未实现，当前使用批处理桥接。
+-本轮未注入服务崩溃、未运行系统服务探针，隔离结论必须INCONCLUSIVE，不能计算隔离成功率。
++私有授权文件可被有写权限者修改，不是防篡改凭证；客户端网关可被设备直接访问者绕过。当前没有服务端可信身份绑定或完整策略强制执行承诺。
+ 
+-## 原生应用网关切片（SEC-01/03/04）
++既有false_positive_rate是结构合法输入的非ALLOW比例，不能解释成策略错误误拒率；改进指标仅为候选定义，尚未改计算实现，见experiment-plan。评价器v2真实材料门未过，模型只提供待复核草稿。选题同意、规格确认、正式事件及最终验收分别记录。
+ 
+-授权范围仍为同一自建VM与/dev/ipcsec-lab，用户已要求继续原生网关和限流实践。schema_version=2语料增加受限会话编号与最多1100ms等待，最多200例。baseline与defense使用相同字段、种子和顺序。
+-网关位于单线程原生客户端中，每次允许转发前读取专用authorization.txt，仅精确的lab-resmgr-01 allow记录可授权。未知目标、无授权或无效会话拒绝；baseline仍检查授权。权限文件是实验配置，不是防篡改的安全凭证。
+-defense依次校验字段与实际长度，再按会话应用真实CLOCK_MONOTONIC窗口(now-1000ms,now]，最多10个合法请求尝试；非法、撤权和限流拒绝不执行devctl。空载荷保持合法。此客户端网关可被拥有直接设备访问权的其他程序绕过，不宣称系统级强制隔离。
+-服务端在应用校验前独立记录每次ECHO接收的完整有界字节、顺序、时间与PID。验收必须使接收记录与所有forwarded请求逐条一致，被拒请求标NOT_SENT、返回码-1（本地哨兵，不是目标errno）。
+-混合语料用于防御开关对照，24例rate专用语料用于同会话第11例拒绝、第二会话通过、等待1100ms后恢复。精确1000ms边界使用原生策略自测的合成时钟校准，不能冒充实时时钟实测。deny配置用于验证运行中所有请求都不转发；运行中动态撤权尚待独立验收。
++## 6. 历史与追踪
+ 
+-## 动态授权验收切片（SEC-01）
+-
+-authorization专用语料24例合法ECHO，按每4例依次采用allow、deny、missing、malformed、wrong-target、allow。独立监督进程原子替换或移除本轮私有授权文件，读回实际内容并记录PID、时间、状态和字节；客户端逐请求握手后重新读取权限。握手截止2秒，未确认则不执行下一次IPC。预计8次应答、16次SCOPE_DENY，且服务端只收到8次。
+-拒绝从授权变更确认后的下一请求生效，不追溯取消已在途IPC，也不声称无同步任意时刻撤权的竞态已穷尽。恢复授权后原有限流历史不清空。不存在系统服务或资源管理器故障注入。
+-
+-## 受控退出与恢复切片（REL-01、ISO-01）
+-
+-用户继续要求自建服务恢复实验：仅向本轮posix_spawn创建的资源管理器PID发SIGTERM，通过waitpid确认指定信号退出，设备解绑后由独立客户端确认open返回ENOENT；保留约200ms主动停机观测窗口，再启动新PID并验证ECHO恢复。停止前与恢复后各10次合法请求，与服务端审计逐条核对。
+-新增独立探针进程在前、中、后三个阶段持续执行uname及只读stat(/proc)，每阶段至少两条成功观测。这不是全系统健康或独立系统服务IPC探针。信号由监督进程主动发送，不能称为发现漏洞崩溃；timeout不能代替退出信号证据。
+-IPC截止2秒、监督15秒、主机45秒。记录停止请求到首个恢复应答、重启请求到首个应答和主动停机时长；不把少量样本称为P95或性能达标。仅回收本轮子进程，现有同名设备拒绝接管；隔离结论保持INCONCLUSIVE。
+-
+-## 受控暂停与真实IPC超时切片（ISO-01、REL-01）
+-
+-仅暂停本轮创建的自建服务PID：阻塞客户端先建立连接，专用合法gate ECHO使显式启用--controlled-pause的服务在该次回复之后、下一次接收之前自发SIGSTOP；监督进程通过WUNTRACED确认停止，再允许客户端以2秒SEND/REPLY截止执行单次合法devctl。保存ETIMEDOUT和实际单调时间；确认超时后发SIGCONT并观测继续，再释放客户端close及发送10次正常恢复请求。暂停前另有10次正常请求，总22次有界devctl尝试，含一次检查点请求。此修正版待QNX实测。
+-暂停和恢复前后必须同一服务PID；暂停期间禁止访问自建设备做状态检查，设备可见性记录null，不伪称已观测存在或不存在。暂停不是终止，不因TIMEOUT宣称crash。服务端审计应恰好匹配前后20次成功请求及1次gate请求，若发现多余的延迟交付则验收失败。目标是验证暂停接收端的发送侧超时，不声称回复侧或全部取消语义已穷尽。
+-独立只读OS探针覆盖前、中、后三阶段，监督15秒、主机45秒。异常清理先对自己创建的服务发SIGCONT再回收，防止留下暂停进程。系统服务与完整隔离仍未验收。
+-另配置6秒SIGALRM恢复兜底，仅操作尚未回收的本轮暂停PID，清理前撤销；触发兜底必须判FAIL。当前连续三轮暂停验收未完成，实际注入已按规则暂停，见review/native-stall-issue.md。
+-
+-后续验收更新：用户明确要求继续后，专用gate修正版于20261017T130224Z-8ed73897实测PASS，实际超时2,001,796,947ns、ETIMEDOUT=260、同PID恢复，兜底未触发；共享停止/重启路径也已回归。上段停止状态为历史，完整隔离仍未知，详见review/native-stall-milestone.md。
++旧稿见[0.2快照](contracts/ipcsec-spec-draft-0.2.md)；限流决定见[原决定](../review/DEC-SEC04-rate-accounting.md)和[ADR0003](adr/0003-rate-accounting.md)；原生演进及失败修复见[证据索引](../review/evidence-index.md)、[暂停问题](../review/native-stall-issue.md)和[修复里程碑](../review/native-stall-milestone.md)。历史Run保持原manifest身份，整理不赋予新契约资格。后续变更需记录Req影响、理由、检查与版本，不修改历史证据。
+--- a/docs/tasks/TASK-01.md
++++ b/docs/tasks/TASK-01.md
+@@ -9,3 +9,5 @@
+ 项目联系人：张润泽、陈卫吉；个人轮换R1为张润泽实现/陈卫吉验证，R2反向，见review/roles.md。此为当前成员及实际两轮记录，不追认此前各技术切片为个人独立实现。独立互评成员邓一帆，执行状态另行记录。
+ 停止：授权不足、预算耗尽、连续三次同类关键失败或影响范围超出批准。
+ 当前未知与人工问题：按docs/open-questions.md维护。
++
++2026-10-22接续：本卡技术结果按历史Run解释，当前Req/实现/检查/证据映射见../acceptance-matrix.md；下一步依赖见../plan.md，不将已有技术验证重复列为待首次实现。正式事件、伙伴执行和最终签署仍按实际记录。
+--- a/docs/tasks/TASK-02.md
++++ b/docs/tasks/TASK-02.md
+@@ -9,3 +9,5 @@
+ 项目联系人：张润泽、陈卫吉；个人轮换R1为张润泽实现/陈卫吉验证，R2反向，见review/roles.md。此为当前成员及实际两轮记录，不追认此前各技术切片为个人独立实现。独立互评成员邓一帆，执行状态另行记录。
+ 停止：授权不足、预算耗尽、连续三次同类关键失败或影响范围超出批准。
+ 当前未知与人工问题：按docs/open-questions.md维护。
++
++2026-10-22接续：本卡技术结果按历史Run解释，当前Req/实现/检查/证据映射见../acceptance-matrix.md；下一步依赖见../plan.md，不将已有技术验证重复列为待首次实现。正式事件、伙伴执行和最终签署仍按实际记录。
+--- a/docs/tasks/TASK-03.md
++++ b/docs/tasks/TASK-03.md
+@@ -9,3 +9,5 @@
+ 项目联系人：张润泽、陈卫吉；个人轮换R1为张润泽实现/陈卫吉验证，R2反向，见review/roles.md。此为当前成员及实际两轮记录，不追认此前各技术切片为个人独立实现。独立互评成员邓一帆，执行状态另行记录。
+ 停止：授权不足、预算耗尽、连续三次同类关键失败或影响范围超出批准。
+ 当前未知与人工问题：按docs/open-questions.md维护。
++
++2026-10-22接续：本卡技术结果按历史Run解释，当前Req/实现/检查/证据映射见../acceptance-matrix.md；下一步依赖见../plan.md，不将已有技术验证重复列为待首次实现。正式事件、伙伴执行和最终签署仍按实际记录。
+--- a/docs/tasks/TASK-04.md
++++ b/docs/tasks/TASK-04.md
+@@ -1,6 +1,6 @@
+ # TASK-04 独立探针与恢复
+ 
+-状态：独立进程与只读OS探针、受控SIGTERM重启、专用gate发送侧2秒超时及同PID恢复均已实测。完整系统隔离与回复侧完整取消语义仍未知。下文未通过及停止描述为历史过程。
++状态：独立进程与只读OS探针、受控SIGTERM重启、专用gate发送侧2秒超时及同PID恢复均已实测。完整系统隔离与回复侧完整取消语义仍未知。失败过程见review/native-stall-issue.md。
+ 关联：ISO-01。
+ 输入与DoR：已授权探针和快照。
+ 范围：完成该纵向切片，不扩大系统或目标。
+@@ -12,6 +12,4 @@
+ 
+ 证据：review/native-recovery-milestone.md。停止、缺设备与新PID恢复分别观测；不以timeout推断crash，不将受控SIGTERM称为漏洞崩溃。
+ 
+-暂停超时切片未通过，真实注入按连续失败停止规则暂停；Q-ST-01见review/native-stall-issue.md。最新专用gate修复只完成编译与主机验证。
+-
+-后续更新：用户重新要求继续后，gate检查点版本真实2秒发送侧超时及同PID恢复通过，默认停止/重启回归通过，见review/native-stall-milestone.md。前述停止状态保留为历史；完整系统隔离仍未验收。
++专用gate发送侧2秒超时及同PID恢复已有历史通过，见review/native-stall-milestone.md。后续依赖为伙伴实际复核；完整系统隔离和回复侧完整取消语义仍未知。
+--- a/docs/tasks/TASK-05.md
++++ b/docs/tasks/TASK-05.md
+@@ -11,3 +11,5 @@
+ 当前未知与人工问题：按docs/open-questions.md维护。
+ 
+ 2026-10-17证据：review/native-defense-milestone.md。非法输入NOT_SENT由独立服务端接收记录交叉核验；会话编号是实验工作负载标签，不代表对不可信客户端身份的认证。
++
++2026-10-22接续：本卡技术结果按历史Run解释，当前Req/实现/检查/证据映射见../acceptance-matrix.md；下一步依赖见../plan.md，不将已有技术验证重复列为待首次实现。正式事件、伙伴执行和最终签署仍按实际记录。
+--- a/docs/tasks/TASK-06.md
++++ b/docs/tasks/TASK-06.md
+@@ -9,3 +9,5 @@
+ 项目联系人：张润泽、陈卫吉；个人轮换R1为张润泽实现/陈卫吉验证，R2反向，见review/roles.md。此为当前成员及实际两轮记录，不追认此前各技术切片为个人独立实现。独立互评成员邓一帆，执行状态另行记录。
+ 停止：授权不足、预算耗尽、连续三次同类关键失败或影响范围超出批准。
+ 当前未知与人工问题：按docs/open-questions.md维护。
++
++2026-10-22接续：本卡技术结果按历史Run解释，当前Req/实现/检查/证据映射见../acceptance-matrix.md；下一步依赖见../plan.md，不将已有技术验证重复列为待首次实现。正式事件、伙伴执行和最终签署仍按实际记录。
+--- a/docs/tasks/TASK-07.md
++++ b/docs/tasks/TASK-07.md
+@@ -9,3 +9,5 @@
+ 项目联系人：张润泽、陈卫吉；个人轮换R1为张润泽实现/陈卫吉验证，R2反向，见review/roles.md。此为当前成员及实际两轮记录，不追认此前各技术切片为个人独立实现。独立互评成员邓一帆，执行状态另行记录。
+ 停止：授权不足、预算耗尽、连续三次同类关键失败或影响范围超出批准。
+ 当前未知与人工问题：按docs/open-questions.md维护。
++
++2026-10-22接续：本卡技术结果按历史Run解释，当前Req/实现/检查/证据映射见../acceptance-matrix.md；下一步依赖见../plan.md，不将已有技术验证重复列为待首次实现。正式事件、伙伴执行和最终签署仍按实际记录。
+--- a/docs/tasks/TASK-08.md
++++ b/docs/tasks/TASK-08.md
+@@ -10,3 +10,5 @@
+ 项目联系人：张润泽、陈卫吉；个人轮换R1为张润泽实现/陈卫吉验证，R2反向，见review/roles.md。此为当前成员及实际两轮记录，不追认此前各技术切片为个人独立实现。独立互评成员邓一帆，执行状态另行记录。
+ 停止：授权不足、预算耗尽、连续三次同类关键失败或影响范围超出批准。
+ 当前未知与人工问题：按docs/open-questions.md维护。
++
++2026-10-22接续：本卡技术结果按历史Run解释，当前Req/实现/检查/证据映射见../acceptance-matrix.md；下一步依赖见../plan.md，不将已有技术验证重复列为待首次实现。正式事件、伙伴执行和最终签署仍按实际记录。
+--- /dev/null
++++ b/docs/tasks/TASK-09.md
+@@ -0,0 +1,94 @@
++# TASK-09 当前基线整理：统一契约与文档
++
++制定日期：2026-10-21；执行日期：2026-10-22。状态：READY_FOR_REVIEW，整理与本地技术核验完成；成员确认、提交与正式冻结待进行。
++
++## 目标与基线
++
++使教师、伙伴及接手者能从入口确定：当前承诺、实现范围、证据所属版本和未完成事项。
++
++用户提议起点为412c6a7；制定任务时HEAD为17a4a37（脱敏），git status --short无变更输出，但存在全局ignore读取权限警告，不据此扩大工作区核验结论。实施以17a4a37及实际开工工作树为起点，保留后续脱敏修改，不回退到412c6a7。开工重新记录完整提交号、差异与文件哈希；不擅自提交或推送。
++
++关联：SEC-01、IPC-01、FUZ-01、SEC-03、SEC-04、OBS-01、ISO-01、REL-01；本任务不新增功能需求。
++
++## 范围与交付
++
++只整理已有事实、当前规则、追踪关系和治理边界。不新增IPC功能，不启动VM或故障实验，不调用付费模型，不改变默认限流，不代填批准、个人贡献、独立互评或最终验收。
++
++交付为现有文件中的统一契约、可追踪验收矩阵、同步入口，以及Git Diff和新生成核验记录。不得再创建重复状态总表或额外长报告；状态表放release/continuity.md。本任务书是执行入口，不是新的状态权威。
++
++## 执行步骤与依赖
++
++| 步骤 | 工作及文件 | 完成条件 |
++| --- | --- | --- |
++| B0 基线与快照 | 核对HEAD、工作树、登记及代码；保存旧Spec逐字节快照和SHA256 | 明确原路径、旧契约ID、登记哈希、实际哈希及基线身份；不覆盖已有快照 |
++| B1 事实与权威 | 核对review、evidence及批准来源；更新continuity、Harness、open-questions | 当前状态表、权威冲突表、假设与可见性表齐全；未知保持未知 |
++| B2 当前契约 | 重组specification，核对intent、协议头、Python/C策略及配置 | 八条Req、GWT、适用路径、限制清晰；历史演进改为链接 |
++| B3 追踪矩阵 | 更新acceptance-matrix及experiment-plan | 每条Req可追到实现、检查、证据版本和缺口；指标口径差异显式登记 |
++| B4 入口同步 | README、AGENTS、repository-map、problem-frame、plan、相关任务卡、continuity、new-chat-handoff、submission-checklist | 当前入口无相互否定的状态；历史报告不变；接续时可直接定位未完成项 |
++| B5 登记迁移 | 在旧快照和候选契约就绪后，检查registered_review及注册表消费者，再显式迁移登记 | 旧登记/契约关联可复核，新候选有独立ID与哈希；旧模型档案不变；新资格不继承旧结果 |
++| B6 核验与交付 | 运行主机回归、档案审计及受影响登记检查，检查Diff | 新结果带命令、退出码及源码身份；可评审Diff完整，失败与待办如实保留 |
++
++依赖：B0→B1→B2→B3→B4；B5依赖B0、B2及消费者检查；B6在文档与登记变更完成后执行。无需等待独立互评完成；不得将其待办消除。
++
++## 当前状态口径（须在实施时再次核对）
++
++| 事项 | 采用的表述 |
++| --- | --- |
++| 选题 | 教师已同意，依据为2026-10-19用户转述 |
++| 正式规格 | 项目草案；候选整理版本不等于教师逐项确认或正式冻结 |
++| 默认限流 | 每会话窗口(now−1000ms, now]最多10次有效放行；拒绝不占槽、不延长窗口 |
++| CH-01上限5 | 仅候选模拟演练，未正式采用 |
++| 原生能力 | 自建目标的限定IPC、防御、授权与恢复已有历史实测，不代表当前HEAD统一实测 |
++| 系统隔离 | 完整系统隔离证据不足，保持INCONCLUSIVE |
++| 评价器 | v2真实材料门未通过，只供待复核草稿；v1结果是历史记录 |
++| 个人轮换 | 用户报告完成并签署；日志和修改身份/版本引用待收尾 |
++| 独立互评及最终验收 | 尚未完成，除非获得新的实际记录 |
++
++## 契约与指标处理要求
++
++Spec正文按目标/范围/非目标、八条Req、GWT及验收方式、限制/假设/待确认、历史链接组织。移除正文中的阶段流水账，但保留历史出处。
++
++SEC-04必须说明客户端网关的适用范围、单调时钟、窗口端点、预算10、拒绝不计数、会话标签非可信身份。核对计数发生于获准转发阶段还是应答成功后；不得把“放行”写成“目标成功处理”。客户端网关不宣称约束直接设备访问者。baseline仍执行范围授权，不等于关闭所有安全检查。
++
++区分协议合法载荷上限64字节与畸形测试实际载荷最多65字节；分列模拟预算、原生默认128/最多200例和专用场景预算，不用一个数覆盖全部场景。
++
++验收矩阵列至少为：Req、当前契约版本、场景、实现入口、检查命令/测试、证据Run及源版本、结论边界、待完成事项。检查命令标明主机/原生/历史归档，以及是否只核验已有证据；不把当前候选契约写成历史Run原来使用的版本。
++
++ISO-01分别记录“证据不足时正确报告未知”和“完整系统隔离证明”；REL-01分别记录作者恢复实验与伙伴接管。不得用单一PASS合并不同承诺。
++
++experiment-plan须区分结构合法性、情境授权、限流正确拒绝及策略错误拒绝，明确分子、分母、零分母和未知项。旧false_positive_rate及原始summary不改写；新口径标为候选且说明与旧字段的对应/差异。本任务不修改计算实现；若新定义需要代码支持，登记缺口与后续变更，不声称指标已落地。
++
++## 旧契约与登记保护
++
++制定任务时configs/review-registry.json登记ipcsec-spec-draft-0.2，路径docs/specification.md，SHA256为30e09a0d48fe9dfc0948d62d37acc55f81a8ae627f9551997ca24dbb4ec7e271。此为读取的登记值，B0必须实际计算文件哈希并核对，不能预填匹配。
++
++快照放docs/contracts/下的版本化路径；同时保留旧登记副本与来源身份。新Spec使用独立候选版本标识，记录前后版本、差异及映射。不得只更新登记哈希以绕过检查，也不得回写旧模型输入、输出、manifest或原始证据。
++
++先确认预检是否支持旧档案与新候选并存；若迁移必须改程序，则本任务保留旧登记绑定并登记迁移阻塞，不临时扩大为功能开发。预期的历史版本不匹配应明确报告，不得算通过；候选契约不自动获得历史模型资格。
++
++## 治理信息
++
++Harness中的权威与冲突表说明：规则由谁确认、批准来源、运行事实从哪里读取、代码/Spec差异如何登记、Change如何决定。用户已明确决定的事项直接引用，不重复索要授权；教师确认不得由AI替代。
++
++open-questions中的假设表包括责任角色、依据、验证时点、阻塞范围；可见性表列明模型、Agent、日志、伙伴可见材料与边界，不新增外发授权。
++
++分开描述QNX实验运行器与开发/评价Agent Runtime Harness。前者维护目标、IPC截止、监督与子进程清理；后者维护文件/工具权限、材料外发范围、模型调用预算、停止与恢复。缺少明确预算时写待确认，本轮调用数为0；目标watchdog不能替代Agent控制。
++
++## 验收与停止条件
++
++- 八条Req全部可追踪；历史证据明确归属历史版本，不冒充当前工作树通过。
++- 当前入口不再将同一能力同时描述为尚未实现与已实测；历史失败、负结果和待办保留。
++- 默认10/候选5、模拟/原生、作者自检/伙伴复现、选题批准/规格确认/最终验收均区分。
++- 对整理前后受保护的历史档案做哈希清单比较，无旧证据或旧模型档案改写。
++- 执行python -m unittest discover -s tests -v及python -m ipcsec.handoff audit；按消费者实际接口执行受影响的登记检查并记录命令，不编造CLI。必要时执行local_check生成新记录，不称独立复现。
++- 运行git diff --check并评审git diff --stat、git diff；新文件也列入交付。若输出可能包含本地信息，展示前核对脱敏，不恢复17a4a37之前的敏感内容。
++- 现有评价器真实材料门失败应继续明确显示，不通过改口径消除。基线已有失败与本轮新增失败分列。
++- 遇到证据缺失、规则冲突或登记迁移需要新增实现时，保存已完成整理、登记阻塞与影响；不降低规格、不修改旧证据求通过。
++
++技术核验通过后状态为READY_FOR_REVIEW；由项目成员确认Diff与语义取舍后再提交和冻结。任务制定、整理完成、核验通过、人工确认及冻结是不同状态，不相互替代。
++
++## 2026-10-22执行结果
++
++按用户新增要求，补交RA-001需求分析、draft0.3规格及ADR索引/0003/0004，整理ADR0001，保留历史ADR0002不变。B0至B6已执行：旧契约快照与哈希核对、新草案显式登记、八Req追踪、入口同步、治理表及本地核验已完成。程序不支持两版并行预检，采用旧副本留存和单一当前登记，无需新增程序功能。
++
++交付入口：../../release/first-round-submission.md。81项主机测试、handoff审计、三个criterion本地预检通过；详细保护清单、版本及命令见../../review/20261022-documentation-baseline.json。模型调用和原生运行均为0；v2真实材料门、伙伴复现、正式课程事件及最终签署保持未完成。本任务READY_FOR_REVIEW不等于教师验收。
+--- a/release/continuity.md
++++ b/release/continuity.md
+@@ -1,16 +1,25 @@
+ # 连续性与移交
+ 
+-更新：2026-10-19。
++更新2026-10-22。整理基线17a4a3776080247ec7e19fe3ab3b05a9b787edd9，另含未提交TASK-09及本轮文档Diff；当前文件不能自称已提交或已冻结。首轮提交入口[first-round-submission.md](first-round-submission.md)。
+ 
+-Current State：真实QNX合法IPC、有界变异、客户端防御、会话限流、动态授权、受控退出/暂停恢复已归档。DeepSeek已接入；Schema v2分离后端/来源/强度，并增加固定本地档案登记预检。CH-01仅完成模拟候选，默认预算仍10。
+-Last Verified Version：最新代码复查81项主机测试通过、历史报告核验及证据审计PASS，见review/20261019-personal-rounds-recheck.md。历史运行各有manifest；131706记录76项、133034记录79项，不能改写为81。既有交接包20261019T131126Z-cc2e526c早于两轮个人修改，不能代表最新工作树，最终交付前须重新冻结与打包。
+-People and Personal Tasks：张润泽、陈卫吉；互评组邓一帆。R1张润泽实现/陈卫吉验证，R2陈卫吉实现/张润泽验证，用户报告已完成并签署；代码复查通过，任务卡含个人解释。记录见review/roles.md和review/personal-rounds/。仍需补修改身份与验证日志引用、如实说明条件冻结快照留存情况；不再笼统记个人任务未完成。
+-Open Failures：新Schema v2真实材料门未通过，工程取舍为NEEDS_MORE_EVIDENCE。完整系统隔离未知，回复侧完整取消语义未穷尽；模型校准不代替独立人工真值。正式E1、E2/E3、邓一帆独立复现/审查、最终提交签署仍待完成，与已报告完成的两轮个人任务分开跟踪。
+-Decisions：自建单目标；只计已放行请求，拒绝不延长窗口；运行后端、证据来源与强度分开；教师未批准事项不擅自N/A。
+-Recovery：已有IPC-Ready-20261015快照恢复证据及目标退出/暂停后的恢复记录，见对应原生手册。新实验产生新run，不覆盖旧目录。
+-Next Safe Action：补齐两轮个人任务的修改身份和验证日志引用；请邓一帆按release/partner-reproduction.md及e3-review-guide.md实际执行独立复核。按eval/real-claim-review-card.md形成独立人工判据，补正式E1成本/决策与E2/E3记录。新发布前运行handoff audit、冻结当前版本并重新打包。
++| 事项 | 当前表述 |
++| --- | --- |
++| 选题 | 教师已同意，依据2026-10-19用户转述；review/teacher-approval-20261019.md |
++| 正式规格 | ipcsec-spec-draft-0.3首轮评审稿，具体确认/冻结待记录；旧0.2快照及显式登记见docs/contracts |
++| 默认限流 | 每会话窗口(now−1000ms,now]最多10次有效放行；拒绝不占槽，ALLOW阶段计数 |
++| CH-01上限5 | 仅候选模拟演练，未正式采用 |
++| 原生能力 | 自建目标限定IPC、防御、授权、退出/暂停恢复有历史实测；不等于当前HEAD统一原生实测 |
++| 完整系统隔离 | 证据不足，INCONCLUSIVE；回复侧完整取消语义未穷尽 |
++| 评价器 | v2真实材料门未过，仅草稿；旧v1结果为历史，不转移资格 |
++| 个人轮换 | 张润泽/陈卫吉两轮由用户报告完成并签署；修改身份、日志/版本及冻结留存说明待收尾 |
++| 独立互评/最终验收 | 邓一帆实际复现与正式E1/E2/E3、最终签署尚待完成 |
+ 
+-Delivery Update：已增加统一作者自检ipcsec.local_check，20261019T131049Z-557d756c八步通过，含76项测试；原72项为此前检查点。新生成依赖随包核验。下一步实际执行顺序见release/final-execution-guide.md，阶段记录review/20261019-delivery-self-check.md。
+-Teacher Approval：2026-10-19用户明确转述教师已批准、同意，选题接受事项已解除，见review/teacher-approval-20261019.md；不等于最终课程验收、CH-01采纳或逐项规格签署。
+-Human Questions：正式事件与邓一帆独立互评的实际执行记录；最终提交签署；互评组1人安排按教师实际组织要求确认；独立评价工作区的隔离方案。
+-Do Not Repeat：不把主机模拟或本地重算叫作独立QNX复现；不以增加token上限隐藏失败；不自动执行陌生目标代码；不扩展全系统IPC拦截。
++## 验证身份与历史
++
++2026-10-19复查81项主机测试及档案审计记录见review/20261019-personal-rounds-recheck.md；历史local-check 131706为76项、133034为79项，不修改。2026-10-22本轮核验与文件身份见first-round-submission.md所列报告，主机检查不等于QNX新运行或伙伴复现。
++
++历史原生Run及源码映射见docs/acceptance-matrix.md，不能把不同版本拼成一次验收。旧build/handoff/20261019T131126Z-cc2e526c早于个人修改及本次整理，不作最新提交包；新包以实际生成记录为准。
++
++## 接续动作
++
++先核对工作树和首轮Diff，项目成员确认文档语义及材料；补个人引用与实际伙伴复核，完善正式事件和评价器独立真值。最终冻结后重新打包。新实验保持本机自建目标授权范围，未知目标不执行，暂停清理先恢复。既有快照/退出/暂停恢复记录见review对应里程碑。不得把主机重算叫独立复现，不以token追加隐藏评价器失败，不扩展全系统IPC拦截。
+--- /dev/null
++++ b/release/first-round-submission.md
+@@ -0,0 +1,24 @@
++# 第一轮提交验收材料
++
++2026-10-22，提交评审稿，尚未提交Git或由教师验收。代码基线17a4a3776080247ec7e19fe3ab3b05a9b787edd9，本轮主要为文档整理及登记/批准元数据澄清，无IPC功能变更。
++
++## 必交材料
++
++| 产物 | 入口 | 覆盖内容 |
++| --- | --- | --- |
++| 需求分析 RA-001 v0.1 | [需求分析](../docs/requirements-analysis.md) | 来源/角色、问题、场景、风险、八条需求推导、边界、可行性、验收及未决 |
++| 规格说明 draft0.3 | [当前规格](../docs/specification.md) | 输入/输出、八条Req、GWT、适用后端与路径、限制及确认事项 |
++| ADR | [决策索引](../docs/adr/README.md) | 可控路径、评价器取舍、限流语义、契约版本管理 |
++| 追踪与运行约束 | [验收矩阵](../docs/acceptance-matrix.md)、[Harness](../docs/harness-manifest.md) | Req→实现→检查→Run及版本，Agent与目标运行器边界 |
++
++## 当前版本与核验
++
++旧Spec及登记的逐字节快照见[迁移说明](../docs/contracts/README.md)，新稿仍project_draft。本轮[验证报告](../review/20261022-documentation-baseline.json)、[整理Diff](../review/20261022-documentation-assets-v2/documentation.diff)、[命令记录](../review/20261022-documentation-assets-v2/commands.json)、[文档身份](../review/20261022-documentation-assets-v2/document-source-sha256.json)及[历史保护清单](../review/20261022-documentation-assets-v2/protected-history-sha256.json)已保存。结果为81项主机测试通过、所选归档审计通过、三个criterion本地预检通过、1364个原历史文件保持原哈希；Diff格式及当前文档链接检查通过。
++
++运行主机回归、handoff只读审计、三个criterion本地预检、历史文件哈希保护及Diff检查。本轮模型API调用0、原生运行0、未新增伙伴复现或人工签署。已有v2真实材料门失败保留，新本地预检通过不等于模型语义资格通过。
++
++## 阅读与确认顺序
++
++先需求分析，后规格/ADR，再按验收矩阵抽查八条Req。项目成员检查Diff及计数、批准与指标口径；教师确认首轮材料及具体课程适用要求。独立伙伴按原手册实际执行并生成新记录，最终验收另行完成。
++
++当前待办见[continuity](continuity.md)与[open-questions](../docs/open-questions.md)。文档交付不等待独立互评，但不将其写成已完成。本文材料格式为仓库Markdown，用户未提供额外学校模板，不虚构签章或评分。
+--- a/release/new-chat-handoff.md
++++ b/release/new-chat-handoff.md
+@@ -1,55 +1,13 @@
+ # 新聊天接续说明
+ 
+-截至2026-10-19；这是仓库内的可更新接续索引，不是软件自动同步聊天记忆的保证。新会话先核对实际文件、Git状态和最新证据，不能把本文件日期当作实时状态。
++更新2026-10-22。仓库D:/Users/Downloads/QNXsec/qnx-ipc-security-test。先读AGENTS及规定基础文档，再读continuity、first-round-submission和TASK-09；摘要不是实时状态，开工核对Git与最新用户消息，不擅自commit/push/reset。
+ 
+-## 工作区与读取顺序
++本轮已整理首轮需求分析、当前规格、ADR、验收矩阵与入口。基线17a4a37及未提交文档差异，最新核验身份见首轮索引；不能把文档日期当新提交或原生同版通过。
+ 
+-仓库：`D:/Users/Downloads/QNXsec/qnx-ipc-security-test`。先读AGENTS.md及其规定的四份基础文档，再读release/continuity.md、submission-checklist.md、review/roles.md、review/20261019-personal-rounds-recheck.md。本文件只提供摘要，冲突以具体版本、运行档案和最新用户确认处理。
++范围：本机授权QNX VM内自建/dev/ipcsec-lab，已有合法IPC、有界变异、客户端网关、会话限流、动态授权及受控恢复历史。默认10，候选5未采用；网关可绕过，session非认证；timeout不是crash；完整隔离未知。主机模拟与原生分开。
+ 
+-用户习惯中文沟通，希望授权范围内持续推进；不要反复询问已确认事项，也不要把AI自检记为学生或独立伙伴实际操作。每轮说明变更、核验及剩余事项。
++旧登记0.2及Spec逐字节快照在docs/contracts；当前0.3是项目草案，新登记显式绑定，仅本地预检。预检路径固定，旧packet不自动符合新登记；旧模型档案不得改写。v2真实材料门未过，LLM只草稿，禁止打印密钥或擅自外发完整日志。
+ 
+-## 人员与批准
++组内张润泽、陈卫吉两轮由用户报告完成并签署，日志及版本引用待收尾；独立伙伴邓一帆尚无实际复现记录。教师已同意选题，不等于规格逐项确认、正式E1/E2/E3或最终验收。当前待办以continuity及open-questions为准。
+ 
+-本组：张润泽（用户）、陈卫吉。互评组：邓一帆（用户报告1人）。教师已同意选题，来源为用户2026-10-19明确转述，见review/teacher-approval-20261019.md；不是CH-01具体采纳、逐项Spec批准或最终成绩验收。
+-
+-R1张润泽实现摘要展示，陈卫吉验证；R2陈卫吉实现耗时语义检查，张润泽验证。用户报告两轮完成并签署，代码复查81项通过。任务卡含本人解释，日志与修改身份引用、冻结留存说明仍待收尾。邓一帆独立互评尚无实际执行记录，不与组内轮换混淆。
+-
+-## 工程现状
+-
+-已有QNX8 x86_64自建devctl ECHO资源管理器/客户端、有界Fuzzer、客户端应用网关、会话限流、逐请求授权、独立监控/peer/接收审计、SIGTERM重启及SIGSTOP/SIGCONT发送侧2秒超时恢复。主机模拟与原生分开。
+-
+-关键历史结果：合法100+空1+重启后100；baseline128为34正常/94预期错误；相同defense128为94BLOCK、14RATE_LIMIT、20应答，接收端20；rate24为22应答/2限流；authorization24为8应答/16拒绝；暂停约2.002秒ETIMEDOUT=260，同PID恢复。混合语料限流数量受真实时序影响，不强求每次14。
+-
+-只计有效放行请求，拒绝不延长窗口；窗口(now-1000ms,now]，默认10。CH-01候选5只完成模拟10/5/10及回滚，未正式采用。客户端网关可绕过，不是内核强制防御。timeout不等于crash；系统隔离保持INCONCLUSIVE；回复侧完整取消语义未穷尽。
+-
+-DeepSeek已接入，密钥仅从环境变量读取，不能打印或索取。Schema v2区分来源、后端和强度，固定登记预检已实现。构造校准通过，真实材料门未通过，候选路由仅1/3与AI预期一致；旧Schema v1的3/3不能转移资格。独立真值仍缺，模型只作待复核草稿。不要无止境付费调参，参见ADR0002。
+-
+-## 版本与证据
+-
+-当前最新复查81 tests通过，历史报告核验与handoff审计PASS。历史run131706保存76 tests，133034保存79 tests，不能改写。工作树有多轮未提交改动，先git status；不擅自commit/push，不reset或覆盖学生改动。
+-
+-重要入口：
+-
+-- 用户自检：evidence/local-check-runs/20261019T131706Z-eae3eef7/。
+-- 后续个人任务阶段自检：evidence/local-check-runs/20261019T133034Z-69f9f883/。
+-- 所选原生与模拟：configs/handoff-evidence.json。
+-- 模型真实输入登记：configs/review-registry.json；docs/specification.md哈希固定，不能随文档同步悄悄改掉。
+-- 最近已核验旧包：build/handoff/20261019T131126Z-cc2e526c/qnx-ipc-security-test-handoff.zip，SHA256为07522A522D9AB5CD7CE3D084579896D7FB6C3C73ECF30CE7912AFB527175269F。早于个人修改及本文件，不能冒充最新成果包。
+-
+-原始evidence、历史报告和旧包保留原样；最新说明在当前入口更新。build中的AI复核临时数据不是学生原始Transcript。
+-
+-## 环境与核验
+-
+-Windows专业版26H2 build26300.9711 x64；用户Python3.11.9；工具PowerShell7.6.5，Windows PowerShell5.1.26100.9711；QNX SDP8.0安装于C:/Users/zrz51/qnx800；VMware26.0.0 build25388281；历史Guest QNX8.0.0 x86_64。新会话重新核查可用性，不能假定VM已开机或沿用旧IP。
+-
+-正常PATH可运行：python -m unittest discover -s tests -v；python -m ipcsec.local_check run；python -m ipcsec.local_check verify --folder <新run>；python -m ipcsec.handoff audit。local_check覆盖demo/calibrate等八步，产生新证据，不是独立伙伴复现。
+-
+-工具Python备用：C:/Users/zrz51/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe。Git备用：同一dependencies/native/git/cmd/git.exe。这都是本机路径，换机应重新确认。
+-
+-## 权限边界与下一步
+-
+-既有实验授权限本机自建VM、/dev/ipcsec-lab、有界变异、私有逐请求授权和本轮自建进程受控恢复；不覆盖系统服务、第三方目标。模型外发曾获准仅三份有限自建实验统计/哈希/Claim摘要，不自动扩展到新项目、完整日志或敏感材料。
+-
+-当前剩余：个人任务引用收尾；邓一帆独立复现及Finding闭环；正式E1成本/取舍、E2、E3；评价器独立真值/保留集/隔离环境；统计误拒指标语义；章节01作业记录（若单独收）；最终冻结、打包、演示和签署。
+-
+-用户开始咨询本科毕设升级，方案见docs/thesis-evolution-plan.md。该文件为建议，尚未授权开展新实验，也不等于学校毕设题目已审批。不要把课设未闭环事项靠改题为毕设隐藏。
++环境历史：Windows/PowerShell、Python3.11、QNX SDP8、VMware和QNX8 x86_64；重新核对可用性，不假定VM在线或沿用旧IP。命令见AGENTS。原生操作按release手册，本轮不运行；当前主机回归和归档核验均不称伙伴复现。
+--- a/release/submission-checklist.md
++++ b/release/submission-checklist.md
+@@ -1,9 +1,10 @@
+ # 课程交付清单与当前缺口
+ 
+-状态：本地交接草稿。技术证据核验通过不等于课程Release Gate或成绩通过。
++状态：本地交接评审稿。首轮需求分析、规格及ADR见[first-round-submission.md](first-round-submission.md)；本轮文档核验不替代正式课程事件。技术证据核验通过不等于课程Release Gate或成绩通过。
+ 
+ | 交付域 | 当前资产 | 当前判断及责任 |
+ | --- | --- | --- |
++| 首轮需求分析 | docs/requirements-analysis.md、release/first-round-submission.md | 首轮可评审稿，教师实际验收待记录 |
+ | Brief/Intent | docs/intent.md、问题框定、项目适配评估、review/teacher-approval-20261019.md | 教师已同意选题；最终验收未完成 |
+ | Design/Spec/Plan | 规格、Req/GWT矩阵、任务、ADR、状态图、双层Harness清单 | 已建设，人工确认版本及课程适用范围 |
+ | 原生实现 | 自建服务、合法客户端、有界Fuzzer、客户端网关、会话限流、监控及恢复 | 限定功能有实测；不等于全系统防护 |

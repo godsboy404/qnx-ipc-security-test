@@ -14,7 +14,7 @@
   "rate_window_ms": 1000,
   "rate_max_valid_attempts": 10,
   "rate_max_sessions": 8,
-  "teacher_approval": "pending",
+  "teacher_approval": "topic_approved_user_reported_20261019; specification_and_final_acceptance_pending",
   "system_service_testing": false,
   "resource_manager_crash_injection": false
 }

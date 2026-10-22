@@ -1,0 +1,504 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-22T03:14:12.836074+00:00",
+  "selected_evidence_status": "PASS",
+  "selected": [
+    {
+      "id": "legal-ipc-201",
+      "kind": "smoke",
+      "path": "evidence/native-runs/20261015T104537Z-afa1f753",
+      "status": "PASS",
+      "manifest_sha256": "3b6cda551e9e3ede3396f33a0a7384f639518abe226e7b3657179c71166572ac",
+      "historical_code_files": 4,
+      "matching_current_code_files": 3,
+      "historical_code_matches_current": false,
+      "isolation_verdict": "INCONCLUSIVE"
+    },
+    {
+      "id": "native-fuzz",
+      "kind": "fuzz",
+      "path": "evidence/native-fuzz-runs/20261017T121606Z-e29291df",
+      "status": "PASS",
+      "manifest_sha256": "e816d555867858b37dd87abd65165f7f23fb7a488a64e8fd8a3e0287f4e0ac48",
+      "historical_code_files": 17,
+      "matching_current_code_files": 12,
+      "historical_code_matches_current": false,
+      "isolation_verdict": "INCONCLUSIVE"
+    },
+    {
+      "id": "defense",
+      "kind": "fuzz",
+      "path": "evidence/native-fuzz-runs/20261017T122327Z-0b2f7718",
+      "status": "PASS",
+      "manifest_sha256": "9b3c14e8c90c3d614e7e0eb5c90398be4a9c9b334b36a0d81d184b58aa73f84b",
+      "historical_code_files": 19,
+      "matching_current_code_files": 13,
+      "historical_code_matches_current": false,
+      "isolation_verdict": "INCONCLUSIVE"
+    },
+    {
+      "id": "rate",
+      "kind": "fuzz",
+      "path": "evidence/native-fuzz-runs/20261017T122645Z-89c9b79f",
+      "status": "PASS",
+      "manifest_sha256": "0000780cf0663fefd6dd5fc52559f83db8c3936fb6e1c1e88caedc91910b4f1c",
+      "historical_code_files": 19,
+      "matching_current_code_files": 13,
+      "historical_code_matches_current": false,
+      "isolation_verdict": "INCONCLUSIVE"
+    },
+    {
+      "id": "authorization",
+      "kind": "fuzz",
+      "path": "evidence/native-fuzz-runs/20261017T123421Z-e4e1c71d",
+      "status": "PASS",
+      "manifest_sha256": "f8bf81b372d33def6d9aa0c41b50b57debd1eb64862eaf54b7f48dffe012dc83",
+      "historical_code_files": 20,
+      "matching_current_code_files": 18,
+      "historical_code_matches_current": false,
+      "isolation_verdict": "INCONCLUSIVE"
+    },
+    {
+      "id": "stop-restart",
+      "kind": "recovery",
+      "path": "evidence/native-recovery-runs/20261017T130304Z-d6c6072a",
+      "status": "PASS",
+      "manifest_sha256": "bd1131ea6ef7e8033048e616ada74e7bbe088de57c35018e527461fa83dcc743",
+      "historical_code_files": 23,
+      "matching_current_code_files": 22,
+      "historical_code_matches_current": false,
+      "isolation_verdict": "INCONCLUSIVE"
+    },
+    {
+      "id": "pause-timeout",
+      "kind": "stall",
+      "path": "evidence/native-stall-runs/20261017T130224Z-8ed73897",
+      "status": "PASS",
+      "manifest_sha256": "49b5044da9ac19773ea7ab71541225088a02035bc5844f36fe58b28f686542d3",
+      "historical_code_files": 23,
+      "matching_current_code_files": 22,
+      "historical_code_matches_current": false,
+      "isolation_verdict": "INCONCLUSIVE"
+    }
+  ],
+  "comparisons": [
+    {
+      "path": "evidence/native-comparisons/20261017T122509Z-c14d8b25/comparison.json",
+      "sha256": "722190f362042966c57d4f0354faebdc1318e53f7f49f653e25e9b0aea4f70a7",
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/native-comparisons/20261017T122730Z-1821ef4b/comparison.json",
+      "sha256": "533a91c60ad4123ea581ed44d29036b79415b3c713a8b2a9000beefe615e7450",
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/native-comparisons/20261017T123456Z-0d49c086/comparison.json",
+      "sha256": "48d73ebe9709fadfa0aeeb06ff1159b27ae8537d1b6aca087322bdda1c3918ce",
+      "status": "PASS"
+    }
+  ],
+  "history": [
+    {
+      "path": "evidence/native-runs/20261015T104103Z-441179b4",
+      "recorded_status": "RECORDED_LEGAL_SMOKE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-runs/20261015T104537Z-afa1f753",
+      "recorded_status": "RECORDED_LEGAL_SMOKE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T121606Z-e29291df",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T121655Z-f071b3a9",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122304Z-ad2730f7",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122327Z-0b2f7718",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122421Z-5a527d29",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122516Z-bbba31b5",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122537Z-97ad1028",
+      "recorded_status": "FAIL",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122624Z-166ba568",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122645Z-89c9b79f",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122709Z-a9b15ec3",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122732Z-61e25977",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T123348Z-63e1b79f",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T123421Z-e4e1c71d",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-fuzz-runs/20261017T123458Z-d249aab3",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-recovery-runs/20261017T124025Z-59242bdb",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-recovery-runs/20261017T130304Z-d6c6072a",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T124634Z-34573af9",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T124922Z-231db1b3",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T125108Z-2e129a1a",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T125343Z-5d4bca62",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T130224Z-8ed73897",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/change-runs/20261017T144423Z-a3c1efb4",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/change-runs/20261017T144728Z-3cc92703",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/change-runs/20261019T131051Z-91d9f3d7",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/change-runs/20261019T131707Z-c952ed25",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/change-runs/20261019T133035Z-5df74e71",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/review-runs/20261017T144458Z-4ef505b3",
+      "recorded_status": "REPRODUCED_INTERNAL_FINDING",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/review-runs/20261017T144728Z-f9bce8fa",
+      "recorded_status": "PASS_HOST_REGRESSION",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/review-runs/20261019T131051Z-75da9045",
+      "recorded_status": "PASS_HOST_REGRESSION",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/review-runs/20261019T131707Z-c7ce1150",
+      "recorded_status": "PASS_HOST_REGRESSION",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/review-runs/20261019T133035Z-97a16324",
+      "recorded_status": "PASS_HOST_REGRESSION",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-comparisons/20261019T125335Z-df02bb00",
+      "recorded_status": "RECORDED_PROFILE_COMPARISON",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/local-check-runs/20261019T131049Z-557d756c",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/local-check-runs/20261019T131706Z-eae3eef7",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/local-check-runs/20261019T133034Z-69f9f883",
+      "recorded_status": "PASS",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-incidents/20261017T124634Z-34573af9",
+      "recorded_status": "POSTMORTEM",
+      "integrity": "PASS"
+    }
+  ],
+  "nonpassing_history": [
+    {
+      "path": "evidence/native-fuzz-runs/20261017T122537Z-97ad1028",
+      "recorded_status": "FAIL",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T124634Z-34573af9",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T124922Z-231db1b3",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T125108Z-2e129a1a",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/native-stall-runs/20261017T125343Z-5d4bca62",
+      "recorded_status": "INCOMPLETE",
+      "integrity": "PASS"
+    }
+  ],
+  "model_reviews": [
+    {
+      "path": "evidence/model-review-runs/20261017-deepseek-calibration-v1",
+      "technical_calibration": "FAIL",
+      "matches": 7,
+      "count": 8,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261017-deepseek-calibration-v2",
+      "technical_calibration": "PASS",
+      "matches": 10,
+      "count": 10,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261017-deepseek-native-review-v1",
+      "technical_calibration": "FAIL",
+      "matches": 2,
+      "count": 3,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261017-deepseek-native-review-v2",
+      "technical_calibration": "PASS",
+      "matches": 3,
+      "count": 3,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261019-deepseek-schema2-calibration-v1",
+      "technical_calibration": "PASS",
+      "matches": 10,
+      "count": 10,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261019-deepseek-schema2-native-v1",
+      "technical_calibration": "FAIL",
+      "matches": 2,
+      "count": 3,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261019-deepseek-schema2-native-v2",
+      "technical_calibration": "FAIL",
+      "matches": 2,
+      "count": 3,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261019-deepseek-schema2-nothinking-calibration-v1",
+      "technical_calibration": "PASS",
+      "matches": 10,
+      "count": 10,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261019-deepseek-schema2-nothinking-native-v1",
+      "technical_calibration": "FAIL",
+      "matches": 2,
+      "count": 3,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261019-deepseek-schema2-routed-calibration-v1",
+      "technical_calibration": "PASS",
+      "matches": 10,
+      "count": 10,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    },
+    {
+      "path": "evidence/model-review-runs/20261019-deepseek-schema2-routed-native-v1",
+      "technical_calibration": "FAIL",
+      "matches": 1,
+      "count": 3,
+      "independent_calibration": false,
+      "human_signoff": "pending",
+      "integrity": "PASS"
+    }
+  ],
+  "change_rehearsals": [
+    {
+      "path": "evidence/change-runs/20261017T144423Z-a3c1efb4",
+      "status": "PASS",
+      "formal_E2": false,
+      "backend": "simulation"
+    },
+    {
+      "path": "evidence/change-runs/20261017T144728Z-3cc92703",
+      "status": "PASS",
+      "formal_E2": false,
+      "backend": "simulation"
+    },
+    {
+      "path": "evidence/change-runs/20261019T131051Z-91d9f3d7",
+      "status": "PASS",
+      "formal_E2": false,
+      "backend": "simulation"
+    },
+    {
+      "path": "evidence/change-runs/20261019T131707Z-c952ed25",
+      "status": "PASS",
+      "formal_E2": false,
+      "backend": "simulation"
+    },
+    {
+      "path": "evidence/change-runs/20261019T133035Z-5df74e71",
+      "status": "PASS",
+      "formal_E2": false,
+      "backend": "simulation"
+    }
+  ],
+  "simulations": [
+    {
+      "path": "evidence/runs/20261019T125600Z-700800de",
+      "status": "PASS",
+      "backend": "simulation",
+      "scenario": "EXP-01-normal",
+      "source_version": "da470d96da94f763b208d8dacb0114b49338b9333857f3d395e47debbd0a16e0",
+      "cases": 100,
+      "independent_execution": false
+    },
+    {
+      "path": "evidence/runs/20261019T125600Z-25089e3e",
+      "status": "PASS",
+      "backend": "simulation",
+      "scenario": "EXP-02-baseline",
+      "source_version": "da470d96da94f763b208d8dacb0114b49338b9333857f3d395e47debbd0a16e0",
+      "cases": 100,
+      "independent_execution": false
+    },
+    {
+      "path": "evidence/runs/20261019T125600Z-3de25aef",
+      "status": "PASS",
+      "backend": "simulation",
+      "scenario": "EXP-03-defense",
+      "source_version": "da470d96da94f763b208d8dacb0114b49338b9333857f3d395e47debbd0a16e0",
+      "cases": 100,
+      "independent_execution": false
+    },
+    {
+      "path": "evidence/runs/20261019T125600Z-edfb60ac",
+      "status": "PASS",
+      "backend": "simulation",
+      "scenario": "EXP-04-feedback-exploratory",
+      "source_version": "da470d96da94f763b208d8dacb0114b49338b9333857f3d395e47debbd0a16e0",
+      "cases": 100,
+      "independent_execution": false
+    }
+  ],
+  "course_gate": "PENDING",
+  "peer_reproduced": false,
+  "pending": [
+    "partner_clean_environment_reproduction",
+    "approved_change_CH_01_and_E2",
+    "formal_independent_E3_review",
+    "evaluator_independent_human_oracle_and_partner_calibration",
+    "personal_task_version_and_log_references",
+    "final_submission_signoff"
+  ],
+  "errors": [],
+  "version_note": "Current source snapshot is included. Historical manifests identify their own versions; differing historical source is not reconstructed."
+}
+

@@ -1,71 +1,59 @@
-# 项目规格 draft 0.1
+# 规格说明：QNX IPC Security Lab
 
-状态：待教师批准。模型载荷为ECHO、declared_length、offset、flags、payload。
-模拟协议：payload上限64字节，declared_length等于实际字节，offset在0至实际长度之间，flags为0。
-QNX系统消息封装尚未定稿，当前应用载荷不允许直接发送到任意resource manager。
-实施更新：首个原生切片已采用自定义devctl ECHO，16字节应用头加实际payload；仅适用于自建/dev/ipcsec-lab。
-该选择是当前工程实现，不代替教师对课程规格的批准；原生合法路径已实测，变异及隔离尚未验收。
+契约ID：ipcsec-spec-draft-0.3；状态：project_draft，首轮提交评审稿。日期2026-10-22。本文整理现行行为，不新增功能或教师批准。整理基线17a4a37；旧契约逐字节快照及登记迁移见[版本记录](contracts/README.md)。需求来源见[需求分析](requirements-analysis.md)。
 
-| ID | 强度 | 要求 |
+## 1. 目标、范围及非目标
+
+对象为已登记lab-resmgr-01，仅对应授权自建QNX8 x86_64 VM内/dev/ipcsec-lab。主机模拟与原生批处理分别执行和归档；Python QnxTransport逐请求接口不提供可用实现，不允许静默回退。原生服务端有边界检查，客户端应用网关另做策略检查。
+
+本规格不承诺内核钩子、全系统IPC拦截、可信会话身份、在途IPC撤销、系统服务攻击、漏洞崩溃发现或完整系统隔离。受控退出/暂停仅验证限定恢复行为。
+
+## 2. 接口与结果
+
+合法请求为ECHO，declared_length等于实际payload字节数，范围0至64；offset为0至实际长度；flags为0。空载荷合法。原生LAB_DCMD_ECHO封装16字节应用头（uint32 operation=1、uint32 declared_length、int32 offset、uint32 flags）及实际payload；容量80字节，不是任意资源管理器通用协议。声明长度不构成已接收字节的证明。
+
+原生目标核对实际接收大小、nbytes、消息长度及回复容量，再读取头和复制有限字节；畸形测试实际payload最多65字节。合法应答返回请求头及payload，非法输入返回对应错误。offset只是合法性字段，当前不表示截断回显。
+
+客户端决策为ALLOW、BLOCK、RATE_LIMIT、SCOPE_DENY。v2原生测试的baseline保留目标/授权/会话范围检查；defense再检查结构及频率。ALLOW表示获准尝试发送，不保证应答成功。网关拒绝时forwarded=false、target_outcome=NOT_SENT；本地返回码-1是哨兵，不是目标errno。真实发送结果区分REPLY、ERROR_REPLY、TIMEOUT；退出证据另由监督进程确认。
+
+## 3. 当前需求
+
+| Req | 强度 | 行为与判定要求 |
 | --- | --- | --- |
-| SEC-01 | MUST | 未登记、未授权或撤权目标不执行；真实发送逐次核权限 |
-| IPC-01 | MUST | 合法请求返回可预测内容，QNX路径完成100次记录 |
-| FUZ-01 | MUST | 边界、字段、组合变异具有固定种子和可保存语料 |
-| SEC-03 | MUST | 非法类型、长度、offset、flags拒绝且不转发 |
-| SEC-04 | MUST | 每会话有效放行请求窗口(now-1000,now]，初始上限10，超额拒绝且不追加计数 |
-| OBS-01 | MUST | 每次运行记录源、配置、用例、结果、来源与预算，旧证据不改写 |
-| ISO-01 | MUST | timeout不推断crash；缺独立目标、client、peer、service、system、recovery观测为未知 |
-| REL-01 | MUST | 伙伴可依据说明启动、重放、重置、恢复并解释限制 |
+| SEC-01 | MUST | 未登记、未授权、授权文件缺失/坏格式/目标不匹配时不执行下一请求。v2原生客户端逐请求检查私有authorization.txt；动态授权在监督进程变更读回并握手确认后生效，不取消在途IPC。恢复授权不清空限流历史 |
+| IPC-01 | MUST | 合法ECHO返回可预测内容；原生合法基线记录100次ping、空载荷及重启后往返；逐条核对返回，具体历史次数不作为每次新运行的固定预算 |
+| FUZ-01 | MUST | 固定种子生成边界、字段与组合变异，保存实际语料及顺序，支持单例重放；重放单例不等于重现完整会话历史 |
+| SEC-03 | MUST | defense路径拒绝非法操作、长度、offset、flags且不调用devctl；用接收审计核对无转发。服务端独立做实际长度校验，baseline发送畸形输入不等于关闭服务端检查 |
+| SEC-04 | MUST | defense中每个实验会话窗口(now−1000ms, now]最多10次结构有效且获准转发的请求。非法、撤权、限流拒绝不追加计数、不延长窗口。计数在ALLOW决策阶段、实际IPC之前发生，随后超时/错误不返还槽位。原生使用CLOCK_MONOTONIC及八个会话槽，主机使用受控逻辑时间；会话标签不是认证身份。CH-01的5仅候选模拟，未采用 |
+| OBS-01 | MUST | 每轮记录源/配置/输入/结果/预算与后端；原生审计关联顺序、有界字节和目标PID。保存manifest及哈希，拒绝旧版本冒充当前；接收审计仅覆盖登记处理路径，不推断全部系统流量 |
+| ISO-01 | MUST | 不以TIMEOUT推断crash；缺独立目标、client、peer、service、system或recovery所需观测时完整隔离为INCONCLUSIVE，隔离成功率不计算。有限存活与只读OS探针不证明完整系统健康 |
+| REL-01 | MUST | 提供启动、重放、重置、恢复、限制和伙伴步骤；受控退出重启与同PID暂停恢复分别留证。伙伴独立接管需其实际新运行及记录；作者自检不能代替 |
 
-## GWT场景
+## 4. GWT及验收方式
 
-语义澄清2026-10-17：用户明确选择仅计有效放行请求，限流拒绝不占槽或延长窗口；非法请求也不计。见review/DEC-SEC04-rate-accounting.md及INT-F-01修复回归。默认预算10，CH-01候选5未正式采用，教师Gate仍pending。
+| 场景 | Given / When / Then | Req |
+| --- | --- | --- |
+| GWT-P01 | 已授权ECHO ping；发送；返回相同载荷并记录实长4 | IPC-01 |
+| GWT-P02 | 空payload且声明0、offset0、flags0；启用defense；结构检查允许，仍服从授权/频率规则 | SEC-03 |
+| GWT-N01 | 声明65实长4；defense判定；BLOCK且NOT_SENT | SEC-03 |
+| GWT-N02 | offset负数；defense判定；BLOCK且目标无该次接收 | SEC-03 |
+| GWT-A01 | 非法操作/超长/flags组合；校验；拒绝且不按声明长度分配 | SEC-03、FUZ-01 |
+| GWT-A02 | 同会话同窗口已放行10例；第11例到达；限流，其他会话可通过，边界过期后恢复 | SEC-04 |
+| GWT-A03 | 未登记或撤权已确认；下一请求；拒绝且不发送 | SEC-01 |
+| GWT-U01 | 只有超时/模拟异常或缺独立探针；作隔离判断；INCONCLUSIVE | ISO-01 |
+| GWT-R01 | 本轮自建服务受控SIGTERM退出；重启；新PID正确应答，停机open错误单独记录 | REL-01、ISO-01 |
+| GWT-R02 | 显式gate回复后服务SIGSTOP且waitpid确认；合法devctl的2秒截止到期；记录超时、SIGCONT、同PID恢复及接收审计 | REL-01、ISO-01 |
 
-- GWT-P01 / IPC-01：给定ECHO和ping有效载荷，当发送，则正常应答且记录实长4。
-- GWT-P02 / SEC-03：给定空载荷及声明0，当发送，则合法；不能把0长度默认视为攻击。
-- GWT-N01 / SEC-03：给定声明65实长4，当启用防御发送，则BLOCK且target_outcome为NOT_SENT。
-- GWT-N02 / SEC-03：给定offset为负，当发送，则BLOCK且不更改目标状态。
-- GWT-A01 / SEC-03：给定非法type、超长与非法flags组合，当发送，则拒绝，不为声明的大长度分配内存。
-- GWT-A02 / SEC-04：给定同会话同窗口前10个有效请求，当第11个到达，则RATE_LIMIT，其他会话仍可通过。
-- GWT-A03 / SEC-01：给定未登记目标，当发起运行，则拒绝且不发送。
-- GWT-U01 / ISO-01：给定缺独立系统探针，当只有超时或模拟异常，则INCONCLUSIVE，不计算隔离成功率。
+检查入口、证据Run及源身份见[验收矩阵](acceptance-matrix.md)。逻辑时钟端点自测不冒充实时时钟精确1000ms实验。恢复/暂停的预期接收条数、清理和停止条件见[Harness](harness-manifest.md)。
 
-性能阈值：待QNX实测基线和教师批准，不编造P95目标。模拟逻辑时间不当作真实运行延迟。
-事实：存在主机模拟。假设：可取得QNX教学环境。决策草案：自建目标与应用网关。
-未决：原生devctl封装、架构、探针权限与授权责任人。原生实验均被这些未知阻塞，主机模拟不阻塞。
+## 5. 限制、假设及确认事项
 
-## 原生切片更新 2026-10-17
+默认预算和期限见Harness；当前运行参数不表示性能目标。性能阈值、重复Trial及人工成本口径待项目成员/教师确认；不编造P95/P99标准。完整系统隔离未知，回复侧完整取消语义未穷尽。
 
-以上未决及“变异尚未验收”为历史基线；当前已完成QNX 8.0 x86_64 devctl封装和有界原生变异。详见review/native-fuzz-milestone.md。
-FUZ-01：默认128例、最多200例；实际payload最多65字节，不依据声明长度分配内存；固定种子和原始字段可重放。
-OBS-01/ISO-01：独立waitpid监督进程、独立peer心跳；IPC截止2秒、监督截止15秒、主机截止45秒；结束后回收自己创建的进程。
-本切片直接将有界非法字段发送给自建服务，验证服务端拒绝；不能替代SEC-03网关NOT_SENT或SEC-04限流验收。原生Python逐请求Transport尚未实现，当前使用批处理桥接。
-本轮未注入服务崩溃、未运行系统服务探针，隔离结论必须INCONCLUSIVE，不能计算隔离成功率。
+私有授权文件可被有写权限者修改，不是防篡改凭证；客户端网关可被设备直接访问者绕过。当前没有服务端可信身份绑定或完整策略强制执行承诺。
 
-## 原生应用网关切片（SEC-01/03/04）
+既有false_positive_rate是结构合法输入的非ALLOW比例，不能解释成策略错误误拒率；改进指标仅为候选定义，尚未改计算实现，见experiment-plan。评价器v2真实材料门未过，模型只提供待复核草稿。选题同意、规格确认、正式事件及最终验收分别记录。
 
-授权范围仍为同一自建VM与/dev/ipcsec-lab，用户已要求继续原生网关和限流实践。schema_version=2语料增加受限会话编号与最多1100ms等待，最多200例。baseline与defense使用相同字段、种子和顺序。
-网关位于单线程原生客户端中，每次允许转发前读取专用authorization.txt，仅精确的lab-resmgr-01 allow记录可授权。未知目标、无授权或无效会话拒绝；baseline仍检查授权。权限文件是实验配置，不是防篡改的安全凭证。
-defense依次校验字段与实际长度，再按会话应用真实CLOCK_MONOTONIC窗口(now-1000ms,now]，最多10个合法请求尝试；非法、撤权和限流拒绝不执行devctl。空载荷保持合法。此客户端网关可被拥有直接设备访问权的其他程序绕过，不宣称系统级强制隔离。
-服务端在应用校验前独立记录每次ECHO接收的完整有界字节、顺序、时间与PID。验收必须使接收记录与所有forwarded请求逐条一致，被拒请求标NOT_SENT、返回码-1（本地哨兵，不是目标errno）。
-混合语料用于防御开关对照，24例rate专用语料用于同会话第11例拒绝、第二会话通过、等待1100ms后恢复。精确1000ms边界使用原生策略自测的合成时钟校准，不能冒充实时时钟实测。deny配置用于验证运行中所有请求都不转发；运行中动态撤权尚待独立验收。
+## 6. 历史与追踪
 
-## 动态授权验收切片（SEC-01）
-
-authorization专用语料24例合法ECHO，按每4例依次采用allow、deny、missing、malformed、wrong-target、allow。独立监督进程原子替换或移除本轮私有授权文件，读回实际内容并记录PID、时间、状态和字节；客户端逐请求握手后重新读取权限。握手截止2秒，未确认则不执行下一次IPC。预计8次应答、16次SCOPE_DENY，且服务端只收到8次。
-拒绝从授权变更确认后的下一请求生效，不追溯取消已在途IPC，也不声称无同步任意时刻撤权的竞态已穷尽。恢复授权后原有限流历史不清空。不存在系统服务或资源管理器故障注入。
-
-## 受控退出与恢复切片（REL-01、ISO-01）
-
-用户继续要求自建服务恢复实验：仅向本轮posix_spawn创建的资源管理器PID发SIGTERM，通过waitpid确认指定信号退出，设备解绑后由独立客户端确认open返回ENOENT；保留约200ms主动停机观测窗口，再启动新PID并验证ECHO恢复。停止前与恢复后各10次合法请求，与服务端审计逐条核对。
-新增独立探针进程在前、中、后三个阶段持续执行uname及只读stat(/proc)，每阶段至少两条成功观测。这不是全系统健康或独立系统服务IPC探针。信号由监督进程主动发送，不能称为发现漏洞崩溃；timeout不能代替退出信号证据。
-IPC截止2秒、监督15秒、主机45秒。记录停止请求到首个恢复应答、重启请求到首个应答和主动停机时长；不把少量样本称为P95或性能达标。仅回收本轮子进程，现有同名设备拒绝接管；隔离结论保持INCONCLUSIVE。
-
-## 受控暂停与真实IPC超时切片（ISO-01、REL-01）
-
-仅暂停本轮创建的自建服务PID：阻塞客户端先建立连接，专用合法gate ECHO使显式启用--controlled-pause的服务在该次回复之后、下一次接收之前自发SIGSTOP；监督进程通过WUNTRACED确认停止，再允许客户端以2秒SEND/REPLY截止执行单次合法devctl。保存ETIMEDOUT和实际单调时间；确认超时后发SIGCONT并观测继续，再释放客户端close及发送10次正常恢复请求。暂停前另有10次正常请求，总22次有界devctl尝试，含一次检查点请求。此修正版待QNX实测。
-暂停和恢复前后必须同一服务PID；暂停期间禁止访问自建设备做状态检查，设备可见性记录null，不伪称已观测存在或不存在。暂停不是终止，不因TIMEOUT宣称crash。服务端审计应恰好匹配前后20次成功请求及1次gate请求，若发现多余的延迟交付则验收失败。目标是验证暂停接收端的发送侧超时，不声称回复侧或全部取消语义已穷尽。
-独立只读OS探针覆盖前、中、后三阶段，监督15秒、主机45秒。异常清理先对自己创建的服务发SIGCONT再回收，防止留下暂停进程。系统服务与完整隔离仍未验收。
-另配置6秒SIGALRM恢复兜底，仅操作尚未回收的本轮暂停PID，清理前撤销；触发兜底必须判FAIL。当前连续三轮暂停验收未完成，实际注入已按规则暂停，见review/native-stall-issue.md。
-
-后续验收更新：用户明确要求继续后，专用gate修正版于20261017T130224Z-8ed73897实测PASS，实际超时2,001,796,947ns、ETIMEDOUT=260、同PID恢复，兜底未触发；共享停止/重启路径也已回归。上段停止状态为历史，完整隔离仍未知，详见review/native-stall-milestone.md。
+旧稿见[0.2快照](contracts/ipcsec-spec-draft-0.2.md)；限流决定见[原决定](../review/DEC-SEC04-rate-accounting.md)和[ADR0003](adr/0003-rate-accounting.md)；原生演进及失败修复见[证据索引](../review/evidence-index.md)、[暂停问题](../review/native-stall-issue.md)和[修复里程碑](../review/native-stall-milestone.md)。历史Run保持原manifest身份，整理不赋予新契约资格。后续变更需记录Req影响、理由、检查与版本，不修改历史证据。
